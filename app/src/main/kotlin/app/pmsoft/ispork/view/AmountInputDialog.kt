@@ -31,8 +31,10 @@ class AmountInputDialog : DialogFragment() {
   private lateinit var positiveButton: Button
 
   private var value: Long = 0
+  private var fresh = true
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    fresh = true
     val builder = AlertDialog.Builder(activity!!)
     val layoutInflater = requireActivity().layoutInflater
     val view = layoutInflater.inflate(
@@ -139,6 +141,10 @@ class AmountInputDialog : DialogFragment() {
   }
 
   private fun inputDigit(view: View) {
+    if (fresh) {
+      value = 0
+      fresh = false
+    }
     // this actually reads the text of the button, so don't change that
     // I don't know an easier way to map a button to a number
     val digit = (view as Button).text.toString().toLong()
