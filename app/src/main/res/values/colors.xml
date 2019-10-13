@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="transparent">#00000000</color>
+  <color name="color_primary">#3F51B5</color>
+  <color name="color_primary_dark">#303F9F</color>
+  <color name="color_accent">#FF5722</color>
+  <color name="half_opaque_accent_color">#80FF5722</color>
+  <color name="list_item_background_dark_theme">#80606060</color>
+  <color name="positive_flow_color">#0B9915</color>
+  <color name="negative_flow_color">#B1102F</color>
+  <color name="transfer_flow_color">#808080</color>
+  <color name="text_color_dark_theme">#cccccc</color>
+  <color name="hint_color_dark_theme">#808080</color>
+  <color name="warning_background_color">#FFDE99</color>
+  <color name="warning_text_color">#D3991B</color>
+</resources>

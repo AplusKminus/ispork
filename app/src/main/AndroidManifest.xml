@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="app.pmsoft.ispork">
+
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name="app.pmsoft.ispork.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity
+      android:name="app.pmsoft.ispork.category.CategoryListActivity"
+      android:label="@string/category_list_activity_title"
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.category.CategoryEditActivity"
+      android:label=""
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.account.AccountListActivity"
+      android:label="@string/account_list_activity_title"
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.account.AccountEditActivity"
+      android:label=""
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.payee.PayeeListActivity"
+      android:label="@string/payee_list_activity_title"
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.payee.PayeeEditActivity"
+      android:label=""
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.transaction.TransactionListActivity"
+      android:label="@string/transaction_list_activity_title"
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.transaction.TransactionEditActivity"
+      android:label=""
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.participant.ParticipantPickingActivity"
+      android:label="@string/title_activity_participants_picking"
+      android:theme="@style/AppTheme" />
+    <activity
+      android:name="app.pmsoft.ispork.category.CategoryPickingActivity"
+      android:label="@string/title_activity_category_picking"
+      android:theme="@style/AppTheme" />
+  </application>
+
+</manifest>

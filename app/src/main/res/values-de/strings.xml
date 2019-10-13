@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <plurals name="title_dialog_category_deletion">
+    <item quantity="one">Ausgewählte Kategorie löschen?</item>
+    <item quantity="other">Ausgewählte Kategorien löschen?</item>
+  </plurals>
+  <plurals name="category_deletion_message">
+    <item quantity="one">Die ausgewählte Kategorie wird unwiderruflich gelöscht.</item>
+    <item quantity="other">Die %d ausgewählten Kategorien werden unwiderruflich gelöscht.</item>
+  </plurals>
+  <plurals name="title_dialog_account_deletion">
+    <item quantity="one">Ausgewähltes Konto löschen?</item>
+    <item quantity="other">Ausgewählte Konten löschen?</item>
+  </plurals>
+  <plurals name="account_deletion_message">
+    <item quantity="one">Das ausgewählte Konto wird unwiderruflich gelöscht.</item>
+    <item quantity="other">Die %d ausgewählten Konten werden unwiderruflich gelöscht.</item>
+  </plurals>
+  <plurals name="title_dialog_payee_deletion">
+    <item quantity="one">Ausgewählten Zahlungsempfänger löschen?</item>
+    <item quantity="other">Ausgewählte Zahlungsempfänger löschen?</item>
+  </plurals>
+  <plurals name="payee_deletion_message">
+    <item quantity="one">Der ausgewählte Zahlungsempfänger wird unwiderruflich gelöscht.</item>
+    <item quantity="other">Die %d ausgewählten Zahlungsempfänger werden unwiderruflich gelöscht.</item>
+  </plurals>
+  <plurals name="title_dialog_transaction_deletion">
+    <item quantity="one">Ausgewählte Transaktion löschen?</item>
+    <item quantity="other">Ausgewählte Transaktionen löschen?</item>
+  </plurals>
+  <plurals name="transaction_deletion_message">
+    <item quantity="one">Die ausgewählte Transaktion wird unwiderruflich gelöscht.</item>
+    <item quantity="other">Die %d ausgewählten Transaktionen werden unwiderruflich gelöscht.</item>
+  </plurals>
+  <string name="app_name">ImprovedSpork</string>
+  <string name="categories">Kategorien</string>
+  <string name="category_list_activity_title">Kategorien</string>
+  <string name="category_new">Neue Kategorie</string>
+  <string name="category_create_activity_title">Kategorie anlegen</string>
+  <string name="category_edit_activity_title">Kategorie bearbeiten</string>
+  <string name="name">Name</string>
+  <string name="save">Speichern</string>
+  <string name="delete">Löschen</string>
+  <string name="cancel_action">Abbrechen</string>
+  <string name="confirm_deletion">Löschen</string>
+  <string name="edit">Bearbeiten</string>
+  <string name="unknown_error">Unbekannter Fehler</string>
+  <string name="no_data_received">Keine Daten erhalten.</string>
+  <string name="account_list_activity_title">Konten</string>
+  <string name="account_create_activity_title">Konto anlegen</string>
+  <string name="account_edit_activity_title">Konto bearbeiten</string>
+  <string name="accounts">Konten</string>
+  <string name="payee_create_activity_title">Zahlungsempfänger anlegen</string>
+  <string name="payee_edit_activity_title">Zahlungsempfänger bearbeiten</string>
+  <string name="payees">Zahlungsempfänger</string>
+  <string name="payee_list_activity_title">Zahlungsempfänger</string>
+  <string name="transaction_create_activity_title">Transaktion anlegen</string>
+  <string name="transaction_edit_activity_title">Transaktion bearbeiten</string>
+  <string name="transaction_list_activity_title">Transaktionen</string>
+  <string name="transactions">Transaktionen</string>
+  <string name="amount">Betrag</string>
+  <string name="notes">Notizen</string>
+  <string name="transaction_entry_date">Eintragungsdatum</string>
+  <string name="type_here_to_search">Hier tippen um zu suchen&#8230;</string>
+  <string name="all">Alle</string>
+  <string name="title_activity_participants_picking">Teilnehmer wählen</string>
+  <string name="pick_participants">Teilnehmer wählen</string>
+  <string name="booking_date">Buchungsdatum</string>
+  <string name="no_booking_date">Kein Buchungsdatum</string>
+  <string name="accept">Annehmen</string>
+  <string name="title_activity_category_picking">Kategorie wählen</string>
+  <string name="split">Aufteilen</string>
+  <string name="pick_category">Kategorie wählen</string>
+  <string name="category_split">Aufgeteilt</string>
+  <string name="category">Kategorie</string>
+  <string name="text_flow_arrow_description">Pfeil nach rechts</string>
+  <string name="starting_balance">Anfangsstand</string>
+  <string name="backspace">Zeichen Löschen</string>
+  <string name="inflow">Eingang</string>
+  <string name="outflow">Ausgang</string>
+  <string name="credit">Haben</string>
+  <string name="debit">Soll</string>
+  <string name="expense">Ausgabe</string>
+  <string name="income">Einkommen</string>
+  <string name="payment_to" formatted="true">Zahlung an %s</string>
+  <string name="payment_from" formatted="true">Einkommen von %s</string>
+  <string name="transfer">Transfer</string>
+  <string name="missing_category">Kategorie fehlt</string>
+  <string name="create">Erstellen</string>
+</resources>

@@ -1,0 +1,81 @@
+<resources>
+
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat">
+    <!-- Customize your theme here. -->
+    <item name="android:textColor">@color/text_color_dark_theme</item>
+    <item name="text_color">@color/text_color_dark_theme</item>
+    <item name="hint_color">@color/hint_color_dark_theme</item>
+    <item name="colorPrimary">@color/color_primary</item>
+    <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="colorAccent">@color/color_accent</item>
+    <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+    <item name="list_item_background_color">@color/list_item_background_dark_theme</item>
+    <item name="list_item_selected_background_color">@color/half_opaque_accent_color</item>
+    <item name="text_view_warning_background_color">@color/warning_background_color</item>
+    <item name="text_view_warning_text_color">@color/warning_text_color</item>
+    <item name="divider_line_color">@color/color_accent</item>
+    <item name="check_mark_icon">@drawable/ic_check_white_24dp</item>
+    <item name="delete_icon">@drawable/ic_delete_white_24dp</item>
+    <item name="edit_icon">@drawable/ic_edit_white_24dp</item>
+    <item name="add_icon">@drawable/ic_add_box_white_24dp</item>
+    <item name="save_icon">@drawable/ic_save_white_24dp</item>
+    <item name="backspace_icon">@drawable/ic_backspace_white_24dp</item>
+  </style>
+
+  <style name="AppTheme.Dialog" parent="AppTheme">
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@color/transparent</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+  </style>
+
+  <style name="Widget" />
+
+  <style name="AmountInputViewText">
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/text_color_dark_theme</item>
+  </style>
+
+  <style name="AmountInputViewText.Hint">
+    <item name="android:textStyle">italic</item>
+    <item name="android:textColor">@color/hint_color_dark_theme</item>
+  </style>
+
+  <style name="CategoryViewText">
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/text_color_dark_theme</item>
+  </style>
+
+  <style name="CategoryViewText.Special">
+    <item name="android:textStyle">italic</item>
+    <item name="android:textColor">@color/text_color_dark_theme</item>
+  </style>
+
+  <style name="CategoryViewText.Warning">
+    <item name="android:textStyle">bold|italic</item>
+    <item name="android:textColor">@color/warning_text_color</item>
+    <item name="android:background">@drawable/text_view_warning_background</item>
+  </style>
+
+  <style name="Divider">
+    <item name="android:background">?attr/divider_line_color</item>
+  </style>
+
+  <style name="Divider.Horizontal" parent="Divider">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+  </style>
+
+
+  <style name="ListItem">
+    <item name="android:background">@drawable/list_item_background</item>
+    <item name="android:layout_marginTop">8dp</item>
+    <item name="android:layout_marginBottom">8dp</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+  </style>
+</resources>

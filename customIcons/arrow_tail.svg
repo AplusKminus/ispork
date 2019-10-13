@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="15" height="24" viewBox="0 0 15 24" version="1.1"
+  id="svg6" sodipodi:docname="arrow_tail.svg" inkscape:version="0.92.1 r15371">
+  <metadata id="metadata12">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs10" />
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10"
+    gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="3840"
+    inkscape:window-height="2050" id="namedview8" showgrid="false" showguides="true" inkscape:guide-bbox="true"
+    inkscape:snap-bbox="true" inkscape:bbox-nodes="true" inkscape:snap-page="true" inkscape:snap-smooth-nodes="true"
+    inkscape:snap-intersection-paths="true" inkscape:snap-to-guides="true" inkscape:snap-midpoints="true"
+    inkscape:object-nodes="true" inkscape:snap-grids="true" inkscape:zoom="22.627417" inkscape:cx="-6.5283859"
+    inkscape:cy="7.3476923" inkscape:window-x="-12" inkscape:window-y="2088" inkscape:window-maximized="1"
+    inkscape:current-layer="svg6" fit-margin-top="5" fit-margin-bottom="5" fit-margin-left="0" fit-margin-right="0"
+    inkscape:measure-start="12.0156,13.8281" inkscape:measure-end="1.12944e-007,11.0745">
+    <sodipodi:guide position="0,0" orientation="0,1" id="guide4486" inkscape:locked="false" />
+    <sodipodi:guide position="0,12" orientation="0,1" id="guide4488" inkscape:locked="false" inkscape:label=""
+      inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide position="0,13" orientation="0,1" id="guide4490" inkscape:locked="false" inkscape:label=""
+      inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide position="0,11" orientation="0,1" id="guide4492" inkscape:locked="false" inkscape:label=""
+      inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide position="15,12" orientation="-0.70710678,0.70710678" id="guide4494" inkscape:locked="false" />
+    <sodipodi:guide position="15,12" orientation="0.70710678,0.70710678" id="guide4496" inkscape:locked="false" />
+    <sodipodi:guide position="14,13" orientation="1,0" id="guide4498" inkscape:locked="false" />
+    <sodipodi:guide position="10.5,0" orientation="1,0" id="guide4500" inkscape:locked="false" inkscape:label=""
+      inkscape:color="rgb(0,0,255)" />
+  </sodipodi:namedview>
+  <path
+    style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+    d="m 0,11 h 15 v 2 H 0 Z" id="path4502" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc" />
+</svg>

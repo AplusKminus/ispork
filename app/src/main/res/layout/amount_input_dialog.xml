@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content">
+
+  <Button
+    android:id="@+id/amount_input_button_1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="1"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_4"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_2"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_field"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_2"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="2"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_5"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_3"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_1"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_field"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_3"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="3"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_6"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_2"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_field"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_4"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="4"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_7"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_5"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_1"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_5"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="5"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_8"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_6"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_4"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_2"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_6"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="6"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_9"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_5"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_3"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_7"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="7"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_10"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_8"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_4"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_8"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="8"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_button_10"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_9"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_7"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_5"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_9"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="9"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_backspace"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toEndOf="@+id/amount_input_button_8"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_6"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_button_10"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="0"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_negative_button"
+    app:layout_constraintEnd_toStartOf="@+id/amount_input_button_9"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_8"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <Button
+    android:id="@+id/amount_input_negative_button"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="@string/inflow"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:text="-" />
+
+  <Button
+    android:id="@+id/amount_input_positive_button"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:text="@string/outflow"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/guideline"
+    tools:text="+" />
+
+  <ImageButton
+    android:id="@+id/amount_input_backspace"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:minWidth="@dimen/comfortable_button_size"
+    android:minHeight="@dimen/comfortable_button_size"
+    android:contentDescription="@string/backspace"
+    android:src="?attr/backspace_icon"
+    app:layout_constraintBottom_toTopOf="@+id/amount_input_positive_button"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="@+id/amount_input_button_9"
+    app:layout_constraintTop_toBottomOf="@+id/amount_input_button_9"
+    app:layout_constraintVertical_chainStyle="spread" />
+
+  <TextView
+    android:id="@+id/amount_input_field"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:textAlignment="textEnd"
+    android:textSize="30sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="12,34 €" />
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.5" />
+</androidx.constraintlayout.widget.ConstraintLayout>

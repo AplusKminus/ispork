@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  style="@style/ListItem"
+  android:orientation="vertical">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:id="@+id/sub_transaction_participant_field"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="@dimen/horizontal_page_margin"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:gravity="center_vertical"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_amount_field"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_amount_field"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Credit Card" />
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="16dp"
+      android:layout_marginStart="8dp"
+      android:text="@string/booking_date"
+      android:textSize="18sp"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_booking_date_switch"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_booking_date_switch" />
+
+    <TextView
+      android:id="@+id/sub_transaction_date_field"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="8dp"
+      android:textAlignment="textEnd"
+      android:textSize="18sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_field"
+      tools:text="2019-03-27" />
+
+    <app.pmsoft.ispork.view.AmountInputView
+      android:id="@+id/sub_transaction_amount_field"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="8dp"
+      android:textSize="24sp"
+      android:textAlignment="textEnd"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="0,00 €" />
+
+    <EditText
+      android:id="@+id/sub_transaction_notes_field"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:ems="10"
+      android:hint="@string/notes"
+      android:inputType="textMultiLine"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_date_field" />
+
+    <Switch
+      android:id="@+id/sub_transaction_booking_date_switch"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/horizontal_page_margin"
+      android:checked="true"
+      android:switchPadding="@dimen/margin_medium"
+      android:textOff="@string/no_booking_date"
+      android:textOn="@string/booking_date"
+      android:textSize="18sp"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_date_field"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_date_field" />
+
+    <TextView
+      android:id="@+id/sub_transaction_category_field"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginStart="8dp"
+      android:gravity="center_vertical"
+      android:text="@string/pick_category"
+      android:textSize="18sp"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_category_split_button"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_category_split_button"
+      app:layout_constraintStart_toStartOf="@+id/sub_transaction_category_label"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_category_label"
+      tools:text="Entertainment" />
+
+    <Button
+      android:id="@+id/sub_transaction_category_split_button"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/split"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_field" />
+
+    <TextView
+      android:id="@+id/sub_transaction_category_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/category"
+      android:textSize="12sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_field" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/sub_transaction_category_list_view"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+</LinearLayout>

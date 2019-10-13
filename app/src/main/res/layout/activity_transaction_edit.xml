@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_marginEnd="@dimen/horizontal_page_margin"
+  android:layout_marginStart="@dimen/horizontal_page_margin"
+  android:layout_marginTop="@dimen/vertical_page_margin">
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/transaction_edit_guideline_1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.5" />
+
+  <TextView
+    android:id="@+id/transaction_edit_date_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/transaction_entry_date"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="@+id/transaction_edit_date_field"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/transaction_edit_date_field"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:gravity="center_vertical"
+    android:onClick="pickEntryDate"
+    android:textAlignment="center"
+    android:textSize="24sp"
+    app:layout_constraintEnd_toStartOf="@+id/transaction_edit_guideline_1"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_date_label"
+    tools:text="2019-08-25" />
+
+  <EditText
+    android:id="@+id/transaction_edit_notes_field"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:hint="@string/notes"
+    android:inputType="textLongMessage|textAutoCorrect"
+    android:textAlignment="viewStart"
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_pick_participants_button"
+    tools:text="Some Groceries" />
+
+  <Button
+    android:id="@+id/transaction_edit_pick_participants_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="pickParticipants"
+    android:text="@string/pick_participants"
+    app:layout_constraintBottom_toBottomOf="@+id/transaction_edit_date_field"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/transaction_edit_guideline_1"
+    app:layout_constraintTop_toTopOf="@+id/transaction_edit_date_field" />
+
+  <View
+    android:id="@+id/transaction_edit_divider_1"
+    style="@style/Divider.Horizontal"
+    android:layout_marginTop="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_notes_field" />
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/transaction_edit_sub_transactions_view"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_divider_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

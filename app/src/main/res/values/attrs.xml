@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr name="list_item_background_color" format="color" />
+  <attr name="list_item_selected_background_color" format="color" />
+  <attr name="text_view_warning_background_color" format="color" />
+  <attr name="text_view_warning_text_color" format="color" />
+  <attr name="divider_line_color" format="color" />
+  <attr name="check_mark_icon" format="reference" />
+  <attr name="delete_icon" format="reference" />
+  <attr name="edit_icon" format="reference" />
+  <attr name="add_icon" format="reference" />
+  <attr name="save_icon" format="reference" />
+  <attr name="backspace_icon" format="reference" />
+  <attr name="text_color" format="color" />
+  <attr name="hint_color" format="color" />
+</resources>

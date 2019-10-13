@@ -1,0 +1,90 @@
+<resources>
+  <string name="a_or_b" formatted="true" translatable="false">%s / %s</string>
+  <plurals name="title_dialog_category_deletion">
+    <item quantity="one">Delete selected category?</item>
+    <item quantity="other">Delete selected categories?</item>
+  </plurals>
+  <plurals name="category_deletion_message">
+    <item quantity="one">The selected category will be permanently deleted.</item>
+    <item quantity="other">The %d selected categories will be permanently deleted.</item>
+  </plurals>
+  <plurals name="title_dialog_account_deletion">
+    <item quantity="one">Delete selected account?</item>
+    <item quantity="other">Delete selected accounts?</item>
+  </plurals>
+  <plurals name="account_deletion_message">
+    <item quantity="one">The selected account will be permanently deleted.</item>
+    <item quantity="other">The %d selected accounts will be permanently deleted.</item>
+  </plurals>
+  <plurals name="title_dialog_payee_deletion">
+    <item quantity="one">Delete selected payee?</item>
+    <item quantity="other">Delete selected payees?</item>
+  </plurals>
+  <plurals name="payee_deletion_message">
+    <item quantity="one">The selected payee will be permanently deleted.</item>
+    <item quantity="other">The %d selected payees will be permanently deleted.</item>
+  </plurals>
+  <plurals name="title_dialog_transaction_deletion">
+    <item quantity="one">Delete selected transaction?</item>
+    <item quantity="other">Delete selected transactions?</item>
+  </plurals>
+  <plurals name="transaction_deletion_message">
+    <item quantity="one">The selected transaction will be permanently deleted.</item>
+    <item quantity="other">The %d selected transactions will be permanently deleted.</item>
+  </plurals>
+  <string name="app_name">ImprovedSpork</string>
+  <string name="category_list_activity_title">Categories</string>
+  <string name="categories">Categories</string>
+  <string name="category_new">Add new</string>
+  <string name="category_create_activity_title">Create Category</string>
+  <string name="category_edit_activity_title">Edit Category</string>
+  <string name="name">Name</string>
+  <string name="save">Save</string>
+  <string name="delete">Delete</string>
+  <string name="cancel_action">Cancel</string>
+  <string name="confirm_deletion">Delete</string>
+  <string name="edit">Edit</string>
+  <string name="unknown_error">Unknown error</string>
+  <string name="no_data_received">No data received.</string>
+  <string name="account_list_activity_title">Accounts</string>
+  <string name="account_create_activity_title">Create Account</string>
+  <string name="account_edit_activity_title">Edit Account</string>
+  <string name="accounts">Accounts</string>
+  <string name="payee_create_activity_title">Create Payee</string>
+  <string name="payee_edit_activity_title">Edit Payee</string>
+  <string name="payee_list_activity_title">Payees</string>
+  <string name="payees">Payees</string>
+  <string name="transaction_create_activity_title">Create Transaction</string>
+  <string name="transaction_edit_activity_title">Edit Transaction</string>
+  <string name="transaction_list_activity_title">Transactions</string>
+  <string name="transactions">Transactions</string>
+  <string name="amount">Amount</string>
+  <string name="notes">Notes</string>
+  <string name="transaction_entry_date">Date of Entry</string>
+  <string name="type_here_to_search">Type here to search&#8230;</string>
+  <string name="all">All</string>
+  <string name="title_activity_participants_picking">Pick Participants</string>
+  <string name="pick_participants">Pick Participants</string>
+  <string name="booking_date">Booking Date</string>
+  <string name="no_booking_date">No Booking Date</string>
+  <string name="accept">Accept</string>
+  <string name="title_activity_category_picking">Pick a Category</string>
+  <string name="split">Split</string>
+  <string name="pick_category">Pick a Category</string>
+  <string name="category_split">Split</string>
+  <string name="category">Category</string>
+  <string name="text_flow_arrow_description">Right Arrow</string>
+  <string name="starting_balance">Starting Balance</string>
+  <string name="backspace">Backspace</string>
+  <string name="inflow">Inflow</string>
+  <string name="outflow">Outflow</string>
+  <string name="credit">Credit</string>
+  <string name="debit">Debit</string>
+  <string name="expense">Expense</string>
+  <string name="income">Income</string>
+  <string name="payment_to" formatted="true">Payment to %s</string>
+  <string name="payment_from" formatted="true">Income from %s</string>
+  <string name="transfer">Transfer</string>
+  <string name="missing_category">Missing Category</string>
+  <string name="create">Create</string>
+</resources>
