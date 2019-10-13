@@ -16,12 +16,20 @@ class Category(
   override var id: Long,
 
   @ColumnInfo(name = "name")
-  var name: String
+  var name: String,
+
+  @ColumnInfo(name = "buffer_cap")
+  var bufferCap: Long,
+
+  @ColumnInfo(name = "buffer_rate")
+  var bufferRate: Long
 ) : Parcelable,
   ISporkEntry {
 
   constructor() : this(
     0,
-    ""
+    "",
+    0,
+    0
   )
 }

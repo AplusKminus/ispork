@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "61434893a05dcc664d9f8f393df364d5",
+    "identityHash": "8ff4f1abd26b427def6a9730eb82ce47",
     "entities": [
       {
         "tableName": "participant",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `buffer_cap` INTEGER NOT NULL, `buffer_rate` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -56,6 +56,18 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bufferCap",
+            "columnName": "buffer_cap",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bufferRate",
+            "columnName": "buffer_rate",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -278,7 +290,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '61434893a05dcc664d9f8f393df364d5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8ff4f1abd26b427def6a9730eb82ce47')"
     ]
   }
 }
