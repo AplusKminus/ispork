@@ -58,10 +58,7 @@ class CategoryListViewModel(application: Application) : AndroidViewModel(applica
     if (element.id == 0L) {
       element.id = categoryDao.insert(element)
     } else {
-      categoryDao.update(
-        element.id,
-        element.name
-      )
+      categoryDao.update(element)
     }
     refresh()
     return element.id

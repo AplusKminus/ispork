@@ -1,9 +1,6 @@
 package app.pmsoft.ispork.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CategoryDao {
@@ -14,11 +11,8 @@ interface CategoryDao {
   @Query("SELECT * FROM category WHERE id IS :id LIMIT 1")
   fun findById(id: Long): Category?
 
-  @Query("UPDATE category SET name = :name WHERE id IS :id")
-  fun update(
-    id: Long,
-    name: String
-  )
+  @Update
+  fun update(category: Category)
 
   @Insert
   fun insert(category: Category): Long
