@@ -19,43 +19,53 @@
     <activity
       android:name="app.pmsoft.ispork.category.CategoryListActivity"
       android:label="@string/category_list_activity_title"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".MainActivity"/>
     <activity
       android:name="app.pmsoft.ispork.category.CategoryEditActivity"
       android:label=""
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".category.CategoryListActivity"/>
     <activity
       android:name="app.pmsoft.ispork.account.AccountListActivity"
       android:label="@string/account_list_activity_title"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".MainActivity"/>
     <activity
       android:name="app.pmsoft.ispork.account.AccountEditActivity"
       android:label=""
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".account.AccountListActivity"/>
     <activity
       android:name="app.pmsoft.ispork.payee.PayeeListActivity"
       android:label="@string/payee_list_activity_title"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".MainActivity"/>
     <activity
       android:name="app.pmsoft.ispork.payee.PayeeEditActivity"
       android:label=""
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".payee.PayeeListActivity"/>
     <activity
       android:name="app.pmsoft.ispork.transaction.TransactionListActivity"
       android:label="@string/transaction_list_activity_title"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".MainActivity"/>
     <activity
       android:name="app.pmsoft.ispork.transaction.TransactionEditActivity"
       android:label=""
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".transaction.TransactionListActivity"/>
     <activity
       android:name="app.pmsoft.ispork.participant.ParticipantPickingActivity"
       android:label="@string/title_activity_participants_picking"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".transaction.TransactionEditActivity"/>
     <activity
       android:name="app.pmsoft.ispork.category.CategoryPickingActivity"
       android:label="@string/title_activity_category_picking"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"
+      android:parentActivityName=".transaction.TransactionEditActivity"/>
   </application>
 
 </manifest>

@@ -74,6 +74,11 @@ class ParticipantPickingActivity : AppCompatActivity(),
     tabLayout.addOnTabSelectedListener(this)
   }
 
+  override fun onSupportNavigateUp(): Boolean {
+    onBackPressed()
+    return true
+  }
+
   override fun onTabReselected(tab: TabLayout.Tab?) {
   }
 
