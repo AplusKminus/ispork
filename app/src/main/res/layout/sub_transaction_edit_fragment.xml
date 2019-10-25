@@ -59,19 +59,25 @@
       app:layout_constraintTop_toTopOf="parent"
       tools:text="0,00 €" />
 
-    <EditText
-      android:id="@+id/sub_transaction_notes_field"
-      android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_notes_layout"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
       android:layout_marginEnd="8dp"
       android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:ems="10"
       android:hint="@string/notes"
-      android:inputType="textMultiLine"
-      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_date_field" />
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_date_field"
+      app:layout_constraintEnd_toEndOf="parent">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/sub_transaction_notes_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        tools:text="Supermarket" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
       android:id="@+id/sub_transaction_booking_date_switch"
@@ -111,7 +117,7 @@
       android:text="@string/split"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_field" />
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout" />
 
     <TextView
       android:id="@+id/sub_transaction_category_label"
@@ -122,7 +128,7 @@
       android:text="@string/category"
       android:textSize="12sp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_field" />
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 

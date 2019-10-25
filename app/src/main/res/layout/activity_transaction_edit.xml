@@ -40,16 +40,23 @@
     app:layout_constraintTop_toBottomOf="@+id/transaction_edit_date_label"
     tools:text="2019-08-25" />
 
-  <EditText
-    android:id="@+id/transaction_edit_notes_field"
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/transaction_edit_notes_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:hint="@string/notes"
-    android:inputType="textLongMessage|textAutoCorrect"
-    android:textAlignment="viewStart"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/transaction_edit_pick_participants_button"
-    tools:text="Some Groceries" />
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/transaction_edit_notes_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textLongMessage|textAutoCorrect"
+      tools:text="Some Groceries" />
+  </com.google.android.material.textfield.TextInputLayout>
 
   <Button
     android:id="@+id/transaction_edit_pick_participants_button"
@@ -67,7 +74,7 @@
     style="@style/Divider.Horizontal"
     android:layout_marginTop="8dp"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_notes_field" />
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_notes_layout" />
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/transaction_edit_sub_transactions_view"
