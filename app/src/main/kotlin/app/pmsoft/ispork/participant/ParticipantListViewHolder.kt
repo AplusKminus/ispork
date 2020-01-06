@@ -19,6 +19,7 @@ class ParticipantListViewHolder(
   private val layout: FrameLayout = view.findViewById(R.id.participant_list_item_layout)
   private val amountLabel: TextView = view.findViewById(R.id.participant_list_item_amount_label)
   private val nameLabel: TextView = view.findViewById(R.id.participant_list_item_name_label)
+  private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.participant_list_item_participant_type_icon)
 
   override val backgroundView: View
     get() = layout
@@ -28,6 +29,9 @@ class ParticipantListViewHolder(
     if (e.type.internal) {
       amountLabel.visibility = View.VISIBLE
       amountLabel.text = CurrencyHandler.format((e.balance ?: 0L) + (e.startingBalance ?: 0L))
+    } else {
+      amountLabel.visibility = View.GONE
     }
+    participantTypeIcon.setType(e.type)
   }
 }
