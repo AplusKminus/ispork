@@ -1,7 +1,7 @@
 <resources>
 
   <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat">
+  <style name="AppTheme" parent="Theme.MaterialComponents">
     <!-- Customize your theme here. -->
     <item name="android:textColor">@color/text_color_dark_theme</item>
     <item name="text_color">@color/text_color_dark_theme</item>
@@ -32,8 +32,6 @@
     <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
   </style>
-
-  <style name="Widget" />
 
   <style name="AmountInputViewText">
     <item name="android:textStyle">normal</item>
