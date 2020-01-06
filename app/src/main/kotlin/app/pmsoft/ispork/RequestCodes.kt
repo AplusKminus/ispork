@@ -13,5 +13,7 @@ class RequestCodes private constructor() {
     const val PAYEE_EDITING_REQUEST_CODE = 8
     const val TRANSACTION_CREATION_REQUEST_CODE = 9
     const val TRANSACTION_EDITING_REQUEST_CODE = 10
+    const val SAVING_GOAL_CREATION_REQUEST_CODE = 11
+    const val SAVING_GOAL_EDITING_REQUEST_CODE = 12
   }
 }
