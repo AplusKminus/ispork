@@ -87,4 +87,7 @@
   <string name="transfer">Transfer</string>
   <string name="missing_category">Missing Category</string>
   <string name="create">Create</string>
+  <string name="account_icon">Account icon</string>
+  <string name="person_icon">Person icon</string>
+  <string name="payee_icon">Payee icon</string>
 </resources>

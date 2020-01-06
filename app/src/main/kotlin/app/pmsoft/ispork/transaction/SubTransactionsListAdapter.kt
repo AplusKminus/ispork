@@ -4,13 +4,16 @@ import android.app.DatePickerDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Switch
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.data.Category
-import app.pmsoft.ispork.data.Participant
+import app.pmsoft.ispork.participant.ParticipantTypeIcon
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.view.AmountInputView
 import java.util.*
@@ -36,7 +39,7 @@ class SubTransactionsListAdapter(
     private val categoryLabel: TextView = view.findViewById(R.id.sub_transaction_category_label)
     private val categoryField: TextView = view.findViewById(R.id.sub_transaction_category_field)
     private val splitButton: Button = view.findViewById(R.id.sub_transaction_category_split_button)
-    private val participantTypeIcon: ImageView = view.findViewById(R.id.sub_transaction_participant_type_icon)
+    private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
     private val annotationsAdapter: CategoryAnnotationListAdapter = CategoryAnnotationListAdapter(this)
     private val annotationsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_category_list_view).also {
@@ -131,14 +134,8 @@ class SubTransactionsListAdapter(
           data.participant.name
         )
       }
-      participantTypeIcon.setImageDrawable(itemView.context.resources.getDrawable(
-        when (data.participant.type) {
-          Participant.Type.ACCOUNT -> R.drawable.ic_account_white_24dp
-          Participant.Type.PERSON -> R.drawable.ic_person_white_24dp
-          Participant.Type.PAYEE -> R.drawable.ic_payee_white_24dp
-        },
-        itemView.context.theme
-      ))
+
+      participantTypeIcon.setType(data.participant.type)
       notesField.text.clear()
       if (data.notes != null) {
         notesField.text.insert(

@@ -87,4 +87,7 @@
   <string name="transfer">Transfer</string>
   <string name="missing_category">Kategorie fehlt</string>
   <string name="create">Erstellen</string>
+  <string name="account_icon">Symbol für Konto</string>
+  <string name="person_icon">Symbol für Person</string>
+  <string name="payee_icon">Symbol für Zahlungsempfänger</string>
 </resources>
