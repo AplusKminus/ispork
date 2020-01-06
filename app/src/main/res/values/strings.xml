@@ -1,5 +1,4 @@
 <resources>
-  <string name="a_or_b" formatted="true" translatable="false">%s / %s</string>
   <plurals name="title_dialog_category_deletion">
     <item quantity="one">Delete selected category?</item>
     <item quantity="other">Delete selected categories?</item>
@@ -32,6 +31,7 @@
     <item quantity="one">The selected transaction will be permanently deleted.</item>
     <item quantity="other">The %d selected transactions will be permanently deleted.</item>
   </plurals>
+  <string name="a_or_b" formatted="true" translatable="false">%s / %s</string>
   <string name="app_name">ImprovedSpork</string>
   <string name="category_list_activity_title">Categories</string>
   <string name="categories">Categories</string>
@@ -90,4 +90,9 @@
   <string name="account_icon">Account icon</string>
   <string name="person_icon">Person icon</string>
   <string name="payee_icon">Payee icon</string>
+  <string name="title_activity_saving_goal_edit">SavingGoalEditActivity</string>
+  <string name="savingGoal">Saving Goal</string>
+  <string name="saving_goal_rate">Saving Rate</string>
+  <string name="saving_goal_target_amount">Target Amount</string>
+  <string name="saving_goal_target_date">Target Date</string>
 </resources>

@@ -90,4 +90,9 @@
   <string name="account_icon">Symbol für Konto</string>
   <string name="person_icon">Symbol für Person</string>
   <string name="payee_icon">Symbol für Zahlungsempfänger</string>
+  <string name="savingGoal">Sparziel</string>
+  <string name="title_activity_saving_goal_edit">Sparziel bearbeiten</string>
+  <string name="saving_goal_rate">Sparrate</string>
+  <string name="saving_goal_target_amount">Zielbetrag</string>
+  <string name="saving_goal_target_date">Zieldatum</string>
 </resources>
