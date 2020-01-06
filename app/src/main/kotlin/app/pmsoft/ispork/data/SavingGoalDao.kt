@@ -1,18 +1,22 @@
 package app.pmsoft.ispork.data
 
 import androidx.room.*
+import androidx.room.Transaction
 
 @Dao
 interface SavingGoalDao {
 
   @Query("SELECT * FROM savingGoal ORDER BY target_date")
-  fun getAll(): List<SavingGoal>
+  @Transaction
+  fun getAll(): List<FullSavingGoal>
 
   @Query("SELECT * FROM savingGoal WHERE id IS :id LIMIT 1")
-  fun findById(id: Long): SavingGoal?
+  @Transaction
+  fun findById(id: Long): FullSavingGoal?
 
   @Query("SELECT * FROM savingGoal WHERE category_id is :categoryId")
-  fun findByCategoryId(categoryId: Long): List<SavingGoal>
+  @Transaction
+  fun findByCategoryId(categoryId: Long): List<FullSavingGoal>
 
   @Update
   fun update(savingGoal: SavingGoal)

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9578abe886152e03033ddfaa458f711f",
+    "identityHash": "2f0b558d8964fd41110de1195011fed7",
     "entities": [
       {
         "tableName": "participant",
@@ -339,7 +339,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_savingGoal_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_savingGoal_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "category",
@@ -358,7 +367,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9578abe886152e03033ddfaa458f711f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f0b558d8964fd41110de1195011fed7')"
     ]
   }
 }

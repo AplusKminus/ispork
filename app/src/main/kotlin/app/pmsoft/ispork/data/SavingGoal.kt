@@ -13,7 +13,8 @@ import java.util.*
       parentColumns = ["id"],
       childColumns = ["category_id"]
     )
-  ]
+  ],
+  indices = [Index("category_id")]
 )
 @Parcelize
 open class SavingGoal(
@@ -42,6 +43,7 @@ open class SavingGoal(
 ) : Parcelable,
   ISporkEntry {
 
+  @Ignore
   constructor() : this(
     0,
     "",
