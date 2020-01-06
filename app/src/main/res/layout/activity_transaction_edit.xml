@@ -54,7 +54,7 @@
       android:id="@+id/transaction_edit_notes_field"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:inputType="textLongMessage|textAutoCorrect"
+      android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
       tools:text="Some Groceries" />
   </com.google.android.material.textfield.TextInputLayout>
 
