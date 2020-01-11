@@ -4,19 +4,21 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.util.CurrencyHandler
+import com.google.android.material.textfield.TextInputEditText
 
 class AmountInputView(
   context: Context,
   attributes: AttributeSet
-) : AppCompatTextView(
+) : TextInputEditText(
   context,
   attributes
 ) {
@@ -67,7 +69,7 @@ class AmountInputView(
     set(value) {
       field?.removeObserver(updateViewObserver)
       value?.observe(
-        context as AppCompatActivity,
+        retrieveActivity(),
         updateViewObserver
       )
       field = value
@@ -77,12 +79,14 @@ class AmountInputView(
     set(value) {
       field?.removeObserver(updateViewObserver)
       value?.observe(
-        context as AppCompatActivity,
+        retrieveActivity(),
         updateViewObserver
       )
       field = value
       updateView()
     }
+
+  private fun retrieveActivity() = (context as ContextThemeWrapper).baseContext as AppCompatActivity
 
   var positiveFlowString: String? = null
   var negativeFlowString: String? = null
@@ -108,7 +112,7 @@ class AmountInputView(
       }
       dialog.arguments = bundle
       dialog.show(
-        (context as AppCompatActivity).supportFragmentManager,
+        retrieveActivity().supportFragmentManager,
         "transaction_amount_input"
       )
     }
@@ -140,7 +144,7 @@ class AmountInputView(
           )
           this.setTextColor(R.attr.text_color)
         }
-        this.text = CurrencyHandler.format(value)
+        this.text = SpannableStringBuilder(CurrencyHandler.format(value))
       }
       suggested != null -> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -152,7 +156,7 @@ class AmountInputView(
           )
           this.setTextColor(R.attr.hint_color)
         }
-        this.text = CurrencyHandler.format(suggested)
+        this.text = SpannableStringBuilder(CurrencyHandler.format(suggested))
       }
       else -> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -164,7 +168,7 @@ class AmountInputView(
           )
           this.setTextColor(R.attr.hint_color)
         }
-        this.text = context.resources.getString(R.string.amount)
+        this.text = null
       }
     }
   }

@@ -1,6 +1,7 @@
 package app.pmsoft.ispork.transaction
 
 import android.app.DatePickerDialog
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import app.pmsoft.ispork.data.Category
 import app.pmsoft.ispork.participant.ParticipantTypeIcon
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.view.AmountInputView
+import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 class SubTransactionsListAdapter(
@@ -36,8 +38,8 @@ class SubTransactionsListAdapter(
     private val amountField: AmountInputView = view.findViewById(R.id.sub_transaction_amount_field)
     private val notesField: EditText = view.findViewById(R.id.sub_transaction_notes_field)
     private val dateSwitch: Switch = view.findViewById(R.id.sub_transaction_booking_date_switch)
-    private val categoryLabel: TextView = view.findViewById(R.id.sub_transaction_category_label)
-    private val categoryField: TextView = view.findViewById(R.id.sub_transaction_category_field)
+    private val categoryLayout: TextInputLayout = view.findViewById(R.id.sub_transaction_category_layout)
+    private val categoryField: EditText = view.findViewById(R.id.sub_transaction_category_field)
     private val splitButton: Button = view.findViewById(R.id.sub_transaction_category_split_button)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
@@ -56,8 +58,8 @@ class SubTransactionsListAdapter(
       }
       updateViewFromData()
     }
-    private val firstCategoryObserver: Observer<Category?> = Observer {
-      categoryField.text = it?.name ?: itemView.context.resources.getString(R.string.pick_category)
+    private val firstCategoryObserver: Observer<Category?> = Observer { category ->
+      categoryField.text = category?.name?.let { SpannableStringBuilder(it) }
     }
 
     init {
@@ -148,25 +150,24 @@ class SubTransactionsListAdapter(
       dateSwitch.isChecked = data.bookingDate != null
       when {
         data.participant.type.internal -> {
-          categoryLabel.visibility = View.GONE
+          categoryLayout.visibility = View.GONE
           categoryField.visibility = View.GONE
           splitButton.visibility = View.GONE
           annotationsView.visibility = View.GONE
         }
         data.categoryAnnotations.size <= 1 -> {
-          categoryLabel.visibility = View.VISIBLE
+          categoryLayout.visibility = View.VISIBLE
           categoryField.visibility = View.VISIBLE
-          val pickACategoryString = itemView.context.resources.getString(R.string.pick_category)
-          if (data.categoryAnnotations.size == 1) {
-            categoryField.text = data.categoryAnnotations[0].category?.name ?: pickACategoryString
-          } else {
-            categoryField.text = pickACategoryString
-          }
+          categoryField.text = data.categoryAnnotations
+            .takeIf { it.size == 1 }
+            ?.let { it[0].category }
+            ?.name
+            ?.let { SpannableStringBuilder(it) }
           splitButton.visibility = View.VISIBLE
           annotationsView.visibility = View.GONE
         }
         else -> {
-          categoryLabel.visibility = View.GONE
+          categoryLayout.visibility = View.GONE
           categoryField.visibility = View.GONE
           splitButton.visibility = View.GONE
           annotationsView.visibility = View.VISIBLE

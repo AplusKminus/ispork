@@ -1,11 +1,11 @@
 package app.pmsoft.ispork.transaction
 
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
@@ -22,15 +22,15 @@ class CategoryAnnotationListAdapter(
     view: View,
     private val annotationHandler: CategoryAnnotationListHandler
   ) : RecyclerView.ViewHolder(view) {
-    private val categoryField: TextView = view.findViewById(R.id.category_annotation_edit_category_field)
+    private val categoryField: EditText = view.findViewById(R.id.category_annotation_edit_category_field)
     private val amountField: AmountInputView = view.findViewById(R.id.category_annotation_edit_amount_field)
     private val notesField: EditText = view.findViewById(R.id.category_annotation_edit_notes_field)
     private val deleteIcon: ImageView = view.findViewById(R.id.category_annotation_edit_delete_icon)
     private val addIcon: ImageView = view.findViewById(R.id.category_annotation_edit_add_icon)
 
     private lateinit var data: CategoryAnnotationEditWrapper
-    private val categoryObserver: Observer<Category?> = Observer {
-      categoryField.text = it?.name
+    private val categoryObserver: Observer<Category?> = Observer { category ->
+      categoryField.text = category?.name?.let { SpannableStringBuilder(it) }
     }
     private var last: Boolean = false
 
@@ -68,9 +68,9 @@ class CategoryAnnotationListAdapter(
 
     private fun updateViewFromData() {
       if (data.category != null) {
-        categoryField.text = data.category!!.name
+        categoryField.text = SpannableStringBuilder(data.category!!.name)
       } else {
-        categoryField.text = itemView.context.resources.getString(R.string.pick_category)
+        categoryField.text = null
       }
       amountField.suggestedAmount = data.suggestedAmount
       amountField.amount = data.amount

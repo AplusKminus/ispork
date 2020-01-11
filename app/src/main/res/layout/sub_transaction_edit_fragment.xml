@@ -9,6 +9,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_amount_layout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:hint="@string/amount"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <app.pmsoft.ispork.view.AmountInputView
+        android:id="@+id/sub_transaction_amount_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:ems="10"
+        tools:text="0,00 €" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <app.pmsoft.ispork.participant.ParticipantTypeIcon
       android:id="@+id/sub_transaction_participant_type_icon"
       android:layout_width="wrap_content"
@@ -29,8 +51,8 @@
       android:layout_marginEnd="@dimen/horizontal_page_margin"
       android:gravity="center_vertical"
       android:textSize="24sp"
-      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_amount_field"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_amount_field"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_amount_layout"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_amount_layout"
       app:layout_constraintStart_toEndOf="@+id/sub_transaction_participant_type_icon"
       app:layout_constraintTop_toTopOf="parent"
       tools:text="Credit Card" />
@@ -56,20 +78,8 @@
       android:textAlignment="textEnd"
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_field"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_layout"
       tools:text="2019-03-27" />
-
-    <app.pmsoft.ispork.view.AmountInputView
-      android:id="@+id/sub_transaction_amount_field"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="8dp"
-      android:layout_marginTop="8dp"
-      android:textSize="24sp"
-      android:textAlignment="textEnd"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:text="0,00 €" />
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/sub_transaction_notes_layout"
@@ -104,20 +114,26 @@
       app:layout_constraintEnd_toStartOf="@+id/sub_transaction_date_field"
       app:layout_constraintTop_toTopOf="@+id/sub_transaction_date_field" />
 
-    <TextView
-      android:id="@+id/sub_transaction_category_field"
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_category_layout"
       android:layout_width="0dp"
-      android:layout_height="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
       android:layout_marginEnd="16dp"
       android:layout_marginStart="8dp"
-      android:gravity="center_vertical"
-      android:text="@string/pick_category"
-      android:textSize="18sp"
-      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_category_split_button"
+      android:hint="@string/pick_category"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout"
       app:layout_constraintEnd_toStartOf="@+id/sub_transaction_category_split_button"
-      app:layout_constraintStart_toStartOf="@+id/sub_transaction_category_label"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_category_label"
-      tools:text="Entertainment" />
+      app:layout_constraintStart_toStartOf="parent">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/sub_transaction_category_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:focusable="false"
+        tools:text="" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
       android:id="@+id/sub_transaction_category_split_button"
@@ -127,20 +143,9 @@
       android:layout_marginEnd="8dp"
       android:layout_marginTop="8dp"
       android:text="@string/split"
-      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout" />
-
-    <TextView
-      android:id="@+id/sub_transaction_category_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/category"
-      android:textSize="12sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout" />
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_category_layout"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_category_layout" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
