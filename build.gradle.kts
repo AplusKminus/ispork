@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
   `kotlin-dsl`
-  id("de.fayard.buildSrcVersions") version "0.6.1"
+  id("de.fayard.buildSrcVersions") version "0.7.0"
 }
 
 buildscript {

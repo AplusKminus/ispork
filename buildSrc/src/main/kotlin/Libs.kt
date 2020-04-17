@@ -5,6 +5,45 @@
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
+  /**
+   * https://junit.org/junit5/
+   */
+  const val junit_jupiter_api: String = "org.junit.jupiter:junit-jupiter-api:" +
+    Versions.org_junit_jupiter
+
+  /**
+   * https://junit.org/junit5/
+   */
+  const val junit_jupiter_engine: String = "org.junit.jupiter:junit-jupiter-engine:" +
+    Versions.org_junit_jupiter
+
+  /**
+   * https://developer.android.com/topic/libraries/architecture/index.html
+   */
+  const val room_compiler: String = "androidx.room:room-compiler:" + Versions.androidx_room
+
+  /**
+   * https://developer.android.com/topic/libraries/architecture/index.html
+   */
+  const val room_runtime: String = "androidx.room:room-runtime:" + Versions.androidx_room
+
+  /**
+   * https://developer.android.com/topic/libraries/architecture/index.html
+   */
+  const val room_testing: String = "androidx.room:room-testing:" + Versions.androidx_room
+
+  /**
+   * https://kotlinlang.org/
+   */
+  const val org_jetbrains_kotlin_kotlin_stdlib_jdk8: String =
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" + Versions.org_jetbrains_kotlin_kotlin_stdlib_jdk8
+
+  /**
+   * https://developer.android.com/studio
+   */
+  const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
+    Versions.com_android_tools_build_gradle
+
   const val org_gradle_kotlin_kotlin_dsl_gradle_plugin: String =
     "org.gradle.kotlin.kotlin-dsl:org.gradle.kotlin.kotlin-dsl.gradle.plugin:" +
       Versions.org_gradle_kotlin_kotlin_dsl_gradle_plugin
@@ -12,12 +51,6 @@ object Libs {
   const val de_fayard_buildsrcversions_gradle_plugin: String =
     "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
       Versions.de_fayard_buildsrcversions_gradle_plugin
-
-  /**
-   * https://kotlinlang.org/
-   */
-  const val org_jetbrains_kotlin_kotlin_stdlib_jdk8: String =
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" + Versions.org_jetbrains_kotlin_kotlin_stdlib_jdk8
 
   /**
    * https://kotlinlang.org/
@@ -41,12 +74,6 @@ object Libs {
       Versions.kotlin_android_extensions_runtime
 
   /**
-   * https://developer.android.com/studio
-   */
-  const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
-    Versions.com_android_tools_build_gradle
-
-  /**
    * https://kotlinlang.org/
    */
   const val kotlin_android_extensions: String = "org.jetbrains.kotlin:kotlin-android-extensions:" +
@@ -63,18 +90,6 @@ object Libs {
    */
   const val lifecycle_extensions: String = "androidx.lifecycle:lifecycle-extensions:" +
     Versions.lifecycle_extensions
-
-  /**
-   * https://junit.org/junit5/
-   */
-  const val junit_jupiter_api: String = "org.junit.jupiter:junit-jupiter-api:" +
-    Versions.org_junit_jupiter
-
-  /**
-   * https://junit.org/junit5/
-   */
-  const val junit_jupiter_engine: String = "org.junit.jupiter:junit-jupiter-engine:" +
-    Versions.org_junit_jupiter
 
   /**
    * http://tools.android.com
@@ -95,27 +110,12 @@ object Libs {
     Versions.kotlin_reflect
 
   /**
-   * https://developer.android.com/topic/libraries/architecture/index.html
-   */
-  const val room_compiler: String = "androidx.room:room-compiler:" + Versions.androidx_room
-
-  /**
-   * https://developer.android.com/topic/libraries/architecture/index.html
-   */
-  const val room_runtime: String = "androidx.room:room-runtime:" + Versions.androidx_room
-
-  /**
-   * https://developer.android.com/topic/libraries/architecture/index.html
-   */
-  const val room_testing: String = "androidx.room:room-testing:" + Versions.androidx_room
-
-  /**
    * https://developer.android.com/testing
    */
   const val espresso_core: String = "androidx.test.espresso:espresso-core:" + Versions.espresso_core
 
   /**
-   * http://developer.android.com/tools/extras/support-library.html
+   * https://developer.android.com/jetpack/androidx
    */
   const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
 

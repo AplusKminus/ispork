@@ -11,56 +11,56 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-  const val org_gradle_kotlin_kotlin_dsl_gradle_plugin: String = "1.2.9" // available: "1.3.1"
+  const val org_gradle_kotlin_kotlin_dsl_gradle_plugin: String = "1.3.4" // available: "1.3.6"
 
-  const val de_fayard_buildsrcversions_gradle_plugin: String = "0.6.1"
+  const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
-  const val org_jetbrains_kotlin_kotlin_stdlib_jdk8: String = "1.3.50"
+  const val org_jetbrains_kotlin_kotlin_stdlib_jdk8: String = "1.3.71"
 
-  const val kotlin_scripting_compiler_embeddable: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_scripting_compiler_embeddable: String = "1.3.70" // available: "1.3.71"
 
-  const val kotlin_annotation_processing_gradle: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_annotation_processing_gradle: String = "1.3.70" // available: "1.3.71"
 
-  const val kotlin_android_extensions_runtime: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_android_extensions_runtime: String = "1.3.70" // available: "1.3.71"
 
-  const val com_android_tools_build_gradle: String = "3.5.0"
+  const val com_android_tools_build_gradle: String = "3.6.3"
 
-  const val kotlin_android_extensions: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_android_extensions: String = "1.3.70" // available: "1.3.71"
 
-  const val kotlin_sam_with_receiver: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_sam_with_receiver: String = "1.3.70" // available: "1.3.71"
 
-  const val lifecycle_extensions: String = "2.2.0-alpha05"
+  const val lifecycle_extensions: String = "2.2.0"
 
-  const val org_junit_jupiter: String = "5.5.2"
+  const val org_junit_jupiter: String = "5.6.1"
 
   const val constraintlayout: String = "1.1.3"
 
-  const val android_junit5: String = "1.5.1.0"
+  const val android_junit5: String = "1.6.0.0"
 
-  const val kotlin_reflect: String = "1.3.41" // available: "1.3.50"
+  const val kotlin_reflect: String = "1.3.70" // available: "1.3.71"
 
-  const val androidx_room: String = "2.2.0-rc01"
+  const val androidx_room: String = "2.2.5"
 
   const val espresso_core: String = "3.2.0"
 
-  const val recyclerview: String = "1.1.0-beta04"
+  const val recyclerview: String = "1.1.0"
 
-  const val lint_gradle: String = "26.5.0"
+  const val lint_gradle: String = "26.6.3"
 
   const val appcompat: String = "1.1.0"
 
-  const val material: String = "1.1.0-alpha10"
+  const val material: String = "1.1.0"
 
-  const val dagger: String = "2.24"
+  const val dagger: String = "2.27"
 
-  const val aapt2: String = "3.5.0-5435860"
+  const val aapt2: String = "3.6.3-6040484"
 
   /**
-   * Current version: "5.6.2"
+   * Current version: "6.3"
    * See issue 19: How to update Gradle itself?
    * https://github.com/jmfayard/buildSrcVersions/issues/19
    */
-  const val gradleLatestVersion: String = "5.6.2"
+  const val gradleLatestVersion: String = "6.3"
 }
 
 /**
