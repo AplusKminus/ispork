@@ -7,15 +7,13 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import app.pmsoft.ispork.ListViewModel
 import app.pmsoft.ispork.data.Category
-import app.pmsoft.ispork.data.CategoryDao
-import app.pmsoft.ispork.data.CategoryDao_Impl
 import app.pmsoft.ispork.data.provideDatabase
 import app.pmsoft.ispork.util.AsyncDataLoader
 
 class CategoryListViewModel(application: Application) : AndroidViewModel(application),
   ListViewModel<Category> {
 
-  private val categoryDao: CategoryDao = CategoryDao_Impl(provideDatabase(application))
+  private val categoryDao = provideDatabase(application).categoryDao()
 
   private val unfilteredCategories: MutableLiveData<List<Category>> by lazy {
     MutableLiveData<List<Category>>().also {

@@ -70,7 +70,7 @@
   <string name="accept">Annehmen</string>
   <string name="title_activity_category_picking">Kategorie wählen</string>
   <string name="split">Aufteilen</string>
-  <string name="pick_category">Kategorie wählen</string>
+  <string name="pick_budget_pot">Budgettopf wählen</string>
   <string name="category_split">Aufgeteilt</string>
   <string name="category">Kategorie</string>
   <string name="text_flow_arrow_description">Pfeil nach rechts</string>
@@ -95,4 +95,6 @@
   <string name="saving_goal_rate">Sparrate</string>
   <string name="saving_goal_target_amount">Zielbetrag</string>
   <string name="saving_goal_target_date">Zieldatum</string>
+  <string name="saving_goal_rate_unit">Intervall</string>
+  <string name="spending_buffer">Puffer</string>
 </resources>

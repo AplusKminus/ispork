@@ -9,12 +9,13 @@ import java.util.*
   tableName = "savingGoal",
   foreignKeys = [
     ForeignKey(
-      entity = Category::class,
+      entity = BudgetPot::class,
       parentColumns = ["id"],
-      childColumns = ["category_id"]
+      childColumns = ["budget_pot_id"],
+      onDelete = ForeignKey.CASCADE
     )
   ],
-  indices = [Index("category_id")]
+  indices = [Index("budget_pot_id")]
 )
 @Parcelize
 open class SavingGoal(
@@ -25,9 +26,6 @@ open class SavingGoal(
   @ColumnInfo(name = "name")
   open var name: String,
 
-  @ColumnInfo(name = "category_id")
-  open var categoryId: Long?,
-
   @ColumnInfo(name = "rate")
   open var rate: Long?,
 
@@ -35,11 +33,13 @@ open class SavingGoal(
   open var targetAmount: Long?,
 
   @ColumnInfo(name = "target_date")
-  @TypeConverters(TimestampConverter::class)
   open var targetDate: Date?,
 
   @ColumnInfo(name = "notes")
-  open var notes: String?
+  open var notes: String?,
+
+  @ColumnInfo(name = "budget_pot_id")
+  open var budgetPotId: Long?
 ) : Parcelable,
   ISporkEntry {
 
@@ -53,4 +53,51 @@ open class SavingGoal(
     null,
     null
   )
+}
+
+@Parcelize
+class FullSavingGoal(
+
+  @Ignore
+  override var id: Long,
+
+  @Ignore
+  override var name: String,
+
+  @Ignore
+  override var rate: Long?,
+
+  @Ignore
+  override var targetAmount: Long?,
+
+  @Ignore
+  override var targetDate: Date?,
+
+  @Ignore
+  override var notes: String?,
+
+  @Relation(
+    entity = BudgetPot::class,
+    entityColumn = "id",
+    parentColumn = "budget_pot_id"
+  )
+  var budgetPot: FullBudgetPot?
+) : SavingGoal() {
+
+  @Ignore
+  constructor() : this(
+    0,
+    "",
+    0,
+    0,
+    null,
+    null,
+    null
+  )
+
+  override var budgetPotId: Long?
+    get() = budgetPot?.id
+    set(value) {
+      super.budgetPotId = value
+    }
 }

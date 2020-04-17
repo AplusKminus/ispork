@@ -27,9 +27,9 @@ class FullSubTransaction(
   @Relation(
     parentColumn = "id",
     entityColumn = "sub_transaction_id",
-    entity = CategoryAnnotation::class
+    entity = BudgetPotAnnotation::class
   )
-  var categoryAnnotations: List<FullCategoryAnnotation>
+  var budgetPotAnnotations: List<FullBudgetPotAnnotation>
 ) : SubTransaction(),
   Parcelable {
 

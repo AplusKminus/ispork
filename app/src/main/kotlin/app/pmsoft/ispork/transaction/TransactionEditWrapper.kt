@@ -52,7 +52,7 @@ class TransactionEditWrapper(
           it.updateSuggestedAmountThroughTransaction()
         }
       }
-      it.categoryAnnotations.forEach { annotationWrapper ->
+      it.budgetPotAnnotations.forEach { annotationWrapper ->
         annotationWrapper.updateSuggestedAmount()
       }
     }

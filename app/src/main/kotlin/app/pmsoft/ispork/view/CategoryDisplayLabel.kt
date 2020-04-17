@@ -19,8 +19,8 @@ class CategoryDisplayLabel(
 
   fun displayCategoryFor(subTransactions: List<FullSubTransaction>) {
     val categories = subTransactions
-      .flatMap { it.categoryAnnotations }
-      .mapNotNull { it.category }
+      .flatMap { it.budgetPotAnnotations }
+      .mapNotNull { it.budgetPot?.category }
       .distinct()
     val displayType: DisplayType
     when {

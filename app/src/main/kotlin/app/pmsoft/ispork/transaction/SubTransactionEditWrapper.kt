@@ -3,7 +3,7 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import app.pmsoft.ispork.data.FullCategoryAnnotation
+import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullSubTransaction
 import app.pmsoft.ispork.data.Participant
 import app.pmsoft.ispork.util.NonNullMutableLiveData
@@ -29,8 +29,8 @@ class SubTransactionEditWrapper(
   val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
-  val categoryAnnotationsData = NonNullMutableLiveData<List<CategoryAnnotationEditWrapper>>(emptyList())
-  var categoryAnnotations: List<CategoryAnnotationEditWrapper> by categoryAnnotationsData
+  val budgetPotAnnotationsData = NonNullMutableLiveData<List<BudgetPotAnnotationEditWrapper>>(emptyList())
+  var budgetPotAnnotations: List<BudgetPotAnnotationEditWrapper> by budgetPotAnnotationsData
 
   private val _suggestedAmountData = ZeroIsNullLongLiveData()
   val suggestedAmountData: LiveData<Long?> = _suggestedAmountData
@@ -41,10 +41,10 @@ class SubTransactionEditWrapper(
   }
 
   init {
-    categoryAnnotations = originalData.categoryAnnotations.map { fullCategoryAnnotation ->
-      CategoryAnnotationEditWrapper(
+    budgetPotAnnotations = originalData.budgetPotAnnotations.map { fullBudgetPotAnnotation ->
+      BudgetPotAnnotationEditWrapper(
         this,
-        fullCategoryAnnotation
+        fullBudgetPotAnnotation
       ).also {
         addObserverToChild(it)
       }
@@ -111,41 +111,41 @@ class SubTransactionEditWrapper(
   }
 
   /**
-   * Gets the amount inferred for this sub transaction by the values entered in its category annotations.
+   * Gets the amount inferred for this sub transaction by the values entered in its budgetPot annotations.
    *
    * @return `null` when no inferred value can be calculated.
    */
   fun getSuggestedAmountThroughCategories(): Long? =
-    categoryAnnotations
+    budgetPotAnnotations
       .takeUnless { it.isEmpty() }
       ?.map { it.amount ?: return null }
       ?.sum()
 
-  fun deleteCategoryAnnotation(categoryAnnotationEditWrapper: CategoryAnnotationEditWrapper) {
-    categoryAnnotationEditWrapper.amountData.removeObserver(triggerSuggestionUpdateObserver)
-    this.categoryAnnotations -= categoryAnnotationEditWrapper
+  fun deleteBudgetPotAnnotation(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper) {
+    budgetPotAnnotationEditWrapper.amountData.removeObserver(triggerSuggestionUpdateObserver)
+    this.budgetPotAnnotations -= budgetPotAnnotationEditWrapper
     transactionEditWrapper.updateSuggestions()
   }
 
-  fun addNewCategoryAnnotation() {
-    this.categoryAnnotations +=
-      CategoryAnnotationEditWrapper(
+  fun addNewBudgetPotAnnotation() {
+    this.budgetPotAnnotations +=
+      BudgetPotAnnotationEditWrapper(
         this,
-        FullCategoryAnnotation()
+        FullBudgetPotAnnotation()
       ).also {
         addObserverToChild(it)
       }
     transactionEditWrapper.updateSuggestions()
   }
 
-  private fun addObserverToChild(child: CategoryAnnotationEditWrapper) {
+  private fun addObserverToChild(child: BudgetPotAnnotationEditWrapper) {
     child.amountData.observeForever(triggerSuggestionUpdateObserver)
   }
 
   fun extractSubTransaction(): FullSubTransaction {
-    val actualCategoryAnnotations = categoryAnnotations.map { it.extractCategoryAnnotation() }
-    if (actualCategoryAnnotations.size == 1) {
-      actualCategoryAnnotations[0].amount = amount ?: suggestedAmount ?: 0L
+    val actualBudgetPotAnnotations = budgetPotAnnotations.map { it.extractBudgetPotAnnotation() }
+    if (actualBudgetPotAnnotations.size == 1) {
+      actualBudgetPotAnnotations[0].amount = amount ?: suggestedAmount ?: 0L
     }
     return FullSubTransaction(
       originalData.id,
@@ -154,14 +154,14 @@ class SubTransactionEditWrapper(
       participant,
       bookingDate,
       notes,
-      actualCategoryAnnotations
+      actualBudgetPotAnnotations
     )
   }
 
   fun destroy() {
-    categoryAnnotations.forEach {
+    budgetPotAnnotations.forEach {
       it.amountData.removeObserver(triggerSuggestionUpdateObserver)
     }
-    categoryAnnotations = emptyList()
+    budgetPotAnnotations = emptyList()
   }
 }

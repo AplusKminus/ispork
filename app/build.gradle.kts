@@ -58,7 +58,7 @@ dependencies {
 
   // START Room Dependencies
   implementation(Libs.room_runtime)
-  kapt(Libs.room_compiler)
+  kapt("androidx.room:room-compiler:" + Versions.androidx_room)
 
   // Test helpers
   testImplementation(Libs.room_testing)

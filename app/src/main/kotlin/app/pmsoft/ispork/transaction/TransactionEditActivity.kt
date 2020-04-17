@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
-import app.pmsoft.ispork.data.Category
-import app.pmsoft.ispork.data.FullCategoryAnnotation
+import app.pmsoft.ispork.data.FullBudgetPot
+import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullTransaction
 import app.pmsoft.ispork.data.Participant
 import app.pmsoft.ispork.participant.ParticipantPickingActivity
@@ -130,19 +130,19 @@ class TransactionEditActivity : AppCompatActivity(),
             "category_annotation_index",
             -1
           )
-          val category = intent.getParcelableExtra<Category>("category")
-          val categoryAnnotation: CategoryAnnotationEditWrapper
+          val budgetPot = intent.getParcelableExtra<FullBudgetPot>("budgetPot")
+          val budgetPotAnnotation: BudgetPotAnnotationEditWrapper
           val subTransaction = this.data.subTransactions[subTransactionIndex]
           if (categoryAnnotationIndex < 0) {
-            categoryAnnotation = CategoryAnnotationEditWrapper(
+            budgetPotAnnotation = BudgetPotAnnotationEditWrapper(
               subTransaction,
-              FullCategoryAnnotation()
+              FullBudgetPotAnnotation()
             )
-            subTransaction.categoryAnnotations = listOf(categoryAnnotation)
+            subTransaction.budgetPotAnnotations = listOf(budgetPotAnnotation)
           } else {
-            categoryAnnotation = subTransaction.categoryAnnotations[categoryAnnotationIndex]
+            budgetPotAnnotation = subTransaction.budgetPotAnnotations[categoryAnnotationIndex]
           }
-          categoryAnnotation.category = category
+          budgetPotAnnotation.budgetPot = budgetPot
         }
       }
     }

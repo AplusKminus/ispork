@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2f0b558d8964fd41110de1195011fed7",
+    "identityHash": "ce8a061b3a26ecfbfcfb34f3a34d3b6c",
     "entities": [
       {
         "tableName": "participant",
@@ -79,6 +79,419 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "budgetPot",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `priority` INTEGER NOT NULL, `category_id` INTEGER, FOREIGN KEY(`category_id`) REFERENCES `category`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_budgetPot_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budgetPot_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "category",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "scheduledTransaction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "scheduledOccurrence",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scheduled_transaction_id` INTEGER NOT NULL, `start_date` TEXT, `end_date` TEXT, `notes_template` TEXT, `interval_unit` INTEGER, `offset` INTEGER, `workdays_only` INTEGER, FOREIGN KEY(`scheduled_transaction_id`) REFERENCES `scheduledTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scheduledTransactionId",
+            "columnName": "scheduled_transaction_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "start_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "end_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notesTemplate",
+            "columnName": "notes_template",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cadence.timeUnit",
+            "columnName": "interval_unit",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cadence.offset",
+            "columnName": "offset",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cadence.workdayOnly",
+            "columnName": "workdays_only",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_scheduledOccurrence_scheduled_transaction_id",
+            "unique": false,
+            "columnNames": [
+              "scheduled_transaction_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scheduledOccurrence_scheduled_transaction_id` ON `${TABLE_NAME}` (`scheduled_transaction_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "scheduledTransaction",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "scheduled_transaction_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "subTransactionTemplate",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `amount` INTEGER NOT NULL, `scheduled_transaction_id` INTEGER NOT NULL, `participant_id` INTEGER, `notes_template` TEXT, FOREIGN KEY(`participant_id`) REFERENCES `participant`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`scheduled_transaction_id`) REFERENCES `scheduledTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scheduledTransactionId",
+            "columnName": "scheduled_transaction_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "participantId",
+            "columnName": "participant_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notesTemplate",
+            "columnName": "notes_template",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_subTransactionTemplate_participant_id",
+            "unique": false,
+            "columnNames": [
+              "participant_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subTransactionTemplate_participant_id` ON `${TABLE_NAME}` (`participant_id`)"
+          },
+          {
+            "name": "index_subTransactionTemplate_scheduled_transaction_id",
+            "unique": false,
+            "columnNames": [
+              "scheduled_transaction_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subTransactionTemplate_scheduled_transaction_id` ON `${TABLE_NAME}` (`scheduled_transaction_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "participant",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "participant_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "scheduledTransaction",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "scheduled_transaction_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "budgetPotAnnotationTemplate",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `amount` INTEGER NOT NULL, `sub_transaction_template_id` INTEGER NOT NULL, `budget_pot_id` INTEGER, `notes_template` TEXT, FOREIGN KEY(`budget_pot_id`) REFERENCES `budgetPot`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`sub_transaction_template_id`) REFERENCES `subTransactionTemplate`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTransactionTemplateId",
+            "columnName": "sub_transaction_template_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "budgetPotId",
+            "columnName": "budget_pot_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notesTemplate",
+            "columnName": "notes_template",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_budgetPotAnnotationTemplate_budget_pot_id",
+            "unique": false,
+            "columnNames": [
+              "budget_pot_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budgetPotAnnotationTemplate_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
+          },
+          {
+            "name": "index_budgetPotAnnotationTemplate_sub_transaction_template_id",
+            "unique": false,
+            "columnNames": [
+              "sub_transaction_template_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budgetPotAnnotationTemplate_sub_transaction_template_id` ON `${TABLE_NAME}` (`sub_transaction_template_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "budgetPot",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "budget_pot_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "subTransactionTemplate",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sub_transaction_template_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "bufferDefinition",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `min` INTEGER NOT NULL, `max` INTEGER NOT NULL, `rate` INTEGER NOT NULL, `intervalLength` INTEGER NOT NULL, `intervalUnit` INTEGER, `notes` TEXT, `budget_pot_id` INTEGER, FOREIGN KEY(`budget_pot_id`) REFERENCES `budgetPot`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min",
+            "columnName": "min",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max",
+            "columnName": "max",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rate",
+            "columnName": "rate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intervalLength",
+            "columnName": "intervalLength",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intervalUnit",
+            "columnName": "intervalUnit",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "budgetPotId",
+            "columnName": "budget_pot_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_bufferDefinition_budget_pot_id",
+            "unique": false,
+            "columnNames": [
+              "budget_pot_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_bufferDefinition_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "budgetPot",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "budget_pot_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "transaction",
@@ -203,8 +616,8 @@
         ]
       },
       {
-        "tableName": "categoryAnnotation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sub_transaction_id` INTEGER NOT NULL, `amount` INTEGER NOT NULL, `category_id` INTEGER, `notes` TEXT, FOREIGN KEY(`sub_transaction_id`) REFERENCES `subTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`category_id`) REFERENCES `category`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "budgetPotAnnotation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sub_transaction_id` INTEGER NOT NULL, `amount` INTEGER NOT NULL, `budget_pot_id` INTEGER, `notes` TEXT, FOREIGN KEY(`sub_transaction_id`) REFERENCES `subTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`budget_pot_id`) REFERENCES `budgetPot`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -225,8 +638,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "category_id",
+            "fieldPath": "budgetPotId",
+            "columnName": "budget_pot_id",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -245,20 +658,20 @@
         },
         "indices": [
           {
-            "name": "index_categoryAnnotation_sub_transaction_id",
+            "name": "index_budgetPotAnnotation_sub_transaction_id",
             "unique": false,
             "columnNames": [
               "sub_transaction_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_categoryAnnotation_sub_transaction_id` ON `${TABLE_NAME}` (`sub_transaction_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budgetPotAnnotation_sub_transaction_id` ON `${TABLE_NAME}` (`sub_transaction_id`)"
           },
           {
-            "name": "index_categoryAnnotation_category_id",
+            "name": "index_budgetPotAnnotation_budget_pot_id",
             "unique": false,
             "columnNames": [
-              "category_id"
+              "budget_pot_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_categoryAnnotation_category_id` ON `${TABLE_NAME}` (`category_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budgetPotAnnotation_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
           }
         ],
         "foreignKeys": [
@@ -274,11 +687,11 @@
             ]
           },
           {
-            "table": "category",
+            "table": "budgetPot",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "category_id"
+              "budget_pot_id"
             ],
             "referencedColumns": [
               "id"
@@ -288,7 +701,7 @@
       },
       {
         "tableName": "savingGoal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `category_id` INTEGER, `rate` INTEGER, `target_amount` INTEGER, `target_date` TEXT, `notes` TEXT, FOREIGN KEY(`category_id`) REFERENCES `category`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `rate` INTEGER, `target_amount` INTEGER, `target_date` TEXT, `notes` TEXT, `budget_pot_id` INTEGER, FOREIGN KEY(`budget_pot_id`) REFERENCES `budgetPot`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -301,12 +714,6 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "categoryId",
-            "columnName": "category_id",
-            "affinity": "INTEGER",
-            "notNull": false
           },
           {
             "fieldPath": "rate",
@@ -331,6 +738,12 @@
             "columnName": "notes",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "budgetPotId",
+            "columnName": "budget_pot_id",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -341,21 +754,21 @@
         },
         "indices": [
           {
-            "name": "index_savingGoal_category_id",
+            "name": "index_savingGoal_budget_pot_id",
             "unique": false,
             "columnNames": [
-              "category_id"
+              "budget_pot_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_savingGoal_category_id` ON `${TABLE_NAME}` (`category_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_savingGoal_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "category",
-            "onDelete": "NO ACTION",
+            "table": "budgetPot",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "category_id"
+              "budget_pot_id"
             ],
             "referencedColumns": [
               "id"
@@ -367,7 +780,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f0b558d8964fd41110de1195011fed7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce8a061b3a26ecfbfcfb34f3a34d3b6c')"
     ]
   }
 }

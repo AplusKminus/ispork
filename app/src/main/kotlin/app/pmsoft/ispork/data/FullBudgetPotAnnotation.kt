@@ -6,7 +6,7 @@ import androidx.room.Relation
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class FullCategoryAnnotation(
+class FullBudgetPotAnnotation(
 
   @Ignore
   override var id: Long,
@@ -16,12 +16,13 @@ class FullCategoryAnnotation(
   override var amount: Long,
   @Relation(
     entityColumn = "id",
-    parentColumn = "category_id"
+    parentColumn = "budget_pot_id",
+    entity = BudgetPot::class
   )
-  var category: Category?,
+  var budgetPot: FullBudgetPot?,
   @Ignore
   override var notes: String?
-) : CategoryAnnotation(),
+) : BudgetPotAnnotation(),
   Parcelable {
 
   @Ignore
@@ -33,9 +34,9 @@ class FullCategoryAnnotation(
     null
   )
 
-  override var categoryId: Long?
-    get() = category?.id
+  override var budgetPotId: Long?
+    get() = budgetPot?.id
     set(value) {
-      super.categoryId = value
+      super.budgetPotId = value
     }
 }

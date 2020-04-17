@@ -12,9 +12,9 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
   ListViewModel<FullTransaction> {
 
   private val database: AppDatabase = provideDatabase(application)
-  private val transactionDao: TransactionDao = TransactionDao_Impl(database)
-  private val subTransactionDao: SubTransactionDao = SubTransactionDao_Impl(database)
-  private val categoryAnnotationDao: CategoryAnnotationDao = CategoryAnnotationDao_Impl(database)
+  private val transactionDao: TransactionDao = database.transactionDao()
+  private val subTransactionDao: SubTransactionDao = database.subTransactionDao()
+  private val categoryAnnotationDao: BudgetPotAnnotationDao = database.budgetPotAnnotationDao()
 
   private val transactions: MutableLiveData<List<FullTransaction>> by lazy {
     MutableLiveData<List<FullTransaction>>().also {
@@ -77,26 +77,26 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         subTransaction.notes
       )
     }
-    subTransaction.categoryAnnotations.forEach {
+    subTransaction.budgetPotAnnotations.forEach {
       it.subTransactionId = id
       persistCategoryAnnotation(it)
     }
     categoryAnnotationDao.deleteUnused(
       id,
-      subTransaction.categoryAnnotations.map { it.id })
+      subTransaction.budgetPotAnnotations.map { it.id })
   }
 
-  private fun persistCategoryAnnotation(categoryAnnotation: FullCategoryAnnotation) {
-    if (categoryAnnotation.id == 0L) {
-      val id = categoryAnnotationDao.insert(categoryAnnotation)
-      categoryAnnotation.id = id
+  private fun persistCategoryAnnotation(budgetPotAnnotation: FullBudgetPotAnnotation) {
+    if (budgetPotAnnotation.id == 0L) {
+      val id = categoryAnnotationDao.insert(budgetPotAnnotation)
+      budgetPotAnnotation.id = id
     } else {
       categoryAnnotationDao.update(
-        categoryAnnotation.id,
-        categoryAnnotation.subTransactionId,
-        categoryAnnotation.amount,
-        categoryAnnotation.categoryId,
-        categoryAnnotation.notes
+        budgetPotAnnotation.id,
+        budgetPotAnnotation.subTransactionId,
+        budgetPotAnnotation.amount,
+        budgetPotAnnotation.budgetPotId,
+        budgetPotAnnotation.notes
       )
     }
   }

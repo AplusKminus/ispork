@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
-import app.pmsoft.ispork.data.Category
+import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.participant.ParticipantTypeIcon
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.view.AmountInputView
@@ -31,7 +31,7 @@ class SubTransactionsListAdapter(
     view: View,
     private val subTransactionListHandler: SubTransactionListHandler
   ) : RecyclerView.ViewHolder(view),
-    CategoryAnnotationListHandler {
+    BudgetPotAnnotationListHandler {
 
     private val participantField: TextView = view.findViewById(R.id.sub_transaction_participant_field)
     private val dateField: TextView = view.findViewById(R.id.sub_transaction_date_field)
@@ -43,23 +43,23 @@ class SubTransactionsListAdapter(
     private val splitButton: Button = view.findViewById(R.id.sub_transaction_category_split_button)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
-    private val annotationsAdapter: CategoryAnnotationListAdapter = CategoryAnnotationListAdapter(this)
+    private val annotationsAdapter: BudgetPotAnnotationListAdapter = BudgetPotAnnotationListAdapter(this)
     private val annotationsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_category_list_view).also {
       it.layoutManager = LinearLayoutManager(view.context)
       it.adapter = annotationsAdapter
     }
     private lateinit var data: SubTransactionEditWrapper
-    private val categoryAnnotationsObserver: Observer<List<CategoryAnnotationEditWrapper>> = Observer {
+    private val budgetPotAnnotationsObserver: Observer<List<BudgetPotAnnotationEditWrapper>> = Observer {
       annotationsAdapter.setData(it)
       if (it.size == 1) {
-        it[0].categoryData.observeForever(firstCategoryObserver)
+        it[0].budgetPotData.observeForever(firstBudgetPotObserver)
       } else if (it.isNotEmpty()) {
-        it[0].categoryData.removeObserver(firstCategoryObserver)
+        it[0].budgetPotData.removeObserver(firstBudgetPotObserver)
       }
       updateViewFromData()
     }
-    private val firstCategoryObserver: Observer<Category?> = Observer { category ->
-      categoryField.text = category?.name?.let { SpannableStringBuilder(it) }
+    private val firstBudgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
+      categoryField.text = budgetPot?.category?.name?.let { SpannableStringBuilder(it) }
     }
 
     init {
@@ -69,8 +69,8 @@ class SubTransactionsListAdapter(
         }
       }
       splitButton.setOnClickListener {
-        while (data.categoryAnnotations.size < 2) {
-          data.addNewCategoryAnnotation()
+        while (data.budgetPotAnnotations.size < 2) {
+          data.addNewBudgetPotAnnotation()
         }
         updateViewFromData()
       }
@@ -107,13 +107,13 @@ class SubTransactionsListAdapter(
       subTransaction: SubTransactionEditWrapper
     ) {
       if (::data.isInitialized) {
-        data.categoryAnnotationsData.removeObserver(categoryAnnotationsObserver)
+        data.budgetPotAnnotationsData.removeObserver(budgetPotAnnotationsObserver)
       }
       this.data = subTransaction
-      annotationsAdapter.setData(subTransaction.categoryAnnotations)
-      this.data.categoryAnnotationsData.observeForever(categoryAnnotationsObserver)
-      if (data.categoryAnnotations.size == 1) {
-        data.categoryAnnotations[0].categoryData.observeForever(firstCategoryObserver)
+      annotationsAdapter.setData(subTransaction.budgetPotAnnotations)
+      this.data.budgetPotAnnotationsData.observeForever(budgetPotAnnotationsObserver)
+      if (data.budgetPotAnnotations.size == 1) {
+        data.budgetPotAnnotations[0].budgetPotData.observeForever(firstBudgetPotObserver)
       }
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
@@ -155,12 +155,12 @@ class SubTransactionsListAdapter(
           splitButton.visibility = View.GONE
           annotationsView.visibility = View.GONE
         }
-        data.categoryAnnotations.size <= 1 -> {
+        data.budgetPotAnnotations.size <= 1 -> {
           categoryLayout.visibility = View.VISIBLE
           categoryField.visibility = View.VISIBLE
-          categoryField.text = data.categoryAnnotations
+          categoryField.text = data.budgetPotAnnotations
             .takeIf { it.size == 1 }
-            ?.let { it[0].category }
+            ?.let { it[0].budgetPot?.category }
             ?.name
             ?.let { SpannableStringBuilder(it) }
           splitButton.visibility = View.VISIBLE
@@ -175,21 +175,21 @@ class SubTransactionsListAdapter(
       }
     }
 
-    override fun selectCategoryFor(categoryAnnotationEditWrapper: CategoryAnnotationEditWrapper) {
-      startCategoryPicking(categoryAnnotationEditWrapper)
+    override fun selectBudgetPotFor(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper) {
+      startCategoryPicking(budgetPotAnnotationEditWrapper)
     }
 
-    private fun startCategoryPicking(categoryAnnotationEditWrapper: CategoryAnnotationEditWrapper?) {
+    private fun startCategoryPicking(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper?) {
       subTransactionListHandler.startCategoryPicking(
         data,
-        categoryAnnotationEditWrapper?.let { data.categoryAnnotations.indexOf(it) }
+        budgetPotAnnotationEditWrapper?.let { data.budgetPotAnnotations.indexOf(it) }
       )
     }
 
     fun persistInputs() {
       data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
-      for (index in data.categoryAnnotations.indices) {
-        (annotationsView.findViewHolderForAdapterPosition(index) as? CategoryAnnotationListAdapter.ViewHolder)
+      for (index in data.budgetPotAnnotations.indices) {
+        (annotationsView.findViewHolderForAdapterPosition(index) as? BudgetPotAnnotationListAdapter.ViewHolder)
           ?.persistInputs()
       }
     }

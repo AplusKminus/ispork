@@ -9,34 +9,34 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
-import app.pmsoft.ispork.data.Category
+import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.view.AmountInputView
 
-class CategoryAnnotationListAdapter(
-  private val annotationHandler: CategoryAnnotationListHandler
-) : RecyclerView.Adapter<CategoryAnnotationListAdapter.ViewHolder>() {
+class BudgetPotAnnotationListAdapter(
+  private val annotationHandler: BudgetPotAnnotationListHandler
+) : RecyclerView.Adapter<BudgetPotAnnotationListAdapter.ViewHolder>() {
 
-  private var dataSet: List<CategoryAnnotationEditWrapper> = emptyList()
+  private var dataSet: List<BudgetPotAnnotationEditWrapper> = emptyList()
 
   class ViewHolder(
     view: View,
-    private val annotationHandler: CategoryAnnotationListHandler
+    private val annotationHandler: BudgetPotAnnotationListHandler
   ) : RecyclerView.ViewHolder(view) {
-    private val categoryField: EditText = view.findViewById(R.id.category_annotation_edit_category_field)
-    private val amountField: AmountInputView = view.findViewById(R.id.category_annotation_edit_amount_field)
-    private val notesField: EditText = view.findViewById(R.id.category_annotation_edit_notes_field)
-    private val deleteIcon: ImageView = view.findViewById(R.id.category_annotation_edit_delete_icon)
-    private val addIcon: ImageView = view.findViewById(R.id.category_annotation_edit_add_icon)
+    private val budgetPotField: EditText = view.findViewById(R.id.budgetPot_annotation_edit_budgetPot_field)
+    private val amountField: AmountInputView = view.findViewById(R.id.budgetPot_annotation_edit_amount_field)
+    private val notesField: EditText = view.findViewById(R.id.budgetPot_annotation_edit_notes_field)
+    private val deleteIcon: ImageView = view.findViewById(R.id.budgetPot_annotation_edit_delete_icon)
+    private val addIcon: ImageView = view.findViewById(R.id.budgetPot_annotation_edit_add_icon)
 
-    private lateinit var data: CategoryAnnotationEditWrapper
-    private val categoryObserver: Observer<Category?> = Observer { category ->
-      categoryField.text = category?.name?.let { SpannableStringBuilder(it) }
+    private lateinit var data: BudgetPotAnnotationEditWrapper
+    private val budgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
+      budgetPotField.text = budgetPot?.category?.name?.let { SpannableStringBuilder(it) }
     }
     private var last: Boolean = false
 
     init {
-      categoryField.setOnClickListener {
-        annotationHandler.selectCategoryFor(data)
+      budgetPotField.setOnClickListener {
+        annotationHandler.selectBudgetPotFor(data)
       }
       deleteIcon.setOnClickListener {
         data.delete()
@@ -52,25 +52,25 @@ class CategoryAnnotationListAdapter(
     }
 
     fun setData(
-      annotation: CategoryAnnotationEditWrapper,
+      annotation: BudgetPotAnnotationEditWrapper,
       last: Boolean
     ) {
       if (::data.isInitialized) {
-        data.categoryData.removeObserver(categoryObserver)
+        data.budgetPotData.removeObserver(budgetPotObserver)
       }
       this.data = annotation
       this.last = last
-      this.data.categoryData.observeForever(categoryObserver)
+      this.data.budgetPotData.observeForever(budgetPotObserver)
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
       updateViewFromData()
     }
 
     private fun updateViewFromData() {
-      if (data.category != null) {
-        categoryField.text = SpannableStringBuilder(data.category!!.name)
+      if (data.budgetPot != null) {
+        budgetPotField.text = SpannableStringBuilder(constructName(data.budgetPot!!))
       } else {
-        categoryField.text = null
+        budgetPotField.text = null
       }
       amountField.suggestedAmount = data.suggestedAmount
       amountField.amount = data.amount
@@ -92,6 +92,10 @@ class CategoryAnnotationListAdapter(
       addIcon.visibility = if (last) View.VISIBLE else View.GONE
     }
 
+    private fun constructName(fullBudgetPot: FullBudgetPot): String? {
+      return fullBudgetPot.category?.name
+    }
+
     fun persistInputs() {
       data.amount = amountField.amount ?: amountField.suggestedAmount ?: 0L
       data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
@@ -106,7 +110,7 @@ class CategoryAnnotationListAdapter(
   ): ViewHolder {
     return ViewHolder(
       LayoutInflater.from(parent.context).inflate(
-        R.layout.category_annotation_edit_fragment,
+        R.layout.budget_pot_annotation_edit_fragment,
         parent,
         false
       ),
@@ -124,7 +128,7 @@ class CategoryAnnotationListAdapter(
     )
   }
 
-  fun setData(newData: List<CategoryAnnotationEditWrapper>) {
+  fun setData(newData: List<BudgetPotAnnotationEditWrapper>) {
     dataSet = newData
     notifyDataSetChanged()
   }

@@ -12,16 +12,16 @@ import kotlinx.android.parcel.Parcelize
       onDelete = ForeignKey.CASCADE
     ),
     ForeignKey(
-      entity = Category::class,
+      entity = BudgetPot::class,
       parentColumns = ["id"],
-      childColumns = ["category_id"]
+      childColumns = ["budget_pot_id"]
     )
   ],
-  indices = [Index("sub_transaction_id"), Index("category_id")],
-  tableName = "categoryAnnotation"
+  indices = [Index("sub_transaction_id"), Index("budget_pot_id")],
+  tableName = "budgetPotAnnotation"
 )
 @Parcelize
-open class CategoryAnnotation(
+open class BudgetPotAnnotation(
 
   @PrimaryKey(autoGenerate = true)
   override var id: Long,
@@ -32,8 +32,8 @@ open class CategoryAnnotation(
   @ColumnInfo(name = "amount")
   open var amount: Long,
 
-  @ColumnInfo(name = "category_id")
-  open var categoryId: Long?,
+  @ColumnInfo(name = "budget_pot_id")
+  open var budgetPotId: Long?,
 
   @ColumnInfo(name = "notes")
   open var notes: String?

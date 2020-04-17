@@ -4,34 +4,34 @@ import androidx.room.*
 import androidx.room.Transaction
 
 @Dao
-interface CategoryAnnotationDao {
+interface BudgetPotAnnotationDao {
 
-  @Query("SELECT * FROM categoryAnnotation")
+  @Query("SELECT * FROM budgetPotAnnotation")
   @Transaction
-  fun getAll(): List<FullCategoryAnnotation>
+  fun getAll(): List<FullBudgetPotAnnotation>
 
-  @Query("SELECT * FROM categoryAnnotation WHERE id IS :id LIMIT 1")
+  @Query("SELECT * FROM budgetPotAnnotation WHERE id IS :id LIMIT 1")
   @Transaction
-  fun findById(id: Long): FullCategoryAnnotation?
+  fun findById(id: Long): FullBudgetPotAnnotation?
 
   @Insert
-  fun insert(categoryAnnotations: CategoryAnnotation): Long
+  fun insert(budgetPotAnnotations: BudgetPotAnnotation): Long
 
-  @Query("UPDATE categoryAnnotation SET sub_transaction_id = :subTransactionId, category_id = :categoryId, notes = :notes, amount = :amount WHERE id = :id")
+  @Query("UPDATE budgetPotAnnotation SET sub_transaction_id = :subTransactionId, budget_pot_id = :budgetPotId, notes = :notes, amount = :amount WHERE id = :id")
   fun update(
     id: Long,
     subTransactionId: Long,
     amount: Long,
-    categoryId: Long?,
+    budgetPotId: Long?,
     notes: String?
   )
 
-  @Query("DELETE FROM categoryAnnotation WHERE sub_transaction_id = :subTransactionId AND id NOT IN (:usedIds)")
+  @Query("DELETE FROM budgetPotAnnotation WHERE sub_transaction_id = :subTransactionId AND id NOT IN (:usedIds)")
   fun deleteUnused(
     subTransactionId: Long,
     usedIds: List<Long>
   )
 
   @Delete
-  fun delete(categoryAnnotation: CategoryAnnotation)
+  fun delete(budgetPotAnnotation: BudgetPotAnnotation)
 }

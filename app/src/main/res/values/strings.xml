@@ -70,7 +70,7 @@
   <string name="accept">Accept</string>
   <string name="title_activity_category_picking">Pick a Category</string>
   <string name="split">Split</string>
-  <string name="pick_category">Pick a Category</string>
+  <string name="pick_budget_pot">Pick a Budget Pot</string>
   <string name="category_split">Split</string>
   <string name="category">Category</string>
   <string name="text_flow_arrow_description">Right Arrow</string>
@@ -95,4 +95,6 @@
   <string name="saving_goal_rate">Saving Rate</string>
   <string name="saving_goal_target_amount">Target Amount</string>
   <string name="saving_goal_target_date">Target Date</string>
+  <string name="saving_goal_rate_unit">Interval</string>
+  <string name="spending_buffer">Spending Buffer</string>
 </resources>
