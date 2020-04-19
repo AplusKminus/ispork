@@ -90,6 +90,7 @@ class AmountInputView(
 
   var positiveFlowString: String? = null
   var negativeFlowString: String? = null
+  var allowNegative: Boolean = true
 
   init {
     this.setOnClickListener {
@@ -105,6 +106,10 @@ class AmountInputView(
       bundle.putString(
         "negative_flow_string",
         negativeFlowString
+      )
+      bundle.putBoolean(
+        "allow_negative",
+        allowNegative
       )
       dialog = AmountInputDialog()
       dialog.dialogResultListener = {

@@ -3,6 +3,8 @@ package app.pmsoft.ispork.view
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -29,6 +31,7 @@ class AmountInputDialog : DialogFragment() {
   private lateinit var backspaceButton: ImageButton
   private lateinit var negativeButton: Button
   private lateinit var positiveButton: Button
+  private var allowNegative: Boolean = true
 
   private var value: Long = 0
   private var fresh = true
@@ -96,6 +99,10 @@ class AmountInputDialog : DialogFragment() {
     negativeButton.text = arguments
       ?.getString("negative_flow_string")
       ?: view.context.resources.getString(R.string.outflow)
+    allowNegative = arguments
+      ?.getBoolean("allow_negative")
+      ?: true
+    negativeButton.visibility = if (allowNegative) VISIBLE else INVISIBLE
     updateView()
     builder.setView(view)
     return builder.create()
