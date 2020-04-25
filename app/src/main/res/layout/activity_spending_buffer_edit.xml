@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_category_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:hint="@string/pick_category"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/spending_buffer_category_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:focusable="false"
+      android:focusableInTouchMode="false"
+      android:onClick="selectCategory"
+      tools:text="" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <RadioGroup
+    android:id="@+id/spending_buffer_priority_radio_group"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="3"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/spending_buffer_priority_layout"
+    app:layout_constraintTop_toTopOf=" @+id/spending_buffer_priority_layout"
+    app:layout_constraintBottom_toBottomOf="@+id/spending_buffer_priority_layout">
+
+    <com.google.android.material.textview.MaterialTextView
+      android:id="@+id/spending_buffer_priority_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/priority" />
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+      android:id="@+id/spending_buffer_priority_need_button"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginStart="8dp"
+      android:text="@string/priority_need" />
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+      android:id="@+id/spending_buffer_priority_want_button"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginStart="8dp"
+      android:text="@string/priority_want" />
+
+  </RadioGroup>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_priority_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:hint="@string/level"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="1"
+    app:layout_constraintStart_toEndOf="@id/spending_buffer_priority_radio_group"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/spending_buffer_category_layout">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/spending_buffer_priority_number_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="number"
+      tools:text="1" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_min_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:hint="@string/min"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/spending_buffer_max_layout"
+    app:layout_constraintTop_toBottomOf="@+id/spending_buffer_priority_layout">
+
+    <app.pmsoft.ispork.view.AmountInputView
+      android:id="@+id/spending_buffer_min_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:ems="10"
+      android:focusable="false"
+      android:inputType="textPersonName"
+      tools:text="0,00 €" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_max_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:hint="@string/max"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="0.5"
+    app:layout_constraintStart_toEndOf="@+id/spending_buffer_min_layout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/spending_buffer_min_layout">
+
+    <app.pmsoft.ispork.view.AmountInputView
+      android:id="@+id/spending_buffer_max_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:ems="10"
+      android:focusable="false"
+      android:inputType="textPersonName"
+      tools:text="0,00 €" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_rate_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:hint="@string/spending_buffer_rate"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="0.3"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/spending_buffer_n_layout"
+    app:layout_constraintTop_toTopOf="@+id/spending_buffer_unit_layout"
+    app:layout_constraintBottom_toBottomOf="@id/spending_buffer_unit_layout">
+
+    <app.pmsoft.ispork.view.AmountInputView
+      android:id="@+id/spending_buffer_rate_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:cursorVisible="false"
+      android:ems="5"
+      android:focusable="false"
+      android:inputType="textPersonName"
+      tools:text="0,00 €" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_n_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:hint="@string/per"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintHorizontal_weight="0.2"
+    app:layout_constraintStart_toEndOf="@id/spending_buffer_rate_layout"
+    app:layout_constraintEnd_toStartOf="@+id/spending_buffer_unit_layout"
+    app:layout_constraintTop_toTopOf="@id/spending_buffer_unit_layout"
+    app:layout_constraintBottom_toBottomOf="@id/spending_buffer_unit_layout">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/spending_buffer_n_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="number"
+      tools:text="1" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_unit_layout"
+    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/spending_buffer_min_layout"
+    app:layout_constraintStart_toStartOf="@+id/spending_buffer_max_layout"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:hint="@string/interval_unit"
+    android:labelFor="@+id/spending_buffer_unit_field">
+
+    <app.pmsoft.ispork.util.IntervalUnitField
+      android:id="@+id/spending_buffer_unit_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:clickable="false"
+      android:cursorVisible="false"
+      tools:text="Month" />
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/spending_buffer_edit_notes_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:hint="@string/notes"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/spending_buffer_unit_layout"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/spending_buffer_edit_notes_field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
+      tools:text="Some notes about this buffer." />
+  </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

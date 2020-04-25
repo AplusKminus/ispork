@@ -55,3 +55,54 @@ open class SpendingBuffer(
     null
   )
 }
+
+@Parcelize
+class FullSpendingBuffer(
+
+  @Ignore
+  override var id: Long,
+
+  @Ignore
+  override var min: Long,
+
+  @Ignore
+  override var max: Long,
+
+  @Ignore
+  override var rate: Long,
+
+  @Ignore
+  override var intervalLength: Int,
+
+  @Ignore
+  override var intervalUnit: IntervalUnit?,
+
+  @Ignore
+  override var notes: String?,
+
+  @Relation(
+    entity = BudgetPot::class,
+    entityColumn = "id",
+    parentColumn = "budget_pot_id"
+  )
+  var budgetPot: FullBudgetPot?
+) : SpendingBuffer() {
+
+  @Ignore
+  constructor() : this(
+    0,
+    0,
+    0,
+    0,
+    1,
+    null,
+    null,
+    null
+  )
+
+  override var budgetPotId: Long?
+    get() = budgetPot?.id
+    set(value) {
+      super.budgetPotId = value
+    }
+}

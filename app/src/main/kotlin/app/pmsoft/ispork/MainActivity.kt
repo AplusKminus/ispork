@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.pmsoft.ispork.account.AccountListActivity
+import app.pmsoft.ispork.buffer.BufferEditActivity
 import app.pmsoft.ispork.category.CategoryListActivity
 import app.pmsoft.ispork.payee.PayeeListActivity
 import app.pmsoft.ispork.transaction.TransactionListActivity
@@ -44,6 +45,14 @@ class MainActivity : AppCompatActivity() {
     val intent = Intent(
       this,
       TransactionListActivity::class.java
+    )
+    startActivity(intent)
+  }
+
+  fun editBuffer(view: View) {
+    val intent = Intent(
+      this,
+      BufferEditActivity::class.java
     )
     startActivity(intent)
   }

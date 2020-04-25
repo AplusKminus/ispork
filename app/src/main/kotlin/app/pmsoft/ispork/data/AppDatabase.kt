@@ -45,6 +45,8 @@ abstract class AppDatabase : RoomDatabase() {
   abstract fun scheduledTransactionDao(): ScheduledTransactionDao
 
   abstract fun scheduledOccurrenceDao(): ScheduledOccurrenceDao
+
+  abstract fun spendingBufferDao(): SpendingBufferDao
 }
 
 @Singleton

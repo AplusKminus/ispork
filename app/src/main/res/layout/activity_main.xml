@@ -14,8 +14,7 @@
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
     android:onClick="viewAccounts"
-    android:text="@string/accounts"
-    tools:text="Accounts" />
+    android:text="@string/accounts" />
 
   <Button
     android:layout_width="wrap_content"
@@ -25,8 +24,7 @@
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
     android:onClick="viewCategories"
-    android:text="@string/categories"
-    tools:text="Categories" />
+    android:text="@string/categories" />
 
   <Button
     android:layout_width="wrap_content"
@@ -36,8 +34,7 @@
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
     android:onClick="viewPayees"
-    android:text="@string/payees"
-    tools:text="Payees" />
+    android:text="@string/payees" />
 
   <Button
     android:layout_width="wrap_content"
@@ -47,6 +44,15 @@
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
     android:onClick="viewTransactions"
-    android:text="@string/transactions"
-    tools:text="Payees" />
+    android:text="@string/transactions" />
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="24dp"
+    android:onClick="editBuffer"
+    android:text="@string/spending_buffer" />
 </LinearLayout>

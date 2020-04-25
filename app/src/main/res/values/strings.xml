@@ -113,4 +113,16 @@
   <string name="saving_goal_target_date">Target Date</string>
   <string name="saving_goal_rate_unit">Interval</string>
   <string name="spending_buffer">Spending Buffer</string>
+  <string name="pick_category">Pick a Category</string>
+  <string name="min">Minimum</string>
+  <string name="max">Maximum</string>
+  <string name="spending_buffer_rate">Rate</string>
+  <string name="interval_unit">Interval Unit</string>
+  <string name="per">per</string>
+  <string name="priority">Priority</string>
+  <string name="priority_need">Need</string>
+  <string name="priority_want">Want</string>
+  <string name="ok">Ok</string>
+  <string name="level">Level</string>
+  <string name="buffer_edit_activity_title">Edit Buffer</string>
 </resources>

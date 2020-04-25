@@ -25,6 +25,10 @@
       android:label=""
       android:theme="@style/AppTheme" />
     <activity
+      android:name=".buffer.BufferEditActivity"
+      android:label="@string/buffer_edit_activity_title"
+      android:theme="@style/AppTheme" />
+    <activity
       android:name=".account.AccountListActivity"
       android:label="@string/account_list_activity_title"
       android:theme="@style/AppTheme" />

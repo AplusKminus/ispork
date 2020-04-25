@@ -87,6 +87,7 @@
   <string name="title_activity_category_picking">Kategorie wählen</string>
   <string name="split">Aufteilen</string>
   <string name="pick_budget_pot">Budgettopf wählen</string>
+  <string name="pick_category">Kategorie wählen</string>
   <string name="category_split">Aufgeteilt</string>
   <string name="category">Kategorie</string>
   <string name="text_flow_arrow_description">Pfeil nach rechts</string>
@@ -113,4 +114,15 @@
   <string name="saving_goal_target_date">Zieldatum</string>
   <string name="saving_goal_rate_unit">Intervall</string>
   <string name="spending_buffer">Puffer</string>
+  <string name="min">Minimum</string>
+  <string name="max">Maximum</string>
+  <string name="spending_buffer_rate">Rate</string>
+  <string name="interval_unit">Zeiteinheit</string>
+  <string name="per">pro</string>
+  <string name="priority">Priorität</string>
+  <string name="priority_need">Notwendig</string>
+  <string name="priority_want">Gewünscht</string>
+  <string name="ok">Ok</string>
+  <string name="level">Stufe</string>
+  <string name="buffer_edit_activity_title">Puffer bearbeiten</string>
 </resources>

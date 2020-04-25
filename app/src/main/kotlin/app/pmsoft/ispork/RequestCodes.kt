@@ -15,5 +15,7 @@ class RequestCodes private constructor() {
     const val TRANSACTION_EDITING_REQUEST_CODE = 10
     const val SAVING_GOAL_CREATION_REQUEST_CODE = 11
     const val SAVING_GOAL_EDITING_REQUEST_CODE = 12
+    const val SPENDING_BUFFER_CREATION_REQUEST_CODE = 13
+    const val SPENDING_BUFFER_EDITING_REQUEST_CODE = 14
   }
 }
