@@ -32,6 +32,22 @@
     <item quantity="one">Die ausgewählte Transaktion wird unwiderruflich gelöscht.</item>
     <item quantity="other">Die %d ausgewählten Transaktionen werden unwiderruflich gelöscht.</item>
   </plurals>
+  <plurals name="day">
+    <item quantity="one">Tag</item>
+    <item quantity="other">Tage</item>
+  </plurals>
+  <plurals name="week">
+    <item quantity="one">Woche</item>
+    <item quantity="other">Wochen</item>
+  </plurals>
+  <plurals name="month">
+    <item quantity="one">Monat</item>
+    <item quantity="other">Monate</item>
+  </plurals>
+  <plurals name="year">
+    <item quantity="one">Jahr</item>
+    <item quantity="other">Jahre</item>
+  </plurals>
   <string name="app_name">ImprovedSpork</string>
   <string name="categories">Kategorien</string>
   <string name="category_list_activity_title">Kategorien</string>

@@ -31,6 +31,22 @@
     <item quantity="one">The selected transaction will be permanently deleted.</item>
     <item quantity="other">The %d selected transactions will be permanently deleted.</item>
   </plurals>
+  <plurals name="day">
+    <item quantity="one">Day</item>
+    <item quantity="other">Days</item>
+  </plurals>
+  <plurals name="week">
+    <item quantity="one">Week</item>
+    <item quantity="other">Weeks</item>
+  </plurals>
+  <plurals name="month">
+    <item quantity="one">Month</item>
+    <item quantity="other">Months</item>
+  </plurals>
+  <plurals name="year">
+    <item quantity="one">Year</item>
+    <item quantity="other">Years</item>
+  </plurals>
   <string name="a_or_b" formatted="true" translatable="false">%s / %s</string>
   <string name="app_name">ImprovedSpork</string>
   <string name="category_list_activity_title">Categories</string>
