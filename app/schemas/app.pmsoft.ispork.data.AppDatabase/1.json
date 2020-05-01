@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce8a061b3a26ecfbfcfb34f3a34d3b6c",
+    "identityHash": "227bbb08add91fd7085981b77a3a64fd",
     "entities": [
       {
         "tableName": "participant",
@@ -495,7 +495,7 @@
       },
       {
         "tableName": "transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `entry_date` TEXT NOT NULL, `notes` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `entry_date` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -508,12 +508,6 @@
             "columnName": "entry_date",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "notes",
-            "columnName": "notes",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -780,7 +774,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce8a061b3a26ecfbfcfb34f3a34d3b6c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '227bbb08add91fd7085981b77a3a64fd')"
     ]
   }
 }

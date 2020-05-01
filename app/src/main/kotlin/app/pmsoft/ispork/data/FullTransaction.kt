@@ -13,8 +13,6 @@ class FullTransaction(
   override var id: Long,
   @Ignore
   override var entryDate: Date,
-  @Ignore
-  override var notes: String?,
   @Relation(
     parentColumn = "id",
     entityColumn = "transaction_id",
@@ -27,7 +25,6 @@ class FullTransaction(
   constructor() : this(
     0,
     Date(),
-    null,
     emptyList()
   )
 

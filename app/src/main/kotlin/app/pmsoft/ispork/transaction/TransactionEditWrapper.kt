@@ -1,7 +1,6 @@
 package app.pmsoft.ispork.transaction
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import app.pmsoft.ispork.data.FullSubTransaction
 import app.pmsoft.ispork.data.FullTransaction
 import app.pmsoft.ispork.data.Participant
@@ -14,9 +13,6 @@ class TransactionEditWrapper(
 
   val entryDateData = NonNullMutableLiveData(originalData.entryDate)
   var entryDate: Date by entryDateData
-
-  val notesData = MutableLiveData(originalData.notes)
-  var notes: String? by notesData
 
   private val _subTransactionsData: NonNullMutableLiveData<List<SubTransactionEditWrapper>> = NonNullMutableLiveData(emptyList())
   val subTransactionsData: NonNullLiveData<List<SubTransactionEditWrapper>> = _subTransactionsData.asImmutable()
@@ -125,7 +121,6 @@ class TransactionEditWrapper(
     return FullTransaction(
       originalData.id,
       entryDate,
-      notes,
       subTransactions.map { it.extractSubTransaction() }
     )
   }

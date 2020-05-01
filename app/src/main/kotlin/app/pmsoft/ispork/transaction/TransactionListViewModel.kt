@@ -46,8 +46,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
     } else {
       transactionDao.update(
         element.id,
-        element.entryDate,
-        element.notes
+        element.entryDate
       )
     }
     element.subTransactions.forEach {

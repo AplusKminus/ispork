@@ -42,12 +42,6 @@ class TransactionListViewHolder(
     get() = layout
 
   override fun updateViewFromData(e: FullTransaction) {
-    if (e.notes.isNullOrBlank()) {
-      notesLabel.visibility = View.GONE
-    } else {
-      notesLabel.text = e.notes
-      notesLabel.visibility = View.VISIBLE
-    }
     val transferSum = e.getInternalSum()
     val externalSum = e.getExternalSum()
 

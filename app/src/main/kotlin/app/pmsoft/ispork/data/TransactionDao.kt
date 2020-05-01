@@ -17,11 +17,10 @@ interface TransactionDao {
   @androidx.room.Transaction
   fun findById(id: Long): FullTransaction?
 
-  @Query("UPDATE `transaction` SET entry_date = :entryDate, notes = :notes WHERE id IS :id")
+  @Query("UPDATE `transaction` SET entry_date = :entryDate WHERE id IS :id")
   fun update(
     id: Long,
-    entryDate: Date,
-    notes: String?
+    entryDate: Date
   )
 
   @Insert

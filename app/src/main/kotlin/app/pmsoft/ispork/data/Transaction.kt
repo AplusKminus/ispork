@@ -14,16 +14,12 @@ open class Transaction(
 
   @ColumnInfo(name = "entry_date")
   @TypeConverters(TimestampConverter::class)
-  open var entryDate: Date,
-
-  @ColumnInfo(name = "notes")
-  open var notes: String?
+  open var entryDate: Date
 ) : ISporkEntry {
 
   @Ignore
   constructor() : this(
     0,
-    Date(),
-    null
+    Date()
   )
 }

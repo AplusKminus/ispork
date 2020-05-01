@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +33,6 @@ class TransactionEditActivity : AppCompatActivity(),
   private lateinit var detailsAdapter: SubTransactionsListAdapter
   private lateinit var detailsViewManager: RecyclerView.LayoutManager
 
-  private lateinit var notesField: EditText
   private lateinit var entryDateView: TextView
   private lateinit var detailsView: RecyclerView
   private lateinit var participantsButton: Button
@@ -81,8 +79,6 @@ class TransactionEditActivity : AppCompatActivity(),
     detailsView.setHasFixedSize(true)
     detailsView.layoutManager = detailsViewManager
     detailsView.adapter = detailsAdapter
-
-    notesField = findViewById(R.id.transaction_edit_notes_field)
 
     entryDateView = findViewById(R.id.transaction_edit_date_field)
 
@@ -173,13 +169,6 @@ class TransactionEditActivity : AppCompatActivity(),
   private fun updateViewFromData() {
     val entryDateString = DateHandler.format(data.entryDate)
     entryDateView.text = entryDateString
-    notesField.text.clear()
-    if (data.notes != null) {
-      notesField.text.insert(
-        0,
-        data.notes
-      )
-    }
   }
 
   override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -206,7 +195,6 @@ class TransactionEditActivity : AppCompatActivity(),
   }
 
   private fun persistInputs() {
-    data.notes = notesField.text.toString().trim().takeIf { it.isNotEmpty() }
     for (index in data.subTransactions.indices) {
       (detailsView.findViewHolderForAdapterPosition(index) as? SubTransactionsListAdapter.ViewHolder)
         ?.persistInputs()
