@@ -36,7 +36,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
-      app:layout_constraintBottom_toTopOf="@+id/textView"
+      app:layout_constraintBottom_toTopOf="@+id/sub_transaction_booking_date_label"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:srcCompat="@drawable/ic_account_white_24dp"
@@ -58,7 +58,7 @@
       tools:text="Credit Card" />
 
     <TextView
-      android:id="@+id/textView"
+      android:id="@+id/sub_transaction_booking_date_label"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
@@ -115,7 +115,7 @@
       app:layout_constraintTop_toTopOf="@+id/sub_transaction_date_field" />
 
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/sub_transaction_category_layout"
+      android:id="@+id/sub_transaction_budget_pot_layout"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
@@ -123,11 +123,11 @@
       android:layout_marginStart="8dp"
       android:hint="@string/pick_budget_pot"
       app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_category_split_button"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_budget_pot_split_button"
       app:layout_constraintStart_toStartOf="parent">
 
       <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sub_transaction_category_field"
+        android:id="@+id/sub_transaction_budget_pot_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cursorVisible="false"
@@ -136,7 +136,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-      android:id="@+id/sub_transaction_category_split_button"
+      android:id="@+id/sub_transaction_budget_pot_split_button"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
@@ -144,15 +144,16 @@
       android:layout_marginTop="8dp"
       android:text="@string/split"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/sub_transaction_category_layout"
-      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_category_layout" />
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_budget_pot_layout"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_budget_pot_layout" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/sub_transaction_category_list_view"
+    android:id="@+id/sub_transaction_budget_pot_list_view"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 </LinearLayout>

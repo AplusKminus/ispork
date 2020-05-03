@@ -31,7 +31,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:onClick="pickEntryDate"
     android:textAlignment="center"
     android:textSize="24sp"
@@ -40,17 +40,6 @@
     app:layout_constraintTop_toBottomOf="@+id/transaction_edit_date_label"
     tools:text="2019-08-25" />
 
-  <Button
-    android:id="@+id/transaction_edit_pick_participants_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:onClick="pickParticipants"
-    android:text="@string/pick_participants"
-    app:layout_constraintBottom_toBottomOf="@+id/transaction_edit_date_field"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="@+id/transaction_edit_guideline_1"
-    app:layout_constraintTop_toTopOf="@+id/transaction_edit_date_field" />
-
   <View
     android:id="@+id/transaction_edit_divider_1"
     style="@style/Divider.Horizontal"
@@ -58,11 +47,34 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/transaction_edit_date_field" />
 
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/transaction_edit_sub_transactions_view"
+  <!-- This allows to place the pick participants button as a "footer" below the list, but scrolling with the content
+       instead of being fixed in place. This design causes the nested RecyclerView to layout all contained views
+       immediately, so do not use this construct for long lists. -->
+  <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_divider_1" />
+    app:layout_constraintTop_toBottomOf="@+id/transaction_edit_divider_1">
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/transaction_edit_sub_transactions_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/transaction_edit_pick_participants_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="pickParticipants"
+        android:text="@string/pick_participants" />
+    </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

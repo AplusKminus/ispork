@@ -38,13 +38,13 @@ class SubTransactionsListAdapter(
     private val amountField: AmountInputView = view.findViewById(R.id.sub_transaction_amount_field)
     private val notesField: EditText = view.findViewById(R.id.sub_transaction_notes_field)
     private val dateSwitch: Switch = view.findViewById(R.id.sub_transaction_booking_date_switch)
-    private val categoryLayout: TextInputLayout = view.findViewById(R.id.sub_transaction_category_layout)
-    private val categoryField: EditText = view.findViewById(R.id.sub_transaction_category_field)
-    private val splitButton: Button = view.findViewById(R.id.sub_transaction_category_split_button)
+    private val categoryLayout: TextInputLayout = view.findViewById(R.id.sub_transaction_budget_pot_layout)
+    private val categoryField: EditText = view.findViewById(R.id.sub_transaction_budget_pot_field)
+    private val splitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
     private val annotationsAdapter: BudgetPotAnnotationListAdapter = BudgetPotAnnotationListAdapter(this)
-    private val annotationsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_category_list_view).also {
+    private val annotationsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_budget_pot_list_view).also {
       it.layoutManager = LinearLayoutManager(view.context)
       it.adapter = annotationsAdapter
     }
