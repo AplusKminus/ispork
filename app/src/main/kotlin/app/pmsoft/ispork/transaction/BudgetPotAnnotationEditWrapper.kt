@@ -10,8 +10,8 @@ import app.pmsoft.ispork.util.getValue
 import app.pmsoft.ispork.util.setValue
 
 class BudgetPotAnnotationEditWrapper(
-  val subTransactionEditWrapper: SubTransactionEditWrapper,
-  val originalData: FullBudgetPotAnnotation
+  private val subTransactionEditWrapper: SubTransactionEditWrapper,
+  private val originalData: FullBudgetPotAnnotation
 ) {
 
   val amountData = ZeroIsNullLongLiveData(originalData.amount)
@@ -20,17 +20,17 @@ class BudgetPotAnnotationEditWrapper(
   val budgetPotData = MutableLiveData(originalData.budgetPot)
   var budgetPot: FullBudgetPot? by budgetPotData
 
-  val notesData = MutableLiveData(originalData.notes)
+  private val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
-  val participantData: LiveData<Participant> = subTransactionEditWrapper.participantData
   val participant: Participant by subTransactionEditWrapper.participantData
 
   private val _suggestedAmount = ZeroIsNullLongLiveData()
   val suggestedAmountData: LiveData<Long?> = _suggestedAmount
-  val suggestedAmount: Long? by suggestedAmountData
+  private val suggestedAmount: Long? by suggestedAmountData
 
   init {
+    amountData.observeForever { subTransactionEditWrapper.updateSuggestedAmount() }
     updateSuggestedAmount()
   }
 
@@ -46,13 +46,15 @@ class BudgetPotAnnotationEditWrapper(
   }
 
   private fun getSuggestedAmountThroughSubTransaction(): Long? {
-    val amountToBaseSuggestionOn = subTransactionEditWrapper.amount
-      ?: subTransactionEditWrapper.getSuggestedAmountThroughTransaction()
-      ?: return null
-    return amountToBaseSuggestionOn - subTransactionEditWrapper.budgetPotAnnotations
-      .filter { it !== this }
-      .map { it.amount ?: return null }
-      .sum()
+    // base the suggestion on either amount or suggestion from the sub transaction
+    return (subTransactionEditWrapper.amount ?: subTransactionEditWrapper.suggestedAmount)
+      // if a suggestion is possible, subtract the sum of the other annotations
+      ?.minus(
+        subTransactionEditWrapper.getSiblingAnnotations(this)
+          // if a sibling annotation does not have an amount, no suggestion is possible -> abort with null
+          .map { it.amount ?: return null }
+          .sum()
+      )
   }
 
   fun delete() {

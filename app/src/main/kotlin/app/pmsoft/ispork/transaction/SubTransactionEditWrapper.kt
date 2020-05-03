@@ -13,7 +13,7 @@ import app.pmsoft.ispork.util.setValue
 import java.util.*
 
 class SubTransactionEditWrapper(
-  val transactionEditWrapper: TransactionEditWrapper,
+  private val transactionEditWrapper: TransactionEditWrapper,
   val originalData: FullSubTransaction
 ) {
 
@@ -23,10 +23,10 @@ class SubTransactionEditWrapper(
   val participantData = NonNullMutableLiveData(originalData.participant)
   var participant: Participant by participantData
 
-  val bookingDateData = MutableLiveData(originalData.bookingDate)
+  private val bookingDateData = MutableLiveData(originalData.bookingDate)
   var bookingDate: Date? by bookingDateData
 
-  val notesData = MutableLiveData(originalData.notes)
+  private val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
   val budgetPotAnnotationsData = NonNullMutableLiveData<List<BudgetPotAnnotationEditWrapper>>(emptyList())
@@ -52,70 +52,38 @@ class SubTransactionEditWrapper(
     updateSuggestedAmount()
   }
 
-  private fun updateSuggestedAmount() {
-    updateSuggestedAmountThroughCategories()
-    updateSuggestedAmountThroughTransaction()
-  }
-
-  fun updateSuggestedAmountThroughCategories() {
-    val newValue = if (amount == null) {
-      getSuggestedAmountThroughCategories()
-    } else {
-      null
+  fun updateSuggestedAmount() {
+    if (amount != null) {
+      return
+    }
+    val value1 = getSuggestedAmountThroughBudgetPots()
+    val value2 = getSuggestedAmountThroughTransaction()
+    var newValue = value1 ?: value2
+    // if value1 and value2 do not agree, do not set a suggestion
+    if (newValue != value2 ?: value1) {
+      newValue = null
     }
     if (newValue != suggestedAmount) {
       _suggestedAmountData.value = newValue
-    }
-  }
-
-  fun updateSuggestedAmountThroughTransaction() {
-    val newValue = if (amount == null) {
-      getSuggestedAmountThroughTransaction()
-    } else {
-      null
-    }
-    if (newValue != suggestedAmount) {
-      _suggestedAmountData.value = newValue
+      budgetPotAnnotations.forEach(BudgetPotAnnotationEditWrapper::updateSuggestedAmount)
     }
   }
 
 
-  fun getSuggestedAmountThroughTransaction(): Long? {
-    if (transactionEditWrapper.subTransactions.all { it.participant.type.internal }) {
-      val noAmount = transactionEditWrapper.subTransactions.filter { it.amount == null }
-      if (noAmount.size == 1 && noAmount[0] === this) {
-        return -transactionEditWrapper.subTransactions.mapNotNull { it.amount }.sum()
-      }
-      return null
-    } else {
-      val amountToBaseSuggestionOn = transactionEditWrapper.amount
-        ?: if (this.participant.type.internal) {
-          transactionEditWrapper.getSuggestedAmountThroughExternalSubTransactions()
-        } else {
-          transactionEditWrapper.getSuggestedAmountThroughInternalSubTransactions()
-        }
-        ?: return null
-      // the suggestion value depends on siblings
-
-      return if (participant.type.internal) {
-        amountToBaseSuggestionOn - transactionEditWrapper.getSiblings(this)
-          .filter { it.participant.type.internal }
-          .map { it.amount ?: it.suggestedAmount ?: return null }
-          .sum()
-      } else {
-        // there can only be one external sub transaction, therefore the total amount is the negated suggested value
-        // it is negated because a negative value in the transaction means a positive value for the external participant
-        -amountToBaseSuggestionOn
-      }
-    }
-  }
+  private fun getSuggestedAmountThroughTransaction(): Long? =
+    transactionEditWrapper.getSiblingSubTransactions(this)
+      // if any other sub transaction does not have an amount, no suggestion is possible
+      .map { it.amount ?: it.getSuggestedAmountThroughBudgetPots() ?: return null }
+      .sum()
+      // this sub transaction must compensate all others, therefore invert the sum
+      .unaryMinus()
 
   /**
    * Gets the amount inferred for this sub transaction by the values entered in its budgetPot annotations.
    *
-   * @return `null` when no inferred value can be calculated.
+   * @return `null` when any of the budget pot annotations does not have an amount.
    */
-  fun getSuggestedAmountThroughCategories(): Long? =
+  private fun getSuggestedAmountThroughBudgetPots(): Long? =
     budgetPotAnnotations
       .takeUnless { it.isEmpty() }
       ?.map { it.amount ?: return null }
@@ -156,6 +124,10 @@ class SubTransactionEditWrapper(
       notes,
       actualBudgetPotAnnotations
     )
+  }
+
+  fun getSiblingAnnotations(target: BudgetPotAnnotationEditWrapper): List<BudgetPotAnnotationEditWrapper> {
+    return budgetPotAnnotations - target
   }
 
   fun destroy() {
