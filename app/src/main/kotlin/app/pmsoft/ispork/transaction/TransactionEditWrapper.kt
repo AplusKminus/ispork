@@ -66,6 +66,9 @@ class TransactionEditWrapper(
           }
         ).also {
           addObserversToChild(it)
+          if (!it.participant.type.internal) {
+            it.addNewBudgetPotAnnotation()
+          }
         })
       }
     }

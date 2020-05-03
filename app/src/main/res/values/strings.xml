@@ -86,6 +86,7 @@
   <string name="accept">Accept</string>
   <string name="title_activity_category_picking">Pick a Category</string>
   <string name="split">Split</string>
+  <string name="add_split">Add Budget Pot</string>
   <string name="pick_budget_pot">Pick a Budget Pot</string>
   <string name="category_split">Split</string>
   <string name="category">Category</string>

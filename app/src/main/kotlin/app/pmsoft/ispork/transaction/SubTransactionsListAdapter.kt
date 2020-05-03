@@ -1,7 +1,6 @@
 package app.pmsoft.ispork.transaction
 
 import android.app.DatePickerDialog
-import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
-import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.participant.ParticipantTypeIcon
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.view.AmountInputView
-import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 class SubTransactionsListAdapter(
@@ -37,10 +34,9 @@ class SubTransactionsListAdapter(
     private val dateField: TextView = view.findViewById(R.id.sub_transaction_date_field)
     private val amountField: AmountInputView = view.findViewById(R.id.sub_transaction_amount_field)
     private val notesField: EditText = view.findViewById(R.id.sub_transaction_notes_field)
+    private val notesLayout: ViewGroup = view.findViewById(R.id.sub_transaction_notes_layout)
     private val dateSwitch: Switch = view.findViewById(R.id.sub_transaction_booking_date_switch)
-    private val categoryLayout: TextInputLayout = view.findViewById(R.id.sub_transaction_budget_pot_layout)
-    private val categoryField: EditText = view.findViewById(R.id.sub_transaction_budget_pot_field)
-    private val splitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
+    private val addSplitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
     private val annotationsAdapter: BudgetPotAnnotationListAdapter = BudgetPotAnnotationListAdapter(this)
@@ -51,15 +47,7 @@ class SubTransactionsListAdapter(
     private lateinit var data: SubTransactionEditWrapper
     private val budgetPotAnnotationsObserver: Observer<List<BudgetPotAnnotationEditWrapper>> = Observer {
       annotationsAdapter.setData(it)
-      if (it.size == 1) {
-        it[0].budgetPotData.observeForever(firstBudgetPotObserver)
-      } else if (it.isNotEmpty()) {
-        it[0].budgetPotData.removeObserver(firstBudgetPotObserver)
-      }
       updateViewFromData()
-    }
-    private val firstBudgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
-      categoryField.text = budgetPot?.category?.name?.let { SpannableStringBuilder(it) }
     }
 
     init {
@@ -68,14 +56,9 @@ class SubTransactionsListAdapter(
           data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
         }
       }
-      splitButton.setOnClickListener {
-        while (data.budgetPotAnnotations.size < 2) {
-          data.addNewBudgetPotAnnotation()
-        }
+      addSplitButton.setOnClickListener {
+        data.addNewBudgetPotAnnotation()
         updateViewFromData()
-      }
-      categoryField.setOnClickListener {
-        startCategoryPicking(null)
       }
       dateSwitch.setOnCheckedChangeListener { _, isChecked ->
         data.bookingDate = if (isChecked) {
@@ -112,9 +95,6 @@ class SubTransactionsListAdapter(
       this.data = subTransaction
       annotationsAdapter.setData(subTransaction.budgetPotAnnotations)
       this.data.budgetPotAnnotationsData.observeForever(budgetPotAnnotationsObserver)
-      if (data.budgetPotAnnotations.size == 1) {
-        data.budgetPotAnnotations[0].budgetPotData.observeForever(firstBudgetPotObserver)
-      }
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
       updateViewFromData()
@@ -136,7 +116,6 @@ class SubTransactionsListAdapter(
           data.participant.name
         )
       }
-
       participantTypeIcon.setType(data.participant.type)
       notesField.text.clear()
       if (data.notes != null) {
@@ -148,30 +127,14 @@ class SubTransactionsListAdapter(
       participantField.text = data.participant.name
       dateField.text = DateHandler.format(data.bookingDate)
       dateSwitch.isChecked = data.bookingDate != null
-      when {
-        data.participant.type.internal -> {
-          categoryLayout.visibility = View.GONE
-          categoryField.visibility = View.GONE
-          splitButton.visibility = View.GONE
-          annotationsView.visibility = View.GONE
-        }
-        data.budgetPotAnnotations.size <= 1 -> {
-          categoryLayout.visibility = View.VISIBLE
-          categoryField.visibility = View.VISIBLE
-          categoryField.text = data.budgetPotAnnotations
-            .takeIf { it.size == 1 }
-            ?.let { it[0].budgetPot?.category }
-            ?.name
-            ?.let { SpannableStringBuilder(it) }
-          splitButton.visibility = View.VISIBLE
-          annotationsView.visibility = View.GONE
-        }
-        else -> {
-          categoryLayout.visibility = View.GONE
-          categoryField.visibility = View.GONE
-          splitButton.visibility = View.GONE
-          annotationsView.visibility = View.VISIBLE
-        }
+      if (data.participant.type.internal) {
+        notesLayout.visibility = View.VISIBLE
+        annotationsView.visibility = View.GONE
+        addSplitButton.visibility = View.GONE
+      } else {
+        notesLayout.visibility = View.GONE
+        annotationsView.visibility = View.VISIBLE
+        addSplitButton.visibility = View.VISIBLE
       }
     }
 
@@ -187,7 +150,11 @@ class SubTransactionsListAdapter(
     }
 
     fun persistInputs() {
-      data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
+      if (data.participant.type.internal) {
+        data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
+      } else {
+        data.notes = data.budgetPotAnnotations.mapNotNull { it.notes }.joinToString(", ")
+      }
       for (index in data.budgetPotAnnotations.indices) {
         (annotationsView.findViewHolderForAdapterPosition(index) as? BudgetPotAnnotationListAdapter.ViewHolder)
           ?.persistInputs()

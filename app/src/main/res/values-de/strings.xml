@@ -86,6 +86,7 @@
   <string name="accept">Annehmen</string>
   <string name="title_activity_category_picking">Kategorie wählen</string>
   <string name="split">Aufteilen</string>
+  <string name="add_split">Weiteren Budgettopf hinzufügen</string>
   <string name="pick_budget_pot">Budgettopf wählen</string>
   <string name="pick_category">Kategorie wählen</string>
   <string name="category_split">Aufgeteilt</string>

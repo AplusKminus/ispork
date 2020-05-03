@@ -10,7 +10,7 @@ import app.pmsoft.ispork.util.getValue
 import app.pmsoft.ispork.util.setValue
 
 class BudgetPotAnnotationEditWrapper(
-  private val subTransactionEditWrapper: SubTransactionEditWrapper,
+  val subTransactionEditWrapper: SubTransactionEditWrapper,
   private val originalData: FullBudgetPotAnnotation
 ) {
 
@@ -59,10 +59,6 @@ class BudgetPotAnnotationEditWrapper(
 
   fun delete() {
     subTransactionEditWrapper.deleteBudgetPotAnnotation(this)
-  }
-
-  fun addSibling() {
-    subTransactionEditWrapper.addNewBudgetPotAnnotation()
   }
 
   fun extractBudgetPotAnnotation(): FullBudgetPotAnnotation {

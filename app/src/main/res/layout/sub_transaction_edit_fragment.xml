@@ -11,14 +11,15 @@
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/sub_transaction_amount_layout"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
       android:layout_marginEnd="8dp"
       android:layout_marginStart="8dp"
       android:hint="@string/amount"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_participant_field">
 
       <app.pmsoft.ispork.view.AmountInputView
         android:id="@+id/sub_transaction_amount_field"
@@ -27,7 +28,6 @@
         android:inputType="textPersonName"
         android:cursorVisible="false"
         android:focusable="false"
-        android:ems="10"
         tools:text="0,00 €" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,23 +36,22 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
-      app:layout_constraintBottom_toTopOf="@+id/sub_transaction_booking_date_label"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_participant_field"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_participant_field"
       app:srcCompat="@drawable/ic_account_white_24dp"
       tools:ignore="ContentDescription" />
 
     <TextView
       android:id="@+id/sub_transaction_participant_field"
       android:layout_width="0dp"
-      android:layout_height="0dp"
+      android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:layout_marginEnd="@dimen/horizontal_page_margin"
       android:gravity="center_vertical"
       android:textSize="24sp"
-      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_amount_layout"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_amount_layout"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/sub_transaction_participant_type_icon"
       app:layout_constraintTop_toTopOf="parent"
       tools:text="Credit Card" />
@@ -81,26 +80,6 @@
       app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_layout"
       tools:text="2019-03-27" />
 
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/sub_transaction_notes_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginStart="8dp"
-      android:hint="@string/notes"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/sub_transaction_date_field"
-      app:layout_constraintEnd_toEndOf="parent">
-
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sub_transaction_notes_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
-        tools:text="Supermarket" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Switch
       android:id="@+id/sub_transaction_booking_date_switch"
       android:layout_width="wrap_content"
@@ -115,37 +94,26 @@
       app:layout_constraintTop_toTopOf="@+id/sub_transaction_date_field" />
 
     <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/sub_transaction_budget_pot_layout"
-      android:layout_width="0dp"
+      android:id="@+id/sub_transaction_notes_layout"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:layout_marginEnd="16dp"
-      android:layout_marginStart="8dp"
-      android:hint="@string/pick_budget_pot"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_notes_layout"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_budget_pot_split_button"
-      app:layout_constraintStart_toStartOf="parent">
-
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sub_transaction_budget_pot_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cursorVisible="false"
-        android:focusable="false"
-        tools:text="" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-      android:id="@+id/sub_transaction_budget_pot_split_button"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
       android:layout_marginEnd="8dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/split"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/sub_transaction_budget_pot_layout"
-      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_budget_pot_layout" />
+      android:layout_marginStart="8dp"
+      android:hint="@string/notes"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_booking_date_switch"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/sub_transaction_notes_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
+        tools:text="Supermarket" />
+    </com.google.android.material.textfield.TextInputLayout>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -156,4 +124,12 @@
     android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
+
+  <Button
+    android:id="@+id/sub_transaction_budget_pot_split_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="8dp"
+    android:text="@string/add_split" />
 </LinearLayout>

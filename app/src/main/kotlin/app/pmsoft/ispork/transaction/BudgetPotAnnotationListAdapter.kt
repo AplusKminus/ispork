@@ -22,11 +22,10 @@ class BudgetPotAnnotationListAdapter(
     view: View,
     private val annotationHandler: BudgetPotAnnotationListHandler
   ) : RecyclerView.ViewHolder(view) {
-    private val budgetPotField: EditText = view.findViewById(R.id.budgetPot_annotation_edit_budgetPot_field)
-    private val amountField: AmountInputView = view.findViewById(R.id.budgetPot_annotation_edit_amount_field)
-    private val notesField: EditText = view.findViewById(R.id.budgetPot_annotation_edit_notes_field)
-    private val deleteIcon: ImageView = view.findViewById(R.id.budgetPot_annotation_edit_delete_icon)
-    private val addIcon: ImageView = view.findViewById(R.id.budgetPot_annotation_edit_add_icon)
+    private val budgetPotField: EditText = view.findViewById(R.id.budget_pot_annotation_edit_budget_pot_field)
+    private val amountField: AmountInputView = view.findViewById(R.id.budget_pot_annotation_edit_amount_field)
+    private val notesField: EditText = view.findViewById(R.id.budget_pot_annotation_edit_notes_field)
+    private val deleteIcon: ImageView = view.findViewById(R.id.budget_pot_annotation_edit_delete_icon)
 
     private lateinit var data: BudgetPotAnnotationEditWrapper
     private val budgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
@@ -40,9 +39,6 @@ class BudgetPotAnnotationListAdapter(
       }
       deleteIcon.setOnClickListener {
         data.delete()
-      }
-      addIcon.setOnClickListener {
-        data.addSibling()
       }
       notesField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
         if (!hasFocus) {
@@ -63,6 +59,13 @@ class BudgetPotAnnotationListAdapter(
       this.data.budgetPotData.observeForever(budgetPotObserver)
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
+      annotation.subTransactionEditWrapper.budgetPotAnnotationsData.observeForever {
+        if (it.size == 1) {
+          deleteIcon.visibility = View.GONE
+        } else {
+          deleteIcon.visibility = View.VISIBLE
+        }
+      }
       updateViewFromData()
     }
 
@@ -72,8 +75,6 @@ class BudgetPotAnnotationListAdapter(
       } else {
         budgetPotField.text = null
       }
-      amountField.suggestedAmount = data.suggestedAmount
-      amountField.amount = data.amount
       amountField.positiveFlowString = itemView.context.resources.getString(
         R.string.payment_to,
         data.participant.name
@@ -89,7 +90,6 @@ class BudgetPotAnnotationListAdapter(
           data.notes
         )
       }
-      addIcon.visibility = if (last) View.VISIBLE else View.GONE
     }
 
     private fun constructName(fullBudgetPot: FullBudgetPot): String? {
