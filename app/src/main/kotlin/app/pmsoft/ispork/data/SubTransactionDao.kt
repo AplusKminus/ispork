@@ -9,10 +9,11 @@ import java.util.*
 @Dao
 interface SubTransactionDao {
 
-  @Query("UPDATE subTransaction SET amount = :amount, transaction_id = :transactionId, participant_id = :participantId, booking_date = :bookingDate, notes = :notes WHERE id IS :id")
+  @Query("UPDATE sub_transactions SET amount_in_booked_currency = :amountInBookedCurrency, amount_in_base_currency = :amountInBaseCurrency, transaction_definition_id = :transactionId, participant_id = :participantId, booking_date = :bookingDate, notes = :notes WHERE id IS :id")
   fun update(
     id: Long,
-    amount: Long,
+    amountInBookedCurrency: Amount,
+    amountInBaseCurrency: Amount,
     transactionId: Long,
     participantId: Long,
     bookingDate: Date?,
@@ -28,12 +29,12 @@ interface SubTransactionDao {
   @Delete
   fun delete(subTransaction: SubTransaction)
 
-  @Query("DELETE FROM subTransaction WHERE transaction_id = :transactionId AND id NOT IN (:usedIds)")
+  @Query("DELETE FROM sub_transactions WHERE transaction_definition_id = :transactionId AND id NOT IN (:usedIds)")
   fun deleteUnused(
     transactionId: Long,
     usedIds: List<Long>
   )
 
-  @Query("DELETE FROM subTransaction WHERE id IS :id")
+  @Query("DELETE FROM sub_transactions WHERE id IS :id")
   fun deleteById(id: Long)
 }

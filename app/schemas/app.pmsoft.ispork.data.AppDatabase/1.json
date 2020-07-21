@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "227bbb08add91fd7085981b77a3a64fd",
+    "identityHash": "c5ad31c7fd1ad3bc40098ea4a843c175",
     "entities": [
       {
         "tableName": "participant",
@@ -160,8 +160,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "scheduledOccurrence",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scheduled_transaction_id` INTEGER NOT NULL, `start_date` TEXT, `end_date` TEXT, `notes_template` TEXT, `interval_unit` INTEGER, `offset` INTEGER, `workdays_only` INTEGER, FOREIGN KEY(`scheduled_transaction_id`) REFERENCES `scheduledTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "scheduledRhythm",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scheduled_transaction_id` INTEGER NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT, `interval_unit` INTEGER NOT NULL, `interval` INTEGER NOT NULL, `weekday_pattern` INTEGER NOT NULL, `day_offset` INTEGER NOT NULL, `offset_type` INTEGER NOT NULL, `wait_for_workday` INTEGER NOT NULL, FOREIGN KEY(`scheduled_transaction_id`) REFERENCES `scheduledTransaction`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -179,7 +179,7 @@
             "fieldPath": "startDate",
             "columnName": "start_date",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "endDate",
@@ -188,28 +188,40 @@
             "notNull": false
           },
           {
-            "fieldPath": "notesTemplate",
-            "columnName": "notes_template",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "cadence.timeUnit",
+            "fieldPath": "intervalUnit",
             "columnName": "interval_unit",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "cadence.offset",
-            "columnName": "offset",
+            "fieldPath": "interval",
+            "columnName": "interval",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "cadence.workdayOnly",
-            "columnName": "workdays_only",
+            "fieldPath": "weekdayPattern",
+            "columnName": "weekday_pattern",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayOffset",
+            "columnName": "day_offset",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetType",
+            "columnName": "offset_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waitForWorkday",
+            "columnName": "wait_for_workday",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -220,12 +232,12 @@
         },
         "indices": [
           {
-            "name": "index_scheduledOccurrence_scheduled_transaction_id",
+            "name": "index_scheduledRhythm_scheduled_transaction_id",
             "unique": false,
             "columnNames": [
               "scheduled_transaction_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_scheduledOccurrence_scheduled_transaction_id` ON `${TABLE_NAME}` (`scheduled_transaction_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scheduledRhythm_scheduled_transaction_id` ON `${TABLE_NAME}` (`scheduled_transaction_id`)"
           }
         ],
         "foreignKeys": [
@@ -774,7 +786,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '227bbb08add91fd7085981b77a3a64fd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c5ad31c7fd1ad3bc40098ea4a843c175')"
     ]
   }
 }

@@ -1,13 +1,17 @@
 package app.pmsoft.ispork.data
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * A category serves as an aggregator for [budget pots][BudgetPot].
+ *
+ * There is no limit to the number of budget pots that can be associated with one category.
+ */
 @Entity(
-  tableName = "category"
+  tableName = "categories"
 )
 @Parcelize
 class Category(
@@ -16,20 +20,11 @@ class Category(
   override var id: Long,
 
   @ColumnInfo(name = "name")
-  var name: String,
-
-  @ColumnInfo(name = "buffer_cap")
-  var bufferCap: Long,
-
-  @ColumnInfo(name = "buffer_rate")
-  var bufferRate: Long
-) : Parcelable,
-  ISporkEntry {
+  var name: String
+) : ISporkEntry {
 
   constructor() : this(
     0,
-    "",
-    0,
-    0
+    ""
   )
 }

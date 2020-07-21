@@ -14,25 +14,25 @@ import javax.inject.Singleton
     Category::class,
     BudgetPot::class,
     ScheduledTransaction::class,
-    ScheduledOccurrence::class,
-    SubTransactionTemplate::class,
-    BudgetPotAnnotationTemplate::class,
+    ScheduledRhythm::class,
     SpendingBuffer::class,
-    Transaction::class,
+    TransactionDefinition::class,
     SubTransaction::class,
     BudgetPotAnnotation::class,
-    SavingGoal::class],
+    SavingGoalSplit::class
+  ],
   version = 1
 )
 @TypeConverters(
   TimestampConverter::class,
-  IntervalUnit.Companion.Converter::class
+  Interval.Unit.Converter::class,
+  OffsetType.Converter::class
 )
 abstract class AppDatabase : RoomDatabase() {
 
   abstract fun categoryDao(): CategoryDao
 
-  abstract fun transactionDao(): TransactionDao
+  abstract fun transactionDao(): TransactionDefinitionDao
 
   abstract fun subTransactionDao(): SubTransactionDao
 
@@ -44,7 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
 
   abstract fun scheduledTransactionDao(): ScheduledTransactionDao
 
-  abstract fun scheduledOccurrenceDao(): ScheduledOccurrenceDao
+  abstract fun scheduledRhythmDao(): ScheduledRhythmDao
 
   abstract fun spendingBufferDao(): SpendingBufferDao
 }
