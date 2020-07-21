@@ -9,48 +9,48 @@ import app.pmsoft.ispork.data.*
 import app.pmsoft.ispork.util.AsyncDataLoader
 
 class TransactionListViewModel(application: Application) : AndroidViewModel(application),
-  ListViewModel<FullTransaction> {
+  ListViewModel<FullTransactionDefinition> {
 
   private val database: AppDatabase = provideDatabase(application)
-  private val transactionDao: TransactionDao = database.transactionDao()
+  private val transactionDefinitionDao: TransactionDefinitionDao = database.transactionDao()
   private val subTransactionDao: SubTransactionDao = database.subTransactionDao()
   private val categoryAnnotationDao: BudgetPotAnnotationDao = database.budgetPotAnnotationDao()
 
-  private val transactions: MutableLiveData<List<FullTransaction>> by lazy {
-    MutableLiveData<List<FullTransaction>>().also {
+  private val transactions: MutableLiveData<List<FullTransactionDefinition>> by lazy {
+    MutableLiveData<List<FullTransactionDefinition>>().also {
       AsyncDataLoader(
-        transactionDao::getAll,
+        transactionDefinitionDao::getBooked,
         it
       ).execute()
     }
   }
 
-  override val data: LiveData<List<FullTransaction>>
+  override val data: LiveData<List<FullTransactionDefinition>>
     get() = transactions
 
   private fun refresh() {
     AsyncDataLoader(
-      transactionDao::getAll,
+      transactionDefinitionDao::getAll,
       transactions
     ).execute()
   }
 
-  override fun delete(elements: List<FullTransaction>) {
-    transactionDao.delete(elements)
+  override fun delete(elements: List<FullTransactionDefinition>) {
+    transactionDefinitionDao.delete(elements)
     refresh()
   }
 
-  override fun persist(element: FullTransaction): Long {
+  override fun persist(element: FullTransactionDefinition): Long {
     if (element.id == 0L) {
-      element.id = transactionDao.insert(element)
+      element.id = transactionDefinitionDao.insert(element)
     } else {
-      transactionDao.update(
+      transactionDefinitionDao.update(
         element.id,
-        element.entryDate
+        element.booked
       )
     }
     element.subTransactions.forEach {
-      it.transactionId = element.id
+      it.transactionDefinitionId = element.id
       persistSubTransaction(it)
     }
     subTransactionDao.deleteUnused(
@@ -70,7 +70,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
       subTransactionDao.update(
         subTransaction.id,
         subTransaction.amount,
-        subTransaction.transactionId,
+        subTransaction.transactionDefinitionId,
         subTransaction.participantId,
         subTransaction.bookingDate,
         subTransaction.notes
@@ -93,7 +93,8 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
       categoryAnnotationDao.update(
         budgetPotAnnotation.id,
         budgetPotAnnotation.subTransactionId,
-        budgetPotAnnotation.amount,
+        budgetPotAnnotation.amountInTransaction,
+        budgetPotAnnotation.amountInBudget,
         budgetPotAnnotation.budgetPotId,
         budgetPotAnnotation.notes
       )

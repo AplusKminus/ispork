@@ -1,88 +1,41 @@
 package app.pmsoft.ispork.transaction
 
+import androidx.lifecycle.LiveData
+import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullSubTransaction
-import app.pmsoft.ispork.data.FullTransaction
+import app.pmsoft.ispork.data.FullTransactionDefinition
 import app.pmsoft.ispork.data.Participant
 import app.pmsoft.ispork.util.NonNullLiveData
 import app.pmsoft.ispork.util.NonNullMutableLiveData
-import app.pmsoft.ispork.util.setValue
 import java.util.*
 
 /**
- * This wrapper exists to update data across the "tree" that is a [app.pmsoft.ispork.data.Transaction].
+ * This wrapper exists to update data across the "tree" that is a [app.pmsoft.ispork.data.TransactionDefinition].
  */
 class TransactionEditWrapper(
-  val originalData: FullTransaction
-) {
+  originalData: FullTransactionDefinition
+) : AbstractTransactionEditWrapper<FullTransactionDefinition, FullSubTransaction, FullBudgetPotAnnotation>(originalData) {
 
   private val entryDateData = NonNullMutableLiveData(originalData.entryDate)
   var entryDate: Date by entryDateData
 
-  private val _subTransactionsData: NonNullMutableLiveData<List<SubTransactionEditWrapper>> = NonNullMutableLiveData(
-    emptyList()
-  )
-  val subTransactionsData: NonNullLiveData<List<SubTransactionEditWrapper>> = _subTransactionsData.asImmutable()
-  val subTransactions: List<SubTransactionEditWrapper> by _subTransactionsData
+  override val subTransactionsData: LiveData<List<SubTransactionEditWrapper>>
+    get() = super.subTransactionsData as NonNullLiveData<List<SubTransactionEditWrapper>>
 
-  init {
-    _subTransactionsData.value = originalData.subTransactions.map { fullSubTransaction ->
-      SubTransactionEditWrapper(
-        this,
-        fullSubTransaction
-      ).also {
-        addObserversToChild(it)
+  override fun createSubTransactionEditWrapper(fullSubTransaction: FullSubTransaction): AbstractSubTransactionEditWrapper<FullSubTransaction, FullBudgetPotAnnotation> {
+    return SubTransactionEditWrapper(this, fullSubTransaction)
+  }
+
+  override fun createNewSubTransactionForParticipant(participant: Participant): FullSubTransaction {
+    return FullSubTransaction(participant).also {
+      if (!participant.type.internal) {
+        it.bookingDate = entryDate
       }
     }
   }
 
-  /**
-   * Updates the suggestions across the entire tree.
-   */
-  fun updateSuggestions() {
-    subTransactions.forEach(SubTransactionEditWrapper::updateSuggestedAmount)
-  }
-
-  private fun addObserversToChild(child: SubTransactionEditWrapper) {
-    child.amountData.observeForever {
-      updateSuggestions()
-    }
-  }
-
-  fun createSubTransactionsFor(participants: List<Participant>) {
-    val newList = mutableListOf<SubTransactionEditWrapper>()
-    for (participant in participants) {
-      val existing = subTransactions.firstOrNull {
-        it.participant.id == participant.id
-      }
-      if (existing != null) {
-        newList.add(existing)
-      } else {
-        newList.add(SubTransactionEditWrapper(
-          this,
-          FullSubTransaction(participant).also {
-            if (!participant.type.internal) {
-              it.bookingDate = entryDate
-            }
-          }
-        ).also {
-          addObserversToChild(it)
-          if (!it.participant.type.internal) {
-            it.addNewBudgetPotAnnotation()
-          }
-        })
-      }
-    }
-    subTransactions.filter { !newList.contains(it) }.forEach { it.destroy() }
-    _subTransactionsData.value = newList
-    updateSuggestions()
-  }
-
-  fun getSiblingSubTransactions(subTransactionEditWrapper: SubTransactionEditWrapper): List<SubTransactionEditWrapper> {
-    return subTransactions - subTransactionEditWrapper
-  }
-
-  fun extractTransaction(): FullTransaction {
-    return FullTransaction(
+  override fun extractTransaction(): FullTransactionDefinition {
+    return FullTransactionDefinition(
       originalData.id,
       entryDate,
       subTransactions.map { it.extractSubTransaction() }

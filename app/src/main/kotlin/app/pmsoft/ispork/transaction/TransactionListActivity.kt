@@ -2,12 +2,12 @@ package app.pmsoft.ispork.transaction
 
 import androidx.lifecycle.ViewModelProvider
 import app.pmsoft.ispork.*
-import app.pmsoft.ispork.data.FullTransaction
+import app.pmsoft.ispork.data.FullTransactionDefinition
 
 class TransactionListActivity
-  : AbstractListActivity<FullTransaction, TransactionListViewHolder, TransactionListViewAdapter>() {
+  : AbstractListActivity<FullTransactionDefinition, TransactionListViewHolder, TransactionListViewAdapter>() {
 
-  override val activityActions: List<ActivityAction<FullTransaction>> = listOf(
+  override val activityActions: List<ActivityAction<FullTransactionDefinition>> = listOf(
     GenericCreateAction(
       TransactionEditActivity::class.java,
       R.string.transaction_create_activity_title,
@@ -15,7 +15,7 @@ class TransactionListActivity
       "transaction"
     )
   )
-  override val selectedActions: List<SelectedListItemAction<FullTransaction>> = listOf(
+  override val selectedActions: List<SelectedListItemAction<FullTransactionDefinition>> = listOf(
     GenericEditAction(
       TransactionEditActivity::class.java,
       R.string.transaction_edit_activity_title,
@@ -32,7 +32,7 @@ class TransactionListActivity
     return TransactionListViewAdapter(this)
   }
 
-  override fun createViewModel(): ListViewModel<FullTransaction> {
+  override fun createViewModel(): ListViewModel<FullTransactionDefinition> {
     return ViewModelProvider(this).get(TransactionListViewModel::class.java)
   }
 }

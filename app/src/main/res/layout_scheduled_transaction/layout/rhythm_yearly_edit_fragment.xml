@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+
+  <TextView
+    android:id="@+id/rhythm_yearly_interval_label"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:text="@string/interval"
+    android:labelFor="@id/rhythm_yearly_interval_field"
+    app:layout_constraintBottom_toBottomOf="@+id/rhythm_yearly_interval_field"
+    app:layout_constraintEnd_toStartOf="@+id/rhythm_yearly_interval_field"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/rhythm_yearly_interval_field"/>
+
+  <EditText
+    android:id="@+id/rhythm_yearly_interval_field"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="8dp"
+    android:ems="4"
+    android:inputType="number"
+    tools:text="2"
+    android:gravity="end"
+    app:layout_constraintBottom_toTopOf="@id/rhythm_yearly_selection_group"
+    app:layout_constraintEnd_toStartOf="@+id/rhythm_yearly_years_label"
+    app:layout_constraintTop_toTopOf="parent"
+    android:autofillHints="none"/>
+
+  <TextView
+    android:id="@+id/rhythm_yearly_years_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    tools:text="Years"
+    app:layout_constraintBottom_toBottomOf="@+id/rhythm_yearly_interval_field"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/rhythm_yearly_interval_field"/>
+
+  <RadioGroup
+    android:id="@+id/rhythm_yearly_selection_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/rhythm_yearly_interval_field"
+    app:layout_constraintBottom_toTopOf="@id/rhythm_yearly_workday_switch">
+
+    <RadioButton
+      android:id="@+id/rhythm_yearly_day_choice"
+      tools:text="22nd of May"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+    <RadioButton
+      android:id="@+id/rhythm_yearly_reverse_day_choice"
+      tools:text="10th last day of May"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+    <RadioButton
+      android:id="@+id/rhythm_yearly_weekday_choice"
+      tools:text="3rd Monday of May"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+    <RadioButton
+      android:id="@+id/rhythm_yearly_reverse_weekday_choice"
+      tools:text="2nd last Monday of May"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+  </RadioGroup>
+
+  <Switch
+    android:id="@+id/rhythm_yearly_workday_switch"
+    android:text="@string/wait_for_workday"
+    android:switchPadding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintTop_toBottomOf="@id/rhythm_yearly_selection_group"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
-import app.pmsoft.ispork.data.FullBudgetPot
-import app.pmsoft.ispork.data.FullBudgetPotAnnotation
-import app.pmsoft.ispork.data.FullTransaction
-import app.pmsoft.ispork.data.Participant
+import app.pmsoft.ispork.data.*
 import app.pmsoft.ispork.participant.ParticipantPickingActivity
 import app.pmsoft.ispork.util.CurrencyHandler
 import app.pmsoft.ispork.util.DateHandler
@@ -28,7 +25,7 @@ import java.util.*
 
 class TransactionEditActivity : AppCompatActivity(),
   DatePickerDialog.OnDateSetListener,
-  SubTransactionListHandler {
+  SubTransactionListHandler<FullSubTransaction, FullBudgetPotAnnotation> {
 
   private lateinit var detailsAdapter: SubTransactionsListAdapter
   private lateinit var detailsViewManager: RecyclerView.LayoutManager
@@ -56,7 +53,7 @@ class TransactionEditActivity : AppCompatActivity(),
     )
     when (requestCode) {
       RequestCodes.TRANSACTION_CREATION_REQUEST_CODE -> {
-        data = TransactionEditWrapper(FullTransaction())
+        data = TransactionEditWrapper(FullTransactionDefinition())
       }
       RequestCodes.TRANSACTION_EDITING_REQUEST_CODE -> {
         data = TransactionEditWrapper(intent.getParcelableExtra("transaction"))
@@ -127,7 +124,7 @@ class TransactionEditActivity : AppCompatActivity(),
             -1
           )
           val budgetPot = intent.getParcelableExtra<FullBudgetPot>("budgetPot")
-          val budgetPotAnnotation: BudgetPotAnnotationEditWrapper
+          val budgetPotAnnotation: BPAEditWrapper<FullBudgetPotAnnotation>
           val subTransaction = this.data.subTransactions[subTransactionIndex]
           if (categoryAnnotationIndex < 0) {
             budgetPotAnnotation = BudgetPotAnnotationEditWrapper(
@@ -197,7 +194,7 @@ class TransactionEditActivity : AppCompatActivity(),
   private fun persistInputs() {
     for (index in data.subTransactions.indices) {
       (detailsView.findViewHolderForAdapterPosition(index) as? SubTransactionsListAdapter.ViewHolder)
-        ?.persistInputs()
+        .persistInputs()
     }
   }
 
@@ -210,7 +207,7 @@ class TransactionEditActivity : AppCompatActivity(),
   }
 
   override fun startCategoryPicking(
-    subTransactionEditWrapper: SubTransactionEditWrapper,
+    subTransactionEditWrapper: STEditWrapper<FullSubTransaction, FullBudgetPotAnnotation>,
     categoryAnnotationIndex: Int?
   ) {
     val intent = Intent(

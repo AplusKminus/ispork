@@ -34,7 +34,15 @@ android {
     resolutionStrategy.force("com.google.code.findbugs:jsr305:1.3.9")
   }
   sourceSets {
-    getByName("main").java.srcDir("src/main/kotlin")
+    getByName("main") {
+      java.srcDir("src/main/kotlin")
+      res.srcDirs(
+        setOf(
+          "src/main/res/layout_scheduled_transaction",
+          "src/main/res"
+        )
+      )
+    }
     getByName("test").java.srcDir("src/test/kotlin")
   }
 }

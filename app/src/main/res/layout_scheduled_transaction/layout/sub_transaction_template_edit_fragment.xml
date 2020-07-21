@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/ListItem"
+              android:orientation="vertical">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <app.pmsoft.ispork.participant.ParticipantTypeIcon
+      android:id="@+id/sub_transaction_template_participant_type_icon"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_template_participant_field"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_template_participant_field"
+      app:srcCompat="@drawable/ic_account_white_24dp"
+      tools:ignore="ContentDescription"/>
+
+    <TextView
+      android:id="@+id/sub_transaction_template_participant_field"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="@dimen/horizontal_page_margin"
+      android:gravity="center_vertical"
+      android:textSize="24sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/sub_transaction_template_participant_type_icon"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Credit Card"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_template_amount_layout"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:hint="@string/amount"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_template_participant_field">
+
+      <app.pmsoft.ispork.view.AmountInputView
+        android:id="@+id/sub_transaction_template_amount_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:cursorVisible="false"
+        android:focusable="false"
+        tools:text="0,00 €"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_template_notes_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:hint="@string/notes_template"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_template_amount_layout"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/sub_transaction_template_notes_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
+        tools:text="Income {YYYY-MMM}"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/sub_transaction_template_budget_pot_list_view"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
+  <Button
+    android:id="@+id/sub_transaction_template_budget_pot_split_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="8dp"
+    android:text="@string/add_category"/>
+</LinearLayout>

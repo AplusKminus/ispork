@@ -10,13 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.data.FullBudgetPot
+import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.view.AmountInputView
 
 class BudgetPotAnnotationListAdapter(
   private val annotationHandler: BudgetPotAnnotationListHandler
 ) : RecyclerView.Adapter<BudgetPotAnnotationListAdapter.ViewHolder>() {
 
-  private var dataSet: List<BudgetPotAnnotationEditWrapper> = emptyList()
+  private var dataSet: List<BPAEditWrapper<FullBudgetPotAnnotation>> = emptyList()
 
   class ViewHolder(
     view: View,
@@ -27,11 +28,10 @@ class BudgetPotAnnotationListAdapter(
     private val notesField: EditText = view.findViewById(R.id.budget_pot_annotation_edit_notes_field)
     private val deleteIcon: ImageView = view.findViewById(R.id.budget_pot_annotation_edit_delete_icon)
 
-    private lateinit var data: BudgetPotAnnotationEditWrapper
+    private lateinit var data: BPAEditWrapper<FullBudgetPotAnnotation>
     private val budgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
       budgetPotField.text = budgetPot?.category?.name?.let { SpannableStringBuilder(it) }
     }
-    private var last: Boolean = false
 
     init {
       budgetPotField.setOnClickListener {
@@ -47,15 +47,11 @@ class BudgetPotAnnotationListAdapter(
       }
     }
 
-    fun setData(
-      annotation: BudgetPotAnnotationEditWrapper,
-      last: Boolean
-    ) {
+    fun setData(annotation: BPAEditWrapper<FullBudgetPotAnnotation>) {
       if (::data.isInitialized) {
         data.budgetPotData.removeObserver(budgetPotObserver)
       }
       this.data = annotation
-      this.last = last
       this.data.budgetPotData.observeForever(budgetPotObserver)
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
@@ -122,13 +118,10 @@ class BudgetPotAnnotationListAdapter(
     viewHolder: ViewHolder,
     position: Int
   ) {
-    viewHolder.setData(
-      dataSet[position],
-      position == dataSet.lastIndex
-    )
+    viewHolder.setData(dataSet[position])
   }
 
-  fun setData(newData: List<BudgetPotAnnotationEditWrapper>) {
+  fun setData(newData: List<BPAEditWrapper<FullBudgetPotAnnotation>>) {
     dataSet = newData
     notifyDataSetChanged()
   }

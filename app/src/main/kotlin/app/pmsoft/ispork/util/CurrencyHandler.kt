@@ -18,22 +18,42 @@ object CurrencyHandler {
   private lateinit var currency: Currency
   private lateinit var decimalFormatSymbols: DecimalFormatSymbols
 
+  /**
+   * Prints a given number in the current currency.
+   *
+   * The output will consist of:
+   * - an optional minus sign
+   * - a string of digits of at least length 1 ("0") including any grouping separators
+   * - a decimal separator
+   * - a string of n digits where n is the default number of fraction digits for this currency
+   * - a space
+   * - the currency symbol
+   */
   fun format(
     amount: Long
   ): String {
     val negative = amount < 0
     val format = DecimalFormat.getNumberInstance(locale)
     var output = if (negative) "-" else ""
+    // digits before separator
     output += format.format(abs(amount) / getScale(currency))
+    // separator
     output += decimalFormatSymbols.decimalSeparator
+    // digits after separator
     output += String.format(
       "%0${currency.defaultFractionDigits}d",
       abs(amount) % getScale(currency)
     )
+    // append symbol
     output += " " + currency.symbol
     return output
   }
 
+  /**
+   * Parses a currency string as produced by [format].
+   *
+   * Strips the currency symbol and all separators before parsing. Assumes the input has the correct scale.
+   */
   fun parse(input: String): Long? {
     var toParse = input
     if (input.endsWith(currency.symbol)) {

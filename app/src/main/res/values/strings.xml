@@ -47,6 +47,82 @@
     <item quantity="one">Year</item>
     <item quantity="other">Years</item>
   </plurals>
+  <plurals name="daily_rhythm_description">
+    <item quantity="one">Daily</item>
+    <item quantity="other" formatted="true">Every %d days</item>
+  </plurals>
+  <string name="weekly_rhythm_description">Every week on</string>
+  <string name="and">and</string>
+  <plurals name="monthly_rhythm_description">
+    <item quantity="one">Every month on the</item>
+    <item quantity="other" formatted="true">Every %d months on the</item>
+  </plurals>
+  <plurals name="yearly_rhythm_description">
+    <item quantity="one">Every year</item>
+    <item quantity="other" formatted="true">Every %d years</item>
+  </plurals>
+  <string name="first_day">1st</string>
+  <string name="second_day">2nd</string>
+  <string name="third_day">3rd</string>
+  <string name="fourth_day">4th</string>
+  <string name="fifth_day">5th</string>
+  <string name="sixth_day">6th</string>
+  <string name="seventh_day">7th</string>
+  <string name="eighth_day">8th</string>
+  <string name="ninth_day">9th</string>
+  <string name="tenth_day">10th</string>
+  <string name="eleventh_day">11th</string>
+  <string name="twelfth_day">12th</string>
+  <string name="thirteenth_day">13th</string>
+  <string name="fourteenth_day">14th</string>
+  <string name="fifteenth_day">15th</string>
+  <string name="sixteenth_day">16th</string>
+  <string name="seventeenth_day">17th</string>
+  <string name="eighteenth_day">18th</string>
+  <string name="nineteenth_day">19th</string>
+  <string name="twentieth_day">20th</string>
+  <string name="twenty_first_day">21st</string>
+  <string name="twenty_second_day">22nd</string>
+  <string name="twenty_third_day">23rd</string>
+  <string name="twenty_fourth_day">24th</string>
+  <string name="twenty_fifth_day">25th</string>
+  <string name="twenty_sixth_day">26th</string>
+  <string name="twenty_seventh_day">27th</string>
+  <string name="twenty_eighth_day">28th</string>
+  <string name="twenty_ninth_day">29th</string>
+  <string name="thirtieth_day">30th</string>
+  <string name="last_day">last</string>
+  <string name="second_last_day">2nd last</string>
+  <string name="third_last_day">3rd last</string>
+  <string name="fourth_last_day">4th last</string>
+  <string name="fifth_last_day">5th last</string>
+  <string name="sixth_last_day">6th last</string>
+  <string name="seventh_last_day">7th last</string>
+  <string name="eighth_last_day">8th last</string>
+  <string name="ninth_last_day">9th last</string>
+  <string name="tenth_last_day">10th last</string>
+  <string name="eleventh_last_day">11th last</string>
+  <string name="twelfth_last_day">12th last</string>
+  <string name="thirteenth_last_day">13th last</string>
+  <string name="fourteenth_last_day">14th last</string>
+  <string name="fifteenth_last_day">15th last</string>
+  <string name="sixteenth_last_day">16th last</string>
+  <string name="seventeenth_last_day">17th last</string>
+  <string name="eighteenth_last_day">18th last</string>
+  <string name="nineteenth_last_day">19th last</string>
+  <string name="twentieth_last_day">20th last</string>
+  <string name="twenty_first_last_day">21st last</string>
+  <string name="twenty_second_last_day">22nd last</string>
+  <string name="twenty_third_last_day">23rd last</string>
+  <string name="twenty_fourth_last_day">24th last</string>
+  <string name="twenty_fifth_last_day">25th last</string>
+  <string name="twenty_sixth_last_day">26th last</string>
+  <string name="twenty_seventh_last_day">27th last</string>
+  <string name="twenty_eighth_last_day">28th last</string>
+  <string name="twenty_ninth_last_day">29th last</string>
+  <string name="thirtieth_last_day">30th last</string>
+  <string name="workday_adjustment_rhythm_description">, shifting to the next workday if required</string>
+  <string name="sentence_end">.</string>
   <string name="a_or_b" formatted="true" translatable="false">%s / %s</string>
   <string name="app_name">ImprovedSpork</string>
   <string name="category_list_activity_title">Categories</string>
@@ -87,6 +163,7 @@
   <string name="title_activity_category_picking">Pick a Category</string>
   <string name="split">Split</string>
   <string name="add_split">Add Budget Pot</string>
+  <string name="add_category">Add Category</string>
   <string name="pick_budget_pot">Pick a Budget Pot</string>
   <string name="category_split">Split</string>
   <string name="category">Category</string>
@@ -126,4 +203,26 @@
   <string name="ok">Ok</string>
   <string name="level">Level</string>
   <string name="buffer_edit_activity_title">Edit Buffer</string>
+  <string name="next_occurrence">Next Payment</string>
+  <string name="schedule">Schedule</string>
+  <string name="transaction">Transaction</string>
+  <string name="notes_template">Notes Template</string>
+  <string name="start_date">Start Date</string>
+  <string name="end_date">End Date</string>
+  <string name="total_occurrences">Total Payments</string>
+  <string name="interval">Interval</string>
+  <string name="monday">Monday</string>
+  <string name="tuesday">Tuesday</string>
+  <string name="wednesday">Wednesday</string>
+  <string name="thursday">Thursday</string>
+  <string name="friday">Friday</string>
+  <string name="saturday">Saturday</string>
+  <string name="sunday">Sunday</string>
+  <string name="wait_for_workday">Delay payment until next workday</string>
+  <string name="rhythm_monthly_intro_text">On the</string>
+  <string name="day">Day</string>
+  <string name="work_day">Workday</string>
+  <string name="skip_next_occurrence">Skip next payment</string>
+  <string name="scheduled_transactions">Scheduled Transactions</string>
+  <string name="every_weekday">Every Workday</string>
 </resources>

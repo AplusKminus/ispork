@@ -55,15 +55,19 @@
     <activity
       android:name=".participant.ParticipantPickingActivity"
       android:label="@string/title_activity_participants_picking"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"/>
     <activity
       android:name=".category.CategoryPickingActivity"
       android:label="@string/title_activity_category_picking"
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"/>
     <activity
       android:name=".saving_goal.SavingGoalEditActivity"
       android:label=""
-      android:theme="@style/AppTheme" />
+      android:theme="@style/AppTheme"/>
+    <activity
+      android:name=".transaction.scheduled.ScheduledTransactionEditActivity"
+      android:label=""
+      android:theme="@style/AppTheme"/>
   </application>
 
 </manifest>
