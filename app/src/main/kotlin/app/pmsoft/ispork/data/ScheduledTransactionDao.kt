@@ -1,32 +1,30 @@
 package app.pmsoft.ispork.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ScheduledTransactionDao {
 
-  @Query("SELECT * FROM scheduledTransaction ORDER BY name ASC")
-  @androidx.room.Transaction
+  @Query("SELECT * FROM scheduled_transactions ORDER BY name ASC")
+  @Transaction
   fun getAll(): List<FullScheduledTransaction>
 
-  @Query("SELECT * FROM scheduledTransaction WHERE id IS :id LIMIT 1")
-  @androidx.room.Transaction
+  @Query("SELECT * FROM scheduled_transactions WHERE id IS :id LIMIT 1")
+  @Transaction
   fun findById(id: Long): FullScheduledTransaction?
 
-  @Query("UPDATE scheduledTransaction SET name = :name WHERE id IS :id")
+  @Query("UPDATE scheduled_transactions SET name = :name WHERE id IS :id")
   fun update(
     id: Long,
     name: String
   )
 
-  @Insert
-  fun insert(scheduledTransactions: ScheduledTransaction): Long
+  fun enhance(scheduledTransaction: ScheduledTransaction): FullScheduledTransaction? {
+    return findById(scheduledTransaction.id)
+  }
 
   @Insert
-  fun insertAll(vararg scheduledTransactions: ScheduledTransaction)
+  fun insert(scheduledTransactions: ScheduledTransaction): Long
 
   @Delete
   fun delete(scheduledTransactions: List<ScheduledTransaction>)

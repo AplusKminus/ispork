@@ -5,10 +5,10 @@ import androidx.room.*
 @Dao
 interface CategoryDao {
 
-  @Query("SELECT * FROM category ORDER BY name")
+  @Query("SELECT * FROM categories ORDER BY name")
   fun getAll(): List<Category>
 
-  @Query("SELECT * FROM category WHERE id IS :id LIMIT 1")
+  @Query("SELECT * FROM categories WHERE id IS :id LIMIT 1")
   fun findById(id: Long): Category?
 
   @Update

@@ -1,0 +1,253 @@
+@startuml
+hide empty members
+skinparam backgroundColor #2B2B2B
+skinparam shadowing false
+skinparam StereotypeCBackgroundColor #4EAA43
+skinparam StereotypeEBackgroundColor #9876AA
+skinparam ArrowColor #FF0080
+skinparam ArrowFontColor #B3DE06
+skinparam package {
+  FontColor #A9B7C6
+  BorderColor #FFA108
+}
+skinparam enum {
+  BackgroundColor #3A2D41
+  FontColor #9876AA
+}
+skinparam class {
+  BackgroundColor #364135
+  FontColor #4ADEB1
+  StereotypeFontColor #E78BFF
+  FontStyle bold
+  BorderColor #4EAA43
+  AttributeFontColor #89C69B
+}
+skinparam note {
+  BackgroundColor #FFC66D
+  BorderColor #FF0080
+}
+
+class Interval {
+  length : Int
+}
+enum Interval.Unit {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+Interval *-- Interval.Unit
+class "Amount : Long" <<(T,#FFFFFF) Typealias>> {
+}
+
+package Settings <<Rectangle>> {
+  class BudgetSettings {
+    baseCurrency : Currency
+    workdays : Int
+    timeZone : TimeZone
+  }
+  class AppSettings {
+    startOfWeek : Weekday
+    dateFormat : DateFormat
+    timeFormat : TimeFormat
+  }
+}
+
+package "Budget" <<Rectangle>> {
+  class Category {
+    name : String
+  }
+  class BudgetPot {
+    priority : Int
+    currency : Currency
+  }
+  note left
+    The currency cannot be changed.
+    If a new currency is needed, it
+    is no problem to create a new
+    budget pot in the same category.
+  end note
+  class BudgetEntry {
+    entryDate : Date
+    amount : Amount
+  }
+  package "Saving Goals" <<Rectangle>> {
+    class SavingGoal {
+      name : String
+      notes : String
+      targetDate : Date
+      rate : Amount
+    }
+    class SavingGoalSplit {
+      targetAmount : Amount
+      notes : String
+    }
+  }
+  SavingGoal *-- "1" Interval : Embedded
+  SavingGoalSplit *-- "1" BudgetPot
+  SavingGoal *-- "*" SavingGoalSplit
+
+  class SpendingBuffer {
+    name : String
+    min : Amount
+    max : Amount
+    rate : Amount
+    notes : String
+  }
+  Interval "1" --* SpendingBuffer : Embedded
+  SpendingBuffer *-- "1" BudgetPot
+
+  package "Emergency Funds" <<Rectangle>> {
+  class EmergencyFund << (S,#FFC66D) Singleton>> {
+    safety : Int
+  }
+  class CrucialItem {
+    cost : Amount
+    lifeExpectancy : Int
+  }
+  class EmergencyCategory << (S,#FFC66D) Singleton>> {
+  }
+  EmergencyCategory --|> Category
+  EmergencyFund o-- "*" CrucialItem
+  EmergencyFund *-- "1" BudgetPot
+  CrucialItem *-- "1" BudgetPot
+  EmergencyFund <..> EmergencyCategory : "Linked via\nBudgetPot"
+  }
+  BudgetPot *-- "*" BudgetEntry
+  BudgetPot "*" --o Category
+}
+
+package "Participants" <<Rectangle>> {
+  class Participant {
+    name : String
+    multiCurrency : Boolean
+    defaultCurrency : Currency
+    bookingDateIsEntryDate : Boolean
+  }
+  note top
+    Defines an account, a person
+    or an external payee (like a store).
+
+    Accounts can be single or multi currency
+    participants, while persons always are
+    multi currency.
+  end note
+  class MoneyBag {
+    startingBalance : Amount
+    currency : Currency
+  }
+  note bottom
+    A MoneyBag is created automatically every time a new
+    currency is added to a participant.
+
+    The balance is calculated from the starting balance
+    and all SubTransactions that target this participant
+    and have the same currency.
+  end note
+  enum Participant.Type {
+    PERSON
+    ACCOUNT
+    PAYEE
+    {method} internal : Boolean
+  }
+  Participant *-- "1" Participant.Type
+  Participant *-- "*" MoneyBag
+}
+
+package "Transaction Definition" <<Rectangle>> {
+  class TransactionDefinition {
+    'tags : List<String>
+    entryDate : Date
+  }
+  note left
+    The transaction definition is
+    copied when an occurrence of a
+    scheduled transaction is realized.
+
+    This includes its SubTransactions
+    and their BudgetPotAnnotations.
+
+    Also, the source scheduled transaction
+    is linked on the transaction definition
+  end note
+  note top of TransactionDefinition
+    A transaction is considered to be booked
+    when its entryDate is not null.
+
+    A booked transaction counts towards
+    account and budget pot balances - a
+    scheduled transaction does not.
+  end note
+  class SubTransaction {
+    amountInBookedCurrency : Amount
+    amountInBaseCurrency : Amount
+    bookingDate : Date
+    notes : String
+  }
+  note left
+    Represents a single booking on
+    one participant. Like:
+    - a withdrawal from a bank account
+    - a withdrawal into the wallet
+    - a store receipt
+  end note
+  class BudgetPotAnnotation {
+    amountInTransaction : Amount
+    amountInBudget : Amount
+    notes : String
+  }
+  note bottom
+    Represents one entry in the budget.
+    Multiple of these are used for
+    splitting a shopping haul into categories.
+
+    A difference in the two amount fields is only
+    warranted in case the SubTransaction and the
+    BudgetPot have different currencies.
+  end note
+}
+TransactionDefinition *-- "2..*" SubTransaction
+SubTransaction *-- "*" BudgetPotAnnotation
+SubTransaction o-- "1" MoneyBag
+BudgetPotAnnotation o-- "1" BudgetPot
+
+enum OffsetType {
+  DAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+package "Scheduled Transactions" <<Rectangle>> {
+  class ScheduledTransaction {
+    name : String
+    timeZone : TimeZone
+  }
+  note bottom
+    The time zone defines in which
+    time zone the next occurrence
+    should be calculated in.
+  end note
+  class ScheduledRhythm {
+    startDate : Date
+    endDate : Date
+    pattern : Int
+    dayOffset : Int
+    waitForWorkday : Boolean
+  }
+  class NextOccurrence <<Not Synced>>{
+    date : Date
+  }
+  note right: Is not synced because it is calculated\nfrom given information.
+  ScheduledRhythm o-- "1" OffsetType
+  ScheduledTransaction *-- "1..*" ScheduledRhythm
+  NextOccurrence *-- "1" ScheduledTransaction
+}
+ScheduledTransaction "1" *-- "1" TransactionDefinition
+ScheduledTransaction "1" --o "*" TransactionDefinition
+ScheduledRhythm *-- "1" Interval : Embedded
+@enduml

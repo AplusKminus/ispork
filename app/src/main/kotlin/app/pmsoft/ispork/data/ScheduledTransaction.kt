@@ -1,12 +1,31 @@
 package app.pmsoft.ispork.data
 
-import android.os.Parcelable
 import androidx.room.*
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
+/**
+ * A scheduled transaction stores all necessary data to determine when a transaction is to be booked, what data it
+ * contains and which budgets and participants are involved.
+ *
+ * The contained [TransactionDefinition] is unique and only used to define future occurrences (its
+ * [entry date][TransactionDefinition.entryDate] is null). It will be copied upon booking. This is done so that editing
+ * the template for future occurrences does not modify the past.
+ *
+ * One or more [ScheduledRhythm]s may be associated with a scheduled transaction. These allow to define precisely when
+ * a booking for the transaction should be created.
+ *
+ * Each scheduled transaction has a [name] to allow easy identification by the user.
+ */
 @Entity(
-  tableName = "scheduledTransaction"
+  tableName = "scheduled_transactions",
+  foreignKeys = [
+    ForeignKey(
+      entity = TransactionDefinition::class,
+      parentColumns = ["id"],
+      childColumns = ["transaction_definition_id"]
+    )
+  ],
+  indices = [Index("transaction_definition_id")]
 )
 @Parcelize
 open class ScheduledTransaction(
@@ -15,163 +34,60 @@ open class ScheduledTransaction(
   override var id: Long,
 
   @ColumnInfo(name = "name")
-  open var name: String
+  open var name: String,
+
+  /**
+   * This column identifies the one [TransactionDefinition] used for defining the data of this scheduled transaction.
+   *
+   * It should not be confused with [TransactionDefinition.sourceScheduledTransactionId] which is used only on booked
+   * transactions created from a scheduled transaction in order to link back to their source.
+   */
+  @ColumnInfo(name = "transaction_definition_id")
+  open var transactionDefinitionId: Long
 ) : ISporkEntry {
 
   @Ignore
   constructor() : this(
     0,
-    ""
+    "",
+    0
   )
 }
 
-@Entity(
-  foreignKeys = [
-    ForeignKey(
-      entity = ScheduledTransaction::class,
-      parentColumns = ["id"],
-      childColumns = ["scheduled_transaction_id"],
-      onDelete = ForeignKey.CASCADE
-    )
-  ],
-  indices = [Index("scheduled_transaction_id")],
-  tableName = "scheduledOccurrence"
-)
 @Parcelize
-open class ScheduledOccurrence(
-  @PrimaryKey(autoGenerate = true)
+class FullScheduledTransaction(
+
+  @Ignore
   override var id: Long,
 
-  @ColumnInfo(name = "scheduled_transaction_id")
-  open var scheduledTransactionId: Long,
+  @Ignore
+  override var name: String,
 
-  @ColumnInfo(name = "start_date")
-  open var startDate: Date?,
+  @Relation(
+    entity = ScheduledRhythm::class,
+    entityColumn = "scheduled_transaction_id",
+    parentColumn = "id"
+  )
+  var rhythms: List<ScheduledRhythm>,
 
-  @ColumnInfo(name = "end_date")
-  open var endDate: Date?,
+  @Relation(
+    entity = TransactionDefinition::class,
+    entityColumn = "id",
+    parentColumn = "transaction_definition_id"
+  )
+  var transactionDefinition: TransactionDefinition
 
-  @Embedded
-  open var cadence: Cadence?
-) : ISporkEntry {
+) : ScheduledTransaction() {
 
   @Ignore
-  constructor() : this(
+  constructor(transactionDefinition: TransactionDefinition) : this(
     0,
-    0,
-    null,
-    null,
-    null
+    "",
+    emptyList(),
+    transactionDefinition
   )
-}
 
-@Parcelize
-open class Cadence(
-
-  @ColumnInfo(name = "interval_unit")
-  var timeUnit: IntervalUnit?,
-
-  @ColumnInfo(name = "offset")
-  var offset: Int?,
-
-  @ColumnInfo(name = "workdays_only")
-  var workdayOnly: Boolean
-) : Parcelable {
-
-  @Ignore
-  constructor() : this(
-    null,
-    null,
-    false
-  )
-}
-
-@Entity(
-  foreignKeys = [
-    ForeignKey(
-      entity = Participant::class,
-      parentColumns = ["id"],
-      childColumns = ["participant_id"]
-    ),
-    ForeignKey(
-      entity = ScheduledTransaction::class,
-      parentColumns = ["id"],
-      childColumns = ["scheduled_transaction_id"],
-      onDelete = ForeignKey.CASCADE
-    )
-  ],
-  indices = [Index("participant_id"), Index("scheduled_transaction_id")],
-  tableName = "subTransactionTemplate"
-)
-@Parcelize
-open class SubTransactionTemplate(
-  @PrimaryKey(autoGenerate = true)
-  override var id: Long,
-
-  @ColumnInfo(name = "amount")
-  open var amount: Long,
-
-  @ColumnInfo(name = "scheduled_transaction_id")
-  open var scheduledTransactionId: Long,
-
-  @ColumnInfo(name = "participant_id")
-  open var participantId: Long?,
-
-  @ColumnInfo(name = "notes_template")
-  open var notesTemplate: String?
-) : ISporkEntry {
-
-  @Ignore
-  constructor() : this(
-    0,
-    0,
-    0,
-    null,
-    null
-  )
-}
-
-@Entity(
-  foreignKeys = [
-    ForeignKey(
-      entity = BudgetPot::class,
-      parentColumns = ["id"],
-      childColumns = ["budget_pot_id"]
-    ),
-    ForeignKey(
-      entity = SubTransactionTemplate::class,
-      parentColumns = ["id"],
-      childColumns = ["sub_transaction_template_id"],
-      onDelete = ForeignKey.CASCADE
-    )
-  ],
-  indices = [Index("budget_pot_id"), Index("sub_transaction_template_id")],
-  tableName = "budgetPotAnnotationTemplate"
-)
-@Parcelize
-open class BudgetPotAnnotationTemplate(
-  @PrimaryKey(autoGenerate = true)
-  override var id: Long,
-
-  @ColumnInfo(name = "amount")
-  open var amount: Long,
-
-  @ColumnInfo(name = "sub_transaction_template_id")
-  open var subTransactionTemplateId: Long,
-
-  @ColumnInfo(name = "budget_pot_id")
-  open var budgetPotId: Long?,
-
-  @ColumnInfo(name = "notes_template")
-  open var notesTemplate: String?
-) : ISporkEntry {
-
-  @Ignore
-  constructor() : this(
-    0,
-    0,
-    0,
-    0,
-    null
-  )
+  override var transactionDefinitionId: Long
+    get() = transactionDefinition.id
+    set(_) {}
 }

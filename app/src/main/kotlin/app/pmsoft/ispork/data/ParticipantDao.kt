@@ -1,36 +1,51 @@
 package app.pmsoft.ispork.data
 
 import androidx.room.*
-import androidx.room.Transaction
 
 @Dao
 interface ParticipantDao {
 
-  @Query("SELECT id, type, starting_balance, name, balance FROM participant LEFT JOIN (SELECT SUM(amount) as balance, participant_id FROM subTransaction GROUP BY participant_id) ON participant_id = id ORDER BY name")
+  @Query("SELECT id, starting_balance, currency, participant_id, bookedBalance FROM money_bags LEFT JOIN (SELECT SUM(amount_in_booked_currency) as bookedBalance, money_bag_id FROM sub_transactions WHERE booking_date IS NOT NULL GROUP BY money_bag_id) ON (money_bag_id = id) WHERE participant_id = :participantId")
   @Transaction
-  fun getAll(): List<FullParticipant>
+  fun getMoneyBags(participantId: Long): List<FullMoneyBag>
 
-  @Query("SELECT * FROM participant WHERE type IS 'ACCOUNT' ORDER BY name")
+  @Transaction
+  fun getAllFull(): List<FullParticipant> = getAll().map {
+    FullParticipant(it, getMoneyBags(it.id))
+  }
+
+  @Query("SELECT * FROM participants ORDER BY name")
+  fun getAll(): List<Participant>
+
+  @Query("SELECT * FROM participants WHERE type IS 'ACCOUNT' ORDER BY name")
   fun getAccounts(): List<Participant>
 
-  @Query("SELECT * FROM participant WHERE type IS 'PAYEE' ORDER BY name")
+  @Query("SELECT * FROM participants WHERE type IS 'PAYEE' ORDER BY name")
   fun getPayees(): List<Participant>
 
-  @Query("SELECT * FROM participant WHERE type is 'PERSON' ORDER BY name")
+  @Query("SELECT * FROM participants WHERE type is 'PERSON' ORDER BY name")
   fun getPersons(): List<Participant>
 
-  @Query("UPDATE participant SET name = :name, starting_balance = :startingBalance WHERE id IS :id")
-  fun update(
-    id: Long,
-    name: String,
-    startingBalance: Long?
-  )
+  @Query("SELECT * FROM participants WHERE id IS :id LIMIT 1")
+  @Transaction
+  fun getById(id: Long): Participant?
 
-  @Query("SELECT id, type, starting_balance, name, balance FROM participant LEFT JOIN (SELECT SUM(amount) as balance, participant_id FROM subTransaction GROUP BY participant_id) ON participant_id = id WHERE id IS :id LIMIT 1")
-  fun findById(id: Long): FullParticipant?
+  @Transaction
+  fun getFullById(id: Long): FullParticipant? {
+    return FullParticipant(getById(id) ?: return null, getMoneyBags(id))
+  }
+
+  @Update
+  fun update(participant: Participant)
+
+  @Update
+  fun update(moneyBag: MoneyBag)
 
   @Insert
   fun insert(participant: Participant): Long
+
+  @Insert
+  fun insert(moneyBag: MoneyBag): Long
 
   @Insert
   fun insertAll(vararg participants: Participant)

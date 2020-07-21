@@ -3,8 +3,19 @@ package app.pmsoft.ispork.data
 import androidx.room.*
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * A spending buffer is a general budgeting tool.
+ *
+ * [Budget entries][BudgetEntry] towards its [BudgetPot] are made based on several parameters:
+ * - The [rate] amount determines the default amount it would be filled with at each [interval] start
+ * - The [min] amount determines the minimum it should contain at each [interval] start thereby possibly increasing the
+ * actual rate over the specified [rate]
+ * - The [max] amount determines the maximum it would be filled to at each [interval] start thereby possibly lowering
+ * the actual rate under the specified [rate]
+ * - The [interval] determines when this budget pot should receive funds
+ */
 @Entity(
-  tableName = "bufferDefinition",
+  tableName = "spending_buffers",
   foreignKeys = [
     ForeignKey(
       entity = BudgetPot::class,
@@ -21,20 +32,20 @@ open class SpendingBuffer(
   @PrimaryKey(autoGenerate = true)
   override var id: Long,
 
+  @ColumnInfo(name = "name")
+  open var name: String?,
+
   @ColumnInfo(name = "min")
-  open var min: Long,
+  open var min: Amount,
 
   @ColumnInfo(name = "max")
-  open var max: Long,
+  open var max: Amount,
 
   @ColumnInfo(name = "rate")
-  open var rate: Long,
+  open var rate: Amount,
 
-  @ColumnInfo(name = "intervalLength")
-  open var intervalLength: Int,
-
-  @ColumnInfo(name = "intervalUnit")
-  open var intervalUnit: IntervalUnit?,
+  @Embedded(prefix = "interval_")
+  open var interval: Interval,
 
   @ColumnInfo(name = "notes")
   open var notes: String?,
@@ -46,11 +57,11 @@ open class SpendingBuffer(
   @Ignore
   constructor() : this(
     0,
-    0,
-    0,
-    0,
-    1,
     null,
+    0,
+    0,
+    0,
+    Interval(1),
     null,
     null
   )
@@ -63,19 +74,19 @@ class FullSpendingBuffer(
   override var id: Long,
 
   @Ignore
-  override var min: Long,
+  override var name: String?,
 
   @Ignore
-  override var max: Long,
+  override var min: Amount,
 
   @Ignore
-  override var rate: Long,
+  override var max: Amount,
 
   @Ignore
-  override var intervalLength: Int,
+  override var rate: Amount,
 
   @Ignore
-  override var intervalUnit: IntervalUnit?,
+  override var interval: Interval,
 
   @Ignore
   override var notes: String?,
@@ -91,11 +102,11 @@ class FullSpendingBuffer(
   @Ignore
   constructor() : this(
     0,
-    0,
-    0,
-    0,
-    1,
     null,
+    0,
+    0,
+    0,
+    Interval(1),
     null,
     null
   )

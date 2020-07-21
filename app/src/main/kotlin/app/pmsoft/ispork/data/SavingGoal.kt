@@ -1,21 +1,25 @@
 package app.pmsoft.ispork.data
 
-import android.os.Parcelable
 import androidx.room.*
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+/**
+ * A saving goal defines a budgeting process where budget is accumulated until target conditions are met.
+ *
+ * A saving goal is defined by exactly two of
+ * - Saving rate
+ * - Target date
+ * - Target amount
+ *
+ * It can be split into parallel [sub goals][SavingGoalSplit] which are not milestones or stages, but rather a division
+ * into categories. Each split has its own [BudgetPot].
+ *
+ * A saving goal can only be split if the saving rate is undefined and the target date fixed. Each split gets its own
+ * target amount.
+ */
 @Entity(
-  tableName = "savingGoal",
-  foreignKeys = [
-    ForeignKey(
-      entity = BudgetPot::class,
-      parentColumns = ["id"],
-      childColumns = ["budget_pot_id"],
-      onDelete = ForeignKey.CASCADE
-    )
-  ],
-  indices = [Index("budget_pot_id")]
+  tableName = "saving_goals"
 )
 @Parcelize
 open class SavingGoal(
@@ -27,29 +31,25 @@ open class SavingGoal(
   open var name: String,
 
   @ColumnInfo(name = "rate")
-  open var rate: Long?,
+  open var rate: Amount?,
 
-  @ColumnInfo(name = "target_amount")
-  open var targetAmount: Long?,
+  @Embedded(prefix = "interval_")
+  open var interval: Interval,
 
   @ColumnInfo(name = "target_date")
   open var targetDate: Date?,
 
   @ColumnInfo(name = "notes")
-  open var notes: String?,
+  open var notes: String?
 
-  @ColumnInfo(name = "budget_pot_id")
-  open var budgetPotId: Long?
-) : Parcelable,
-  ISporkEntry {
+) : ISporkEntry {
 
   @Ignore
   constructor() : this(
     0,
     "",
     null,
-    null,
-    null,
+    Interval(1),
     null,
     null
   )
@@ -57,47 +57,34 @@ open class SavingGoal(
 
 @Parcelize
 class FullSavingGoal(
-
   @Ignore
   override var id: Long,
-
   @Ignore
   override var name: String,
-
   @Ignore
-  override var rate: Long?,
-
+  override var rate: Amount?,
   @Ignore
-  override var targetAmount: Long?,
-
+  override var interval: Interval,
   @Ignore
   override var targetDate: Date?,
-
   @Ignore
   override var notes: String?,
-
   @Relation(
-    entity = BudgetPot::class,
-    entityColumn = "id",
-    parentColumn = "budget_pot_id"
+    entity = SavingGoalSplit::class,
+    entityColumn = "saving_goal_id",
+    parentColumn = "id"
   )
-  var budgetPot: FullBudgetPot?
+  var splits: List<SavingGoalSplit>
 ) : SavingGoal() {
 
   @Ignore
   constructor() : this(
     0,
     "",
-    0,
-    0,
+    null,
+    Interval(1),
     null,
     null,
-    null
+    emptyList()
   )
-
-  override var budgetPotId: Long?
-    get() = budgetPot?.id
-    set(value) {
-      super.budgetPotId = value
-    }
 }
