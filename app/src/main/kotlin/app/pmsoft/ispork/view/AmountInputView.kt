@@ -27,7 +27,7 @@ class AmountInputView(
 
   private var onAmountChangedListener: OnAmountChangedListener? = null
 
-  private lateinit var dialog: AmountInputDialog
+  private var dialog: AmountInputDialog = AmountInputDialog()
 
   var amount: Long? = null
     get() {
@@ -63,10 +63,6 @@ class AmountInputView(
       updateView()
     }
 
-  var currency: Currency = Currency.getInstance(LocaleHandler.locale)
-  val currencyFormatter: CurrencyFormatter
-    get() = CurrencyFormatter.getInstanceFor(currency)
-
   private val updateViewObserver: Observer<Long?> = Observer {
     updateView()
   }
@@ -94,37 +90,55 @@ class AmountInputView(
 
   private fun retrieveActivity() = (context as ContextThemeWrapper).baseContext as AppCompatActivity
 
+  private val bundle = Bundle()
   var positiveFlowString: String? = null
+    set(value) {
+      field = value
+      bundle.putString(
+        "positive_flow_string",
+        value
+      )
+    }
   var negativeFlowString: String? = null
+    set(value) {
+      field = value
+      bundle.putString(
+        "negative_flow_string",
+        value
+      )
+    }
   var allowNegative: Boolean = true
+    set(value) {
+      field = value
+      bundle.putBoolean(
+        "allow_negative",
+        value
+      )
+    }
+  var currency: Currency = Currency.getInstance(LocaleHandler.locale)
+    set(value) {
+      field = value
+      bundle.putString(
+        "currency_code",
+        value.currencyCode
+      )
+    }
+  private val currencyFormatter: CurrencyFormatter
+    get() = CurrencyFormatter.getInstanceFor(currency)
 
   init {
+    dialog.dialogResultListener = {
+      this.amount = it
+    }
+    bundle.putString(
+      "currency_code",
+      currency.currencyCode
+    )
     this.setOnClickListener {
-      val bundle = Bundle()
       bundle.putLong(
         "amount",
         amount ?: 0L
       )
-      bundle.putSerializable(
-        "currency",
-        currency
-      )
-      bundle.putString(
-        "positive_flow_string",
-        positiveFlowString
-      )
-      bundle.putString(
-        "negative_flow_string",
-        negativeFlowString
-      )
-      bundle.putBoolean(
-        "allow_negative",
-        allowNegative
-      )
-      dialog = AmountInputDialog()
-      dialog.dialogResultListener = {
-        this.amount = it
-      }
       dialog.arguments = bundle
       dialog.show(
         retrieveActivity().supportFragmentManager,

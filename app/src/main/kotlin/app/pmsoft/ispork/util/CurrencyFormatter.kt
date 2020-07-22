@@ -17,6 +17,15 @@ class CurrencyFormatter private constructor(private val currency: Currency) {
     fun getInstanceFor(currency: Currency): CurrencyFormatter {
       return instances.getOrPut(currency, { CurrencyFormatter(currency) })
     }
+
+    fun getInstanceFor(currencyCode: String?): CurrencyFormatter {
+      val currency = if (currencyCode == null) {
+        Currency.getInstance(LocaleHandler.locale)
+      } else {
+        Currency.getInstance(currencyCode)
+      }
+      return getInstanceFor(currency)
+    }
   }
 
   private fun locale(): Locale = LocaleHandler.locale

@@ -78,19 +78,18 @@ class SavingGoalEditActivity : AppCompatActivity() {
 
     when (intent.getIntExtra(
       "request_code",
-      0
+      RequestCodes.SAVING_GOAL_CREATION_REQUEST_CODE
     )) {
       RequestCodes.SAVING_GOAL_CREATION_REQUEST_CODE -> {
-        savingGoal = FullSavingGoal()
+        savingGoal = FullSavingGoal().also {
+          val split = FullSavingGoalSplit()
+          split.budgetPot = FullBudgetPot(Currency.getInstance(LocaleHandler.locale))
+          it.splits = listOf(split)
+        }
       }
       RequestCodes.SAVING_GOAL_EDITING_REQUEST_CODE -> {
         savingGoal = intent.getParcelableExtra("savingGoal")
       }
-    }
-    if (savingGoal.splits.isEmpty()) {
-      val split = FullSavingGoalSplit()
-      split.budgetPot = FullBudgetPot(Currency.getInstance(LocaleHandler.locale))
-      savingGoal.splits = listOf(split)
     }
     updateViewFromData()
   }

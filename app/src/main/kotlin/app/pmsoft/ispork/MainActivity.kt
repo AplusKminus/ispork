@@ -8,6 +8,7 @@ import app.pmsoft.ispork.account.AccountListActivity
 import app.pmsoft.ispork.buffer.BufferEditActivity
 import app.pmsoft.ispork.category.CategoryListActivity
 import app.pmsoft.ispork.payee.PayeeListActivity
+import app.pmsoft.ispork.saving_goal.SavingGoalEditActivity
 import app.pmsoft.ispork.transaction.TransactionListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -49,10 +50,18 @@ class MainActivity : AppCompatActivity() {
     startActivity(intent)
   }
 
-  fun editBuffer(view: View) {
+  fun editBuffer(@Suppress("UNUSED_PARAMETER") view: View) {
     val intent = Intent(
       this,
       BufferEditActivity::class.java
+    )
+    startActivity(intent)
+  }
+
+  fun editSavingGoal(@Suppress("UNUSED_PARAMETER") view: View) {
+    val intent = Intent(
+      this,
+      SavingGoalEditActivity::class.java
     )
     startActivity(intent)
   }

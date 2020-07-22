@@ -108,7 +108,6 @@
   <string name="person_icon">Person icon</string>
   <string name="payee_icon">Payee icon</string>
   <string name="title_activity_saving_goal_edit">SavingGoalEditActivity</string>
-  <string name="savingGoal">Saving Goal</string>
   <string name="saving_goal_rate">Saving Rate</string>
   <string name="saving_goal_target_amount">Target Amount</string>
   <string name="saving_goal_target_date">Target Date</string>
@@ -127,4 +126,5 @@
   <string name="level">Level</string>
   <string name="buffer_edit_activity_title">Edit Buffer</string>
   <string name="mark_as_income">Mark as income</string>
+  <string name="saving_goal">Saving Goal</string>
 </resources>

@@ -10,7 +10,7 @@ import app.pmsoft.ispork.R
 import app.pmsoft.ispork.data.Interval
 
 /**
- * This specialized drop down text field is for displaying the different [IntervalUnits][IntervalUnit] with localized
+ * This specialized drop down text field is for displaying the different [IntervalUnits][Interval.Unit] with localized
  * quantity strings.
  *
  * Do not use [AppCompatAutoCompleteTextView.getText] to change its value, use the [unit] property instead.

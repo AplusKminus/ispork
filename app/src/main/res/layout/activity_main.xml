@@ -54,5 +54,15 @@
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
     android:onClick="editBuffer"
-    android:text="@string/spending_buffer" />
+    android:text="@string/spending_buffer"/>
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="24dp"
+    android:onClick="editSavingGoal"
+    android:text="@string/saving_goal"/>
 </LinearLayout>

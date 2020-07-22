@@ -12,8 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.util.CurrencyFormatter
-import app.pmsoft.ispork.util.LocaleHandler
-import java.util.*
 import kotlin.math.absoluteValue
 
 class AmountInputDialog : DialogFragment() {
@@ -96,10 +94,7 @@ class AmountInputDialog : DialogFragment() {
     positiveButton = view.findViewById(R.id.amount_input_positive_button)
     positiveButton.setOnClickListener(this::saveInflow)
     value = arguments?.getLong("amount") ?: 0L
-    currencyFormatter = CurrencyFormatter.getInstanceFor(
-      arguments?.getSerializable("currency") as? Currency
-        ?: Currency.getInstance(LocaleHandler.locale)
-    )
+    currencyFormatter = CurrencyFormatter.getInstanceFor(arguments?.getString("currency_code"))
     positiveButton.text = arguments
       ?.getString("positive_flow_string")
       ?: view.context.resources.getString(R.string.inflow)
