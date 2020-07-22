@@ -13,7 +13,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.util.CurrencyHandler
+import app.pmsoft.ispork.util.LocaleHandler
 import com.google.android.material.textfield.TextInputEditText
+import java.util.*
 
 class AmountInputView(
   context: Context,
@@ -61,6 +63,10 @@ class AmountInputView(
       updateView()
     }
 
+  var currency: Currency = Currency.getInstance(LocaleHandler.locale)
+  val currencyHandler: CurrencyHandler
+    get() = CurrencyHandler.getInstanceFor(currency)
+
   private val updateViewObserver: Observer<Long?> = Observer {
     updateView()
   }
@@ -98,6 +104,10 @@ class AmountInputView(
       bundle.putLong(
         "amount",
         amount ?: 0L
+      )
+      bundle.putSerializable(
+        "currency",
+        currency
       )
       bundle.putString(
         "positive_flow_string",
@@ -149,7 +159,7 @@ class AmountInputView(
           )
           this.setTextColor(R.attr.text_color)
         }
-        this.text = SpannableStringBuilder(CurrencyHandler.format(value))
+        this.text = SpannableStringBuilder(currencyHandler.format(value))
       }
       suggested != null -> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -161,7 +171,7 @@ class AmountInputView(
           )
           this.setTextColor(R.attr.hint_color)
         }
-        this.text = SpannableStringBuilder(CurrencyHandler.format(suggested))
+        this.text = SpannableStringBuilder(currencyHandler.format(suggested))
       }
       else -> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

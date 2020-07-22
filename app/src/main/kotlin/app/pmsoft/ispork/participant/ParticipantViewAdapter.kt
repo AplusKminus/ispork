@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
 import app.pmsoft.ispork.data.FullParticipant
+import java.util.*
 
-class ParticipantViewAdapter(private val participantPickingHandler: SelectionHandler<FullParticipant>) :
+class ParticipantViewAdapter(
+  private val participantPickingHandler: SelectionHandler<FullParticipant>,
+  private val currency: Currency
+) :
   RecyclerView.Adapter<ParticipantListViewHolder>(),
   Observer<List<FullParticipant>> {
 
@@ -18,14 +22,16 @@ class ParticipantViewAdapter(private val participantPickingHandler: SelectionHan
     parent: ViewGroup,
     viewType: Int
   ): ParticipantListViewHolder {
-    val view = LayoutInflater.from(parent.context).inflate(
+    val view = LayoutInflater.from(parent.context)
+      .inflate(
       R.layout.list_item_participant,
       parent,
       false
     )
     return ParticipantListViewHolder(
       view,
-      participantPickingHandler
+      participantPickingHandler,
+      currency
     )
   }
 

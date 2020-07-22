@@ -15,8 +15,11 @@ import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
 import app.pmsoft.ispork.data.FullParticipant
 import app.pmsoft.ispork.data.Participant
+import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.util.TextWatcherAdapter
 import com.google.android.material.tabs.TabLayout
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ParticipantPickingActivity : AppCompatActivity(),
   TabLayout.OnTabSelectedListener,
@@ -46,7 +49,7 @@ class ParticipantPickingActivity : AppCompatActivity(),
     viewManager = LinearLayoutManager(this)
 
     viewModel = ViewModelProvider(this).get(ParticipantListViewModel::class.java)
-    viewAdapter = ParticipantViewAdapter(this)
+    viewAdapter = ParticipantViewAdapter(this, Currency.getInstance(LocaleHandler.locale))
     viewModel.participants.observe(
       this,
       viewAdapter

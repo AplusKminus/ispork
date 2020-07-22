@@ -32,7 +32,7 @@ class CategoryDisplayLabel(
         displayType = DisplayType.SPLIT
         text = context.resources.getString(R.string.category_split)
       }
-      subTransactions.all { it.participant.type.internal } -> {
+      subTransactions.all { it.moneyBag.participant.type.internal } -> {
         displayType = DisplayType.TRANSFER
         text = context.resources.getString(R.string.transfer)
       }

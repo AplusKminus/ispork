@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import app.pmsoft.ispork.R
-import app.pmsoft.ispork.data.IntervalUnit
+import app.pmsoft.ispork.data.Interval
 
 /**
  * This specialized drop down text field is for displaying the different [IntervalUnits][IntervalUnit] with localized
@@ -20,7 +20,8 @@ class IntervalUnitField(
   attributes: AttributeSet
 ) : AppCompatAutoCompleteTextView(context, attributes) {
 
-  private var data: List<String> = IntervalUnit.values().map(::valueToString)
+  private var data: List<String> = Interval.Unit.values()
+    .map(::valueToString)
 
   private val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(context, R.layout.dropdown_item) {
     /**
@@ -45,13 +46,13 @@ class IntervalUnitField(
     }
   }
 
-  private var _unit: IntervalUnit = IntervalUnit.MONTH
+  private var _unit: Interval.Unit = Interval.Unit.MONTH
 
   /**
    * The unit that should be displayed by this component. Setting this property sets the text to the appropriate
    * localized quantity string. See also the [quantity] property.
    */
-  var unit: IntervalUnit
+  var unit: Interval.Unit
     get() = _unit
     set(value) {
       _unit = value
@@ -68,7 +69,8 @@ class IntervalUnitField(
       val old = field
       field = value
       if (old != value) {
-        data = IntervalUnit.values().map(::valueToString)
+        data = Interval.Unit.values()
+          .map(::valueToString)
         refresh()
       }
     }
@@ -78,9 +80,9 @@ class IntervalUnitField(
     addTextChangedListener(object : TextWatcherAdapter() {
       override fun afterTextChanged(s: Editable?) {
         adapter.getPosition(s.toString())
-          .takeIf { it in IntervalUnit.values().indices }
+          .takeIf { it in Interval.Unit.values().indices }
           ?.let {
-            _unit = IntervalUnit.values()[it]
+            _unit = Interval.Unit.values()[it]
           }
       }
     })
@@ -94,14 +96,14 @@ class IntervalUnitField(
   }
 
   private fun valueToString(
-    unit: IntervalUnit
+    unit: Interval.Unit
   ): String {
     return context.resources.getQuantityString(
       when (unit) {
-        IntervalUnit.DAY -> R.plurals.day
-        IntervalUnit.WEEK -> R.plurals.week
-        IntervalUnit.MONTH -> R.plurals.month
-        IntervalUnit.YEAR -> R.plurals.year
+        Interval.Unit.DAY -> R.plurals.day
+        Interval.Unit.WEEK -> R.plurals.week
+        Interval.Unit.MONTH -> R.plurals.month
+        Interval.Unit.YEAR -> R.plurals.year
       }, quantity
     )
   }

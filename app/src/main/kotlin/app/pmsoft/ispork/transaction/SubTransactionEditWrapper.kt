@@ -3,9 +3,9 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullSubTransaction
-import app.pmsoft.ispork.data.Participant
 import app.pmsoft.ispork.util.NonNullMutableLiveData
 import app.pmsoft.ispork.util.ZeroIsNullLongLiveData
 import app.pmsoft.ispork.util.getValue
@@ -17,11 +17,11 @@ class SubTransactionEditWrapper(
   val originalData: FullSubTransaction
 ) {
 
-  val amountData = ZeroIsNullLongLiveData(originalData.amount)
+  val amountData = ZeroIsNullLongLiveData(originalData.amountInBookedCurrency)
   var amount: Long? by amountData
 
-  val participantData = NonNullMutableLiveData(originalData.participant)
-  var participant: Participant by participantData
+  val moneyBagData = NonNullMutableLiveData(originalData.moneyBag)
+  var moneyBag: ExtendedMoneyBag by moneyBagData
 
   private val bookingDateData = MutableLiveData(originalData.bookingDate)
   var bookingDate: Date? by bookingDateData
@@ -86,11 +86,11 @@ class SubTransactionEditWrapper(
   private fun getSuggestedAmountThroughBudgetPots(): Long? =
     budgetPotAnnotations
       .takeUnless { it.isEmpty() }
-      ?.map { it.amount ?: return null }
+      ?.map { it.amountInTransaction ?: return null }
       ?.sum()
 
   fun deleteBudgetPotAnnotation(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper) {
-    budgetPotAnnotationEditWrapper.amountData.removeObserver(triggerSuggestionUpdateObserver)
+    budgetPotAnnotationEditWrapper.amountInTransactionData.removeObserver(triggerSuggestionUpdateObserver)
     this.budgetPotAnnotations -= budgetPotAnnotationEditWrapper
     transactionEditWrapper.updateSuggestions()
   }
@@ -107,22 +107,23 @@ class SubTransactionEditWrapper(
   }
 
   private fun addObserverToChild(child: BudgetPotAnnotationEditWrapper) {
-    child.amountData.observeForever(triggerSuggestionUpdateObserver)
+    child.amountInTransactionData.observeForever(triggerSuggestionUpdateObserver)
   }
 
   fun extractSubTransaction(): FullSubTransaction {
     val actualBudgetPotAnnotations = budgetPotAnnotations.map { it.extractBudgetPotAnnotation() }
     if (actualBudgetPotAnnotations.size == 1) {
-      actualBudgetPotAnnotations[0].amount = amount ?: suggestedAmount ?: 0L
+      actualBudgetPotAnnotations[0].amountInTransaction = amount ?: suggestedAmount ?: 0L
     }
     return FullSubTransaction(
       originalData.id,
       amount ?: suggestedAmount ?: 0L,
+      amount ?: suggestedAmount ?: 0L,
       transactionEditWrapper.originalData.id,
-      participant,
+      moneyBag,
+      actualBudgetPotAnnotations,
       bookingDate,
-      notes,
-      actualBudgetPotAnnotations
+      notes
     )
   }
 
@@ -132,7 +133,7 @@ class SubTransactionEditWrapper(
 
   fun destroy() {
     budgetPotAnnotations.forEach {
-      it.amountData.removeObserver(triggerSuggestionUpdateObserver)
+      it.amountInTransactionData.removeObserver(triggerSuggestionUpdateObserver)
     }
     budgetPotAnnotations = emptyList()
   }

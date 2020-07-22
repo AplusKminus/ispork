@@ -7,14 +7,16 @@ import android.widget.TextView
 import app.pmsoft.ispork.AbstractViewHolder
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
-import app.pmsoft.ispork.data.FullTransaction
+import app.pmsoft.ispork.data.FullTransactionDefinition
 import app.pmsoft.ispork.util.CurrencyHandler
+import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.view.CategoryDisplayLabel
+import java.util.*
 
 class TransactionListViewHolder(
   view: View,
-  selectionHandler: SelectionHandler<FullTransaction>
-) : AbstractViewHolder<FullTransaction>(
+  selectionHandler: SelectionHandler<FullTransactionDefinition>
+) : AbstractViewHolder<FullTransactionDefinition>(
   view,
   selectionHandler
 ) {
@@ -41,19 +43,20 @@ class TransactionListViewHolder(
   override val backgroundView: View
     get() = layout
 
-  override fun updateViewFromData(e: FullTransaction) {
+  override fun updateViewFromData(e: FullTransactionDefinition) {
     val transferSum = e.getInternalSum()
     val externalSum = e.getExternalSum()
+    val currencyHandler = CurrencyHandler.getInstanceFor(Currency.getInstance(LocaleHandler.locale))
 
     if (transferSum != 0L) {
       transferAmountLabel.visibility = View.VISIBLE
-      transferAmountLabel.text = CurrencyHandler.format(transferSum)
+      transferAmountLabel.text = currencyHandler.format(transferSum)
     } else {
       transferAmountLabel.visibility = View.GONE
     }
     if (externalSum != 0L) {
       externalAmountLabel.visibility = View.VISIBLE
-      externalAmountLabel.text = CurrencyHandler.format(externalSum)
+      externalAmountLabel.text = currencyHandler.format(externalSum)
       if (externalSum > 0) {
         externalAmountLabel.setTextColor(getColor(R.color.positive_flow_color))
         externalAmountLabel.setCompoundDrawablesWithIntrinsicBounds(

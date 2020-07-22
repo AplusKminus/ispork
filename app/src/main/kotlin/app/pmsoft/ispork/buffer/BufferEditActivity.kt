@@ -18,11 +18,12 @@ import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullSpendingBuffer
-import app.pmsoft.ispork.data.IntervalUnit
-import app.pmsoft.ispork.util.CurrencyHandler
+import app.pmsoft.ispork.data.Interval
 import app.pmsoft.ispork.util.IntervalUnitField
+import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.util.TextWatcherAdapter
 import app.pmsoft.ispork.view.AmountInputView
+import java.util.*
 
 class BufferEditActivity : AppCompatActivity() {
 
@@ -71,12 +72,13 @@ class BufferEditActivity : AppCompatActivity() {
 
     intervalLengthField.addTextChangedListener(object : TextWatcherAdapter() {
       override fun afterTextChanged(s: Editable?) {
-        spendingBuffer.intervalLength = s.toString().toIntOrNull() ?: 0
-        intervalUnitField.quantity = spendingBuffer.intervalLength
+        spendingBuffer.interval.length = s.toString()
+          .toIntOrNull() ?: 0
+        intervalUnitField.quantity = spendingBuffer.interval.length
       }
     })
 
-    CurrencyHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    LocaleHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       resources.configuration.locales[0]
     } else {
       @Suppress("DEPRECATION")
@@ -92,11 +94,11 @@ class BufferEditActivity : AppCompatActivity() {
       RequestCodes.SPENDING_BUFFER_EDITING_REQUEST_CODE -> spendingBuffer = intent.getParcelableExtra("spending_buffer")
     }
     if (spendingBuffer.budgetPot == null) {
-      spendingBuffer.budgetPot = FullBudgetPot()
+      spendingBuffer.budgetPot = FullBudgetPot(Currency.getInstance(LocaleHandler.locale))
     }
     budgetPot = spendingBuffer.budgetPot!!
-    if (spendingBuffer.intervalUnit == null) {
-      spendingBuffer.intervalUnit = IntervalUnit.MONTH
+    if (spendingBuffer.interval.unit == null) {
+      spendingBuffer.interval.unit = Interval.Unit.MONTH
     }
 
     updateViewFromData()
@@ -135,10 +137,10 @@ class BufferEditActivity : AppCompatActivity() {
     intervalLengthField.text.clear()
     intervalLengthField.text.insert(
       0,
-      spendingBuffer.intervalLength.toString()
+      spendingBuffer.interval.length.toString()
     )
     intervalUnitField.text.clear()
-    intervalUnitField.unit = spendingBuffer.intervalUnit ?: IntervalUnit.MONTH
+    intervalUnitField.unit = spendingBuffer.interval.unit ?: Interval.Unit.MONTH
     notesField.text.clear()
     notesField.text.insert(
       0,
@@ -166,8 +168,9 @@ class BufferEditActivity : AppCompatActivity() {
   }
 
   private fun updateDataFromView() {
-    spendingBuffer.intervalUnit = intervalUnitField.unit
-    spendingBuffer.intervalLength = intervalLengthField.text.toString().toInt()
+    spendingBuffer.interval.unit = intervalUnitField.unit
+    spendingBuffer.interval.length = intervalLengthField.text.toString()
+      .toInt()
     spendingBuffer.notes = notesField.text.toString()
   }
 

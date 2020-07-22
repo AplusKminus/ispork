@@ -14,8 +14,11 @@ import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullSavingGoal
+import app.pmsoft.ispork.data.FullSavingGoalSplit
+import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.util.dpToPx
 import com.google.android.material.card.MaterialCardView
+import java.util.*
 
 class SavingGoalEditActivity : AppCompatActivity() {
 
@@ -84,8 +87,10 @@ class SavingGoalEditActivity : AppCompatActivity() {
         savingGoal = intent.getParcelableExtra("savingGoal")
       }
     }
-    if (savingGoal.budgetPot == null) {
-      savingGoal.budgetPot = FullBudgetPot()
+    if (savingGoal.splits.isEmpty()) {
+      val split = FullSavingGoalSplit()
+      split.budgetPot = FullBudgetPot(Currency.getInstance(LocaleHandler.locale))
+      savingGoal.splits = listOf(split)
     }
     updateViewFromData()
   }
@@ -149,7 +154,7 @@ class SavingGoalEditActivity : AppCompatActivity() {
     categoryField.text.clear()
     categoryField.text.insert(
       0,
-      savingGoal.budgetPot?.category?.name ?: ""
+      ""//savingGoal.budgetPot?.category?.name ?: ""
     )
     selectedCardLayout.removeAllViews()
     offeredCardLayout.removeAllViews()
@@ -231,7 +236,7 @@ class SavingGoalEditActivity : AppCompatActivity() {
     if (intent != null) {
       when (requestCode) {
         RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
-          savingGoal.budgetPot?.category = intent.getParcelableExtra("category")
+          //savingGoal.budgetPot?.category = intent.getParcelableExtra("category")
           updateViewFromData()
         }
       }

@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.data.ISporkEntry
-import app.pmsoft.ispork.util.CurrencyHandler
+import app.pmsoft.ispork.util.LocaleHandler
 
-abstract class AbstractListActivity<E, VH, VA>() : AppCompatActivity(),
+abstract class AbstractListActivity<E, VH, VA> : AppCompatActivity(),
   SelectionHandler<E> where
 E : ISporkEntry,
 E : Parcelable,
@@ -112,7 +112,7 @@ VA : AbstractListViewAdapter<E, VH> {
       layoutManager = viewManager
       adapter = viewAdapter
     }
-    CurrencyHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    LocaleHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       resources.configuration.locales[0]
     } else {
       @Suppress("DEPRECATION")

@@ -8,10 +8,12 @@ import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
 import app.pmsoft.ispork.data.FullParticipant
 import app.pmsoft.ispork.util.CurrencyHandler
+import java.util.*
 
 class ParticipantListViewHolder(
   view: View,
-  selectionHandler: SelectionHandler<FullParticipant>
+  selectionHandler: SelectionHandler<FullParticipant>,
+  private val currency: Currency
 ) : AbstractViewHolder<FullParticipant>(
   view,
   selectionHandler
@@ -28,7 +30,8 @@ class ParticipantListViewHolder(
     nameLabel.text = e.name
     if (e.type.internal) {
       amountLabel.visibility = View.VISIBLE
-      amountLabel.text = CurrencyHandler.format((e.balance ?: 0L) + (e.startingBalance ?: 0L))
+      amountLabel.text = CurrencyHandler.getInstanceFor(currency)
+        .format(e.getBalanceFor(currency))
     } else {
       amountLabel.visibility = View.GONE
     }

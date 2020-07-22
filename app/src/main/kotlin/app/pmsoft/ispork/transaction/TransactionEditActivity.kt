@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
+import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullBudgetPotAnnotation
-import app.pmsoft.ispork.data.FullTransaction
-import app.pmsoft.ispork.data.Participant
+import app.pmsoft.ispork.data.FullTransactionDefinition
 import app.pmsoft.ispork.participant.ParticipantPickingActivity
-import app.pmsoft.ispork.util.CurrencyHandler
 import app.pmsoft.ispork.util.DateHandler
+import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.view.DatePickerFragment
 import java.util.*
 
@@ -39,13 +39,6 @@ class TransactionEditActivity : AppCompatActivity(),
 
   private lateinit var data: TransactionEditWrapper
 
-  private var locale: Locale = Locale.getDefault()
-    set(value) {
-      field = value
-      CurrencyHandler.locale = value
-      DateHandler.locale = value
-    }
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_transaction_edit)
@@ -56,13 +49,13 @@ class TransactionEditActivity : AppCompatActivity(),
     )
     when (requestCode) {
       RequestCodes.TRANSACTION_CREATION_REQUEST_CODE -> {
-        data = TransactionEditWrapper(FullTransaction())
+        data = TransactionEditWrapper(FullTransactionDefinition())
       }
       RequestCodes.TRANSACTION_EDITING_REQUEST_CODE -> {
         data = TransactionEditWrapper(intent.getParcelableExtra("transaction"))
       }
     }
-    locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    LocaleHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       resources.configuration.locales[0]
     } else {
       @Suppress("DEPRECATION")
@@ -114,8 +107,9 @@ class TransactionEditActivity : AppCompatActivity(),
     if (intent != null) {
       when (requestCode) {
         RequestCodes.TRANSACTION_PARTICIPANTS_SELECTION_REQUEST_CODE -> {
-          val participants = intent.getParcelableArrayListExtra<Participant>("participants").sortedBy { it.type.internal }
-          data.createSubTransactionsFor(participants)
+          val moneyBags = intent.getParcelableArrayListExtra<ExtendedMoneyBag>("money_bags")
+            .sortedBy { it.participant.type.internal }
+          data.createSubTransactionsFor(moneyBags)
         }
         RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
           val subTransactionIndex = intent.getIntExtra(
@@ -147,7 +141,7 @@ class TransactionEditActivity : AppCompatActivity(),
   @Suppress("UNUSED_PARAMETER")
   fun pickEntryDate(view: View) {
     showDateSelector(
-      data.entryDate,
+      data.entryDate ?: Date(),
       this
     )
   }

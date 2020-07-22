@@ -101,7 +101,7 @@ class SubTransactionsListAdapter(
     }
 
     private fun updateViewFromData() {
-      if (data.participant.type.internal) {
+      if (data.moneyBag.participant.type.internal) {
         // this branch is for accounts and persons
         amountField.positiveFlowString = itemView.context.resources.getString(R.string.inflow)
         amountField.negativeFlowString = itemView.context.resources.getString(R.string.outflow)
@@ -109,14 +109,14 @@ class SubTransactionsListAdapter(
         // this branch is for external participants
         amountField.positiveFlowString = itemView.context.resources.getString(
           R.string.payment_to,
-          data.participant.name
+          data.moneyBag.participant.name
         )
         amountField.negativeFlowString = itemView.context.resources.getString(
           R.string.payment_from,
-          data.participant.name
+          data.moneyBag.participant.name
         )
       }
-      participantTypeIcon.setType(data.participant.type)
+      participantTypeIcon.setType(data.moneyBag.participant.type)
       notesField.text.clear()
       if (data.notes != null) {
         notesField.text.insert(
@@ -124,10 +124,10 @@ class SubTransactionsListAdapter(
           data.notes
         )
       }
-      participantField.text = data.participant.name
+      participantField.text = data.moneyBag.participant.name
       dateField.text = DateHandler.format(data.bookingDate)
       dateSwitch.isChecked = data.bookingDate != null
-      if (data.participant.type.internal) {
+      if (data.moneyBag.participant.type.internal) {
         notesLayout.visibility = View.VISIBLE
         annotationsView.visibility = View.GONE
         addSplitButton.visibility = View.GONE
@@ -150,10 +150,13 @@ class SubTransactionsListAdapter(
     }
 
     fun persistInputs() {
-      if (data.participant.type.internal) {
-        data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
+      if (data.moneyBag.participant.type.internal) {
+        data.notes = notesField.text.toString()
+          .trim()
+          .takeIf { it.isNotBlank() }
       } else {
-        data.notes = data.budgetPotAnnotations.mapNotNull { it.notes }.joinToString(", ")
+        data.notes = data.budgetPotAnnotations.mapNotNull { it.notes }
+          .joinToString(", ")
       }
       for (index in data.budgetPotAnnotations.indices) {
         (annotationsView.findViewHolderForAdapterPosition(index) as? BudgetPotAnnotationListAdapter.ViewHolder)

@@ -9,6 +9,8 @@ import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.data.FullParticipant
 import app.pmsoft.ispork.data.Participant
+import app.pmsoft.ispork.util.LocaleHandler
+import java.util.*
 
 class PayeeEditActivity : AppCompatActivity() {
 
@@ -25,7 +27,10 @@ class PayeeEditActivity : AppCompatActivity() {
       "request_code",
       0
     )) {
-      RequestCodes.PAYEE_CREATION_REQUEST_CODE -> payee = FullParticipant(Participant.Type.PAYEE)
+      RequestCodes.PAYEE_CREATION_REQUEST_CODE -> payee = FullParticipant(
+        Participant.Type.PAYEE,
+        Currency.getInstance(LocaleHandler.locale)
+      )
       RequestCodes.PAYEE_EDITING_REQUEST_CODE -> payee = intent.getParcelableExtra("payee")
     }
     nameField.text.insert(

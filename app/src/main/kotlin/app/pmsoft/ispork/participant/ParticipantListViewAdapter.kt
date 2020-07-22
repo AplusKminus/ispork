@@ -6,6 +6,8 @@ import app.pmsoft.ispork.AbstractListViewAdapter
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
 import app.pmsoft.ispork.data.FullParticipant
+import app.pmsoft.ispork.util.LocaleHandler
+import java.util.*
 
 class ParticipantListViewAdapter(private val selectionHandler: SelectionHandler<FullParticipant>) : AbstractListViewAdapter<FullParticipant, ParticipantListViewHolder>() {
   override fun onCreateViewHolder(
@@ -19,7 +21,8 @@ class ParticipantListViewAdapter(private val selectionHandler: SelectionHandler<
     )
     return ParticipantListViewHolder(
       view,
-      selectionHandler
+      selectionHandler,
+      Currency.getInstance(LocaleHandler.locale)
     )
   }
 }

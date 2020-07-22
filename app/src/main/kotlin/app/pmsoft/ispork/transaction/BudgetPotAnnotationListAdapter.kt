@@ -57,7 +57,7 @@ class BudgetPotAnnotationListAdapter(
       this.data = annotation
       this.last = last
       this.data.budgetPotData.observeForever(budgetPotObserver)
-      amountField.amountData = data.amountData
+      amountField.amountData = data.amountInTransactionData
       amountField.suggestedAmountData = data.suggestedAmountData
       annotation.subTransactionEditWrapper.budgetPotAnnotationsData.observeForever {
         if (it.size == 1) {
@@ -77,11 +77,11 @@ class BudgetPotAnnotationListAdapter(
       }
       amountField.positiveFlowString = itemView.context.resources.getString(
         R.string.payment_to,
-        data.participant.name
+        data.moneyBag.participant.name
       )
       amountField.negativeFlowString = itemView.context.resources.getString(
         R.string.payment_from,
-        data.participant.name
+        data.moneyBag.participant.name
       )
       notesField.text.clear()
       if (data.notes != null) {
@@ -97,8 +97,10 @@ class BudgetPotAnnotationListAdapter(
     }
 
     fun persistInputs() {
-      data.amount = amountField.amount ?: amountField.suggestedAmount ?: 0L
-      data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
+      data.amountInTransaction = amountField.amount ?: amountField.suggestedAmount ?: 0L
+      data.notes = notesField.text.toString()
+        .trim()
+        .takeIf { it.isNotBlank() }
     }
   }
 

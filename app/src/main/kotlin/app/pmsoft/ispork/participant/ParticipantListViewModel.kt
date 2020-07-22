@@ -14,7 +14,7 @@ class ParticipantListViewModel(application: Application) : AndroidViewModel(appl
 
   private val unfilteredParticipants: MutableLiveData<List<FullParticipant>> = MutableLiveData<List<FullParticipant>>().also {
     AsyncDataLoader(
-      participantDao::getAll,
+      participantDao::getAllFull,
       it
     ).execute()
   }
@@ -74,34 +74,39 @@ class ParticipantListViewModel(application: Application) : AndroidViewModel(appl
     if (participant.id == 0L) {
       participant.id = participantDao.insert(participant)
     } else {
-      participantDao.update(
-        participant.id,
-        participant.name,
-        participant.startingBalance
-      )
+      participantDao.update(participant)
+    }
+    participant.moneyBags.forEach {
+      it.participantId = participant.id
+      persist(it)
     }
     refresh()
     return participant.id
   }
 
-  fun insert(participant: FullParticipant): Long {
-    return participantDao.insert(participant).also {
-      refresh()
+  private fun persist(moneyBag: MoneyBag) {
+    if (moneyBag.id == 0L) {
+      moneyBag.id = participantDao.insert(moneyBag)
+    } else {
+      participantDao.update(moneyBag)
     }
   }
 
+  fun insert(participant: FullParticipant): Long {
+    return participantDao.insert(participant)
+      .also {
+        refresh()
+      }
+  }
+
   fun update(participant: FullParticipant) {
-    participantDao.update(
-      participant.id,
-      participant.name,
-      participant.startingBalance
-    )
+    participantDao.update(participant)
     refresh()
   }
 
   private fun refresh() {
     AsyncDataLoader(
-      participantDao::getAll,
+      participantDao::getAllFull,
       unfilteredParticipants
     ).execute()
   }
