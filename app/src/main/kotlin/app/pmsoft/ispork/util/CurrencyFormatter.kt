@@ -8,14 +8,14 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-class CurrencyHandler private constructor(private val currency: Currency) {
+class CurrencyFormatter private constructor(private val currency: Currency) {
 
   companion object {
 
-    private val instances = mutableMapOf<Currency, CurrencyHandler>()
+    private val instances = mutableMapOf<Currency, CurrencyFormatter>()
 
-    fun getInstanceFor(currency: Currency): CurrencyHandler {
-      return instances.getOrPut(currency, { CurrencyHandler(currency) })
+    fun getInstanceFor(currency: Currency): CurrencyFormatter {
+      return instances.getOrPut(currency, { CurrencyFormatter(currency) })
     }
   }
 

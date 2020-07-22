@@ -8,7 +8,7 @@ import app.pmsoft.ispork.AbstractViewHolder
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.SelectionHandler
 import app.pmsoft.ispork.data.FullTransactionDefinition
-import app.pmsoft.ispork.util.CurrencyHandler
+import app.pmsoft.ispork.util.CurrencyFormatter
 import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.view.CategoryDisplayLabel
 import java.util.*
@@ -46,7 +46,7 @@ class TransactionListViewHolder(
   override fun updateViewFromData(e: FullTransactionDefinition) {
     val transferSum = e.getInternalSum()
     val externalSum = e.getExternalSum()
-    val currencyHandler = CurrencyHandler.getInstanceFor(Currency.getInstance(LocaleHandler.locale))
+    val currencyHandler = CurrencyFormatter.getInstanceFor(Currency.getInstance(LocaleHandler.locale))
 
     if (transferSum != 0L) {
       transferAmountLabel.visibility = View.VISIBLE
