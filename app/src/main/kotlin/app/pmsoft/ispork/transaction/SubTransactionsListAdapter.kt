@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.participant.ParticipantTypeIcon
 import app.pmsoft.ispork.util.DateHandler
+import app.pmsoft.ispork.util.SettingsHandler
 import app.pmsoft.ispork.view.AmountInputView
 import java.util.*
 
@@ -30,13 +31,16 @@ class SubTransactionsListAdapter(
   ) : RecyclerView.ViewHolder(view),
     BudgetFlowListHandler {
 
-    private val participantField: TextView = view.findViewById(R.id.sub_transaction_participant_field)
-    private val dateField: TextView = view.findViewById(R.id.sub_transaction_date_field)
+    private val addSplitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
     private val amountField: AmountInputView = view.findViewById(R.id.sub_transaction_amount_field)
+    private val currencyButton: Button = view.findViewById(R.id.sub_transaction_currency_button)
+    private val dateField: TextView = view.findViewById(R.id.sub_transaction_date_field)
+    private val dateSwitch: Switch = view.findViewById(R.id.sub_transaction_booking_date_switch)
+    private val incomeSwitch: Switch = view.findViewById(R.id.sub_transaction_income_switch)
+    private val incomeLabel: TextView = view.findViewById(R.id.sub_transaction_income_label)
     private val notesField: EditText = view.findViewById(R.id.sub_transaction_notes_field)
     private val notesLayout: ViewGroup = view.findViewById(R.id.sub_transaction_notes_layout)
-    private val dateSwitch: Switch = view.findViewById(R.id.sub_transaction_booking_date_switch)
-    private val addSplitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
+    private val participantField: TextView = view.findViewById(R.id.sub_transaction_participant_field)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
     private val budgetFlowsAdapter: BudgetFlowListAdapter = BudgetFlowListAdapter(this)
@@ -87,6 +91,10 @@ class SubTransactionsListAdapter(
           )
         }
       }
+      incomeSwitch.setOnCheckedChangeListener { _, isChecked ->
+        data.isIncome = isChecked
+        updateViewFromData()
+      }
     }
 
     fun setData(
@@ -104,6 +112,12 @@ class SubTransactionsListAdapter(
     }
 
     private fun updateViewFromData() {
+      if (SettingsHandler.showMultiCurrencyOptions) {
+        currencyButton.text = data.moneyBag.currency.symbol
+        currencyButton.visibility = View.VISIBLE
+      } else {
+        currencyButton.visibility = View.GONE
+      }
       if (data.moneyBag.participant.type.internal) {
         // this branch is for accounts and persons
         amountField.positiveFlowString = itemView.context.resources.getString(R.string.inflow)
@@ -130,14 +144,31 @@ class SubTransactionsListAdapter(
       participantField.text = data.moneyBag.participant.name
       dateField.text = DateHandler.format(data.bookingDate)
       dateSwitch.isChecked = data.bookingDate != null
-      if (data.moneyBag.participant.type.internal) {
-        notesLayout.visibility = View.VISIBLE
-        budgetFlowsView.visibility = View.GONE
-        addSplitButton.visibility = View.GONE
-      } else {
-        notesLayout.visibility = View.GONE
-        budgetFlowsView.visibility = View.VISIBLE
-        addSplitButton.visibility = View.VISIBLE
+      when {
+        data.moneyBag.participant.type.internal -> {
+          notesLayout.visibility = View.VISIBLE
+          budgetFlowsView.visibility = View.GONE
+          addSplitButton.visibility = View.GONE
+          incomeSwitch.visibility = View.GONE
+          incomeLabel.visibility = View.GONE
+        }
+        data.isIncome -> {
+          notesLayout.visibility = View.VISIBLE
+          budgetFlowsView.visibility = View.GONE
+          addSplitButton.visibility = View.GONE
+          incomeSwitch.visibility = View.VISIBLE
+          incomeSwitch.isChecked = true
+          incomeLabel.visibility = View.VISIBLE
+        }
+        else -> {
+          // external participant, not income
+          notesLayout.visibility = View.GONE
+          budgetFlowsView.visibility = View.VISIBLE
+          addSplitButton.visibility = View.VISIBLE
+          incomeSwitch.visibility = View.VISIBLE
+          incomeSwitch.isChecked = false
+          incomeLabel.visibility = View.VISIBLE
+        }
       }
     }
 

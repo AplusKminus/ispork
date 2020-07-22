@@ -36,6 +36,8 @@ class SubTransactionEditWrapper(
   val suggestedAmountData: LiveData<Long?> = _suggestedAmountData
   val suggestedAmount: Long? by suggestedAmountData
 
+  var isIncome: Boolean = false
+
   private val triggerSuggestionUpdateObserver: Observer<Long?> = Observer {
     transactionEditWrapper.updateSuggestions()
   }
@@ -111,7 +113,7 @@ class SubTransactionEditWrapper(
   }
 
   fun extractSubTransaction(): FullSubTransaction {
-    val actualBudgetFlows = budgetFlows.map { it.extractBudgetFlow() }
+    val actualBudgetFlows = if (isIncome) emptyList() else budgetFlows.map { it.extractBudgetFlow() }
     if (actualBudgetFlows.size == 1) {
       actualBudgetFlows[0].amountInTransaction = amount ?: suggestedAmount ?: 0L
     }

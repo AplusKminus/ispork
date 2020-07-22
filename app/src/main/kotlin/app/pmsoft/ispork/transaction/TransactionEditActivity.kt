@@ -73,6 +73,9 @@ class TransactionEditActivity : AppCompatActivity(),
     detailsView.layoutManager = detailsViewManager
     detailsView.adapter = detailsAdapter
 
+    if (data.entryDate == null) {
+      data.entryDate = Date()
+    }
     entryDateView = findViewById(R.id.transaction_edit_date_field)
 
     participantsButton = findViewById(R.id.transaction_edit_pick_participants_button)

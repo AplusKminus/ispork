@@ -62,17 +62,18 @@ class TransactionEditWrapper(
         newList.add(
           SubTransactionEditWrapper(
             this,
-          FullSubTransaction(moneyBag).also {
-            if (!moneyBag.participant.type.internal) {
-              it.bookingDate = entryDate
+            FullSubTransaction(moneyBag).also {
+              if (!moneyBag.participant.type.internal) {
+                it.bookingDate = entryDate
+              }
             }
-          }
-        ).also {
-          addObserversToChild(it)
-          if (!it.moneyBag.participant.type.internal) {
-            it.addNewBudgetFlow()
-          }
-        })
+          ).also {
+            addObserversToChild(it)
+            // make sure there is at least one BudgetFlow on external participants
+            if (!it.moneyBag.participant.type.internal) {
+              it.addNewBudgetFlow()
+            }
+          })
       }
     }
     subTransactions.filter { !newList.contains(it) }

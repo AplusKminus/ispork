@@ -1,35 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  style="@style/ListItem"
-  android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/ListItem"
+              android:orientation="vertical">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/sub_transaction_amount_layout"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginStart="8dp"
-      android:hint="@string/amount"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/sub_transaction_participant_field">
-
-      <app.pmsoft.ispork.view.AmountInputView
-        android:id="@+id/sub_transaction_amount_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:cursorVisible="false"
-        android:focusable="false"
-        tools:text="0,00 €" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <app.pmsoft.ispork.participant.ParticipantTypeIcon
       android:id="@+id/sub_transaction_participant_type_icon"
@@ -40,7 +18,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@+id/sub_transaction_participant_field"
       app:srcCompat="@drawable/ic_account_white_24dp"
-      tools:ignore="ContentDescription" />
+      tools:ignore="ContentDescription"/>
 
     <TextView
       android:id="@+id/sub_transaction_participant_field"
@@ -48,50 +26,116 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
-      android:layout_marginEnd="@dimen/horizontal_page_margin"
+      android:layout_marginEnd="8dp"
       android:gravity="center_vertical"
       android:textSize="24sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/sub_transaction_participant_type_icon"
       app:layout_constraintTop_toTopOf="parent"
-      tools:text="Credit Card" />
+      tools:text="Credit Card"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/sub_transaction_amount_layout"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:hint="@string/amount"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_currency_button"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_participant_field">
+
+      <app.pmsoft.ispork.view.AmountInputView
+        android:id="@+id/sub_transaction_amount_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:cursorVisible="false"
+        android:focusable="false"
+        tools:text="0,00 €"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+      android:id="@+id/sub_transaction_currency_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:ems="1"
+      tools:text="€"
+      app:layout_constraintTop_toTopOf="@id/sub_transaction_amount_layout"
+      app:layout_constraintBottom_toBottomOf="@id/sub_transaction_amount_layout"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Switch
+      android:id="@+id/sub_transaction_booking_date_switch"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:checked="true"
+      android:switchPadding="@dimen/margin_medium"
+      android:textOff="@string/no_booking_date"
+      android:textOn="@string/booking_date"
+      android:textSize="18sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_layout"/>
 
     <TextView
       android:id="@+id/sub_transaction_booking_date_label"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
-      android:layout_marginEnd="16dp"
+      android:layout_marginEnd="8dp"
       android:text="@string/booking_date"
       android:textSize="18sp"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_booking_date_switch"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/sub_transaction_booking_date_switch" />
+      app:layout_constraintEnd_toStartOf="@id/sub_transaction_date_field"
+      app:layout_constraintStart_toEndOf="@+id/sub_transaction_booking_date_switch"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_booking_date_switch"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_booking_date_switch"/>
 
     <TextView
       android:id="@+id/sub_transaction_date_field"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
       android:layout_marginEnd="8dp"
-      android:layout_marginTop="8dp"
       android:textAlignment="textEnd"
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sub_transaction_amount_layout"
-      tools:text="2019-03-27" />
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_booking_date_switch"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_booking_date_switch"
+      tools:text="2019-03-27"/>
+
+    <TextView
+      android:id="@+id/sub_transaction_income_label"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:text="@string/mark_as_income"
+      android:textSize="18sp"
+      app:layout_constraintStart_toEndOf="@+id/sub_transaction_income_switch"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/sub_transaction_income_switch"
+      app:layout_constraintBottom_toBottomOf="@+id/sub_transaction_income_switch"/>
 
     <Switch
-      android:id="@+id/sub_transaction_booking_date_switch"
+      android:id="@+id/sub_transaction_income_switch"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="@dimen/horizontal_page_margin"
-      android:checked="true"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:checked="false"
       android:switchPadding="@dimen/margin_medium"
       android:textOff="@string/no_booking_date"
       android:textOn="@string/booking_date"
       android:textSize="18sp"
-      app:layout_constraintEnd_toStartOf="@+id/sub_transaction_date_field"
-      app:layout_constraintTop_toTopOf="@+id/sub_transaction_date_field" />
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_booking_date_switch"/>
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/sub_transaction_notes_layout"
@@ -103,7 +147,7 @@
       android:layout_marginStart="8dp"
       android:hint="@string/notes"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/sub_transaction_booking_date_switch"
+      app:layout_constraintTop_toBottomOf="@id/sub_transaction_income_switch"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent">
 
@@ -112,7 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"
-        tools:text="Supermarket" />
+        tools:text="Supermarket"/>
     </com.google.android.material.textfield.TextInputLayout>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
@@ -123,7 +167,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"/>
 
   <Button
     android:id="@+id/sub_transaction_budget_pot_split_button"
@@ -131,5 +175,5 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginBottom="8dp"
-    android:text="@string/add_split" />
+    android:text="@string/add_split"/>
 </LinearLayout>

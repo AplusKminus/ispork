@@ -54,6 +54,7 @@ package Settings <<Rectangle>> {
     startOfWeek : Weekday
     dateFormat : DateFormat
     timeFormat : TimeFormat
+    showMultiCurrencyOptions : Boolean
   }
   note bottom
     These settings affect how
