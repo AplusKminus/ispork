@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 /**
  * A spending buffer is a general budgeting tool.
  *
- * [Budget entries][BudgetEntry] towards its [BudgetPot] are made based on several parameters:
+ * [Budget allocations][BudgetAllocation] towards its [BudgetPot] are made based on several parameters:
  * - The [rate] amount determines the default amount it would be filled with at each [interval] start
  * - The [min] amount determines the minimum it should contain at each [interval] start thereby possibly increasing the
  * actual rate over the specified [rate]

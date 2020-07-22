@@ -11,13 +11,13 @@ import java.util.*
  * that have the same parent transaction definition must equal zero.
  *
  * One sub transaction per transaction definition may contain an external participant. If it does it must also contain
- * one or more [BudgetPotAnnotation]s. These define which [BudgetPot]s and thereby which [categories][Category] the
- * money flow of that sub transaction is assigned to (it may be split). The sum of all budget pot annotations' amounts
- * of one sub transaction must equal its own amount.
+ * one or more [BudgetFlow]s. These define which [BudgetPot]s and thereby which [categories][Category] the
+ * money flow of that sub transaction is assigned to (it may be split). The sum of all budget flows' amounts
+ * of one sub transaction must equal its own amount. There is one exception to this rule: if a sub transaction with an
+ * external participant has no budget flows, it is considered to be income.
  *
- * The notes of a sub transaction allow to specify what the payment is/was for. If a sub transaction has budget pot
- * annotations, its notes will be ignored and composed of the individual budget pot annotations' notes in a comma
- * separated list.
+ * The notes of a sub transaction allow to specify what the payment is/was for. If a sub transaction has budget flows,
+ * its notes will be ignored and composed of the individual budget flows' notes in a comma separated list.
  */
 @Entity(
   tableName = "sub_transactions",
@@ -93,13 +93,13 @@ class FullSubTransaction(
     entityColumn = "id",
     entity = MoneyBag::class
   )
-  var moneyBag: OwnedMoneyBag,
+  var moneyBag: MoneyBagWithParticipant,
   @Relation(
     parentColumn = "id",
     entityColumn = "sub_transaction_id",
-    entity = BudgetPotAnnotation::class
+    entity = BudgetFlow::class
   )
-  var budgetPotAnnotations: List<FullBudgetPotAnnotation>,
+  var budgetFlows: List<FullBudgetFlow>,
   @Ignore
   override var bookingDate: Date?,
   @Ignore
@@ -107,7 +107,7 @@ class FullSubTransaction(
 ) : SubTransaction() {
 
   @Ignore
-  constructor(moneyBag: OwnedMoneyBag) : this(
+  constructor(moneyBag: MoneyBagWithParticipant) : this(
     0,
     0,
     0,

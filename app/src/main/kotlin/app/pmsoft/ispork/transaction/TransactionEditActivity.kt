@@ -112,32 +112,32 @@ class TransactionEditActivity : AppCompatActivity(),
           val currency = Currency.getInstance(LocaleHandler.locale)
           val moneyBags = participants.map {
             appDatabase.subTransactionDao()
-              .getMoneyBagFor(it.id, currency) ?: OwnedMoneyBag(currency, it)
+              .getMoneyBagFor(it.id, currency) ?: MoneyBagWithParticipant(currency, it)
           }
           data.createSubTransactionsFor(moneyBags)
         }
-        RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
+        RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE -> {
           val subTransactionIndex = intent.getIntExtra(
             "sub_transaction_index",
             -1
           )
-          val categoryAnnotationIndex = intent.getIntExtra(
-            "category_annotation_index",
+          val budgetFlowIndex = intent.getIntExtra(
+            "budget_flow_index",
             -1
           )
           val budgetPot = intent.getParcelableExtra<FullBudgetPot>("budgetPot")
-          val budgetPotAnnotation: BudgetPotAnnotationEditWrapper
+          val budgetFlow: BudgetFlowEditWrapper
           val subTransaction = this.data.subTransactions[subTransactionIndex]
-          if (categoryAnnotationIndex < 0) {
-            budgetPotAnnotation = BudgetPotAnnotationEditWrapper(
+          if (budgetFlowIndex < 0) {
+            budgetFlow = BudgetFlowEditWrapper(
               subTransaction,
-              FullBudgetPotAnnotation()
+              FullBudgetFlow()
             )
-            subTransaction.budgetPotAnnotations = listOf(budgetPotAnnotation)
+            subTransaction.budgetFlows = listOf(budgetFlow)
           } else {
-            budgetPotAnnotation = subTransaction.budgetPotAnnotations[categoryAnnotationIndex]
+            budgetFlow = subTransaction.budgetFlows[budgetFlowIndex]
           }
-          budgetPotAnnotation.budgetPot = budgetPot
+          budgetFlow.budgetPot = budgetPot
         }
       }
     }
@@ -208,9 +208,9 @@ class TransactionEditActivity : AppCompatActivity(),
     return true
   }
 
-  override fun startCategoryPicking(
+  override fun startBudgetFlowPicking(
     subTransactionEditWrapper: SubTransactionEditWrapper,
-    categoryAnnotationIndex: Int?
+    budgetFlowIndex: Int?
   ) {
     val intent = Intent(
       this,
@@ -220,15 +220,15 @@ class TransactionEditActivity : AppCompatActivity(),
       "sub_transaction_index",
       data.subTransactions.indexOf(subTransactionEditWrapper)
     )
-    if (categoryAnnotationIndex != null) {
+    if (budgetFlowIndex != null) {
       intent.putExtra(
-        "category_annotation_index",
-        categoryAnnotationIndex
+        "budget_flow_index",
+        budgetFlowIndex
       )
     }
     this.startActivityForResult(
       intent,
-      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE
+      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE
     )
   }
 

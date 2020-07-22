@@ -8,7 +8,7 @@ interface SubTransactionDao {
 
   @Query("SELECT * FROM money_bags WHERE participant_id = :participantId AND currency = :currency LIMIT 1")
   @Transaction
-  fun getMoneyBagFor(participantId: Long, currency: Currency): OwnedMoneyBag?
+  fun getMoneyBagFor(participantId: Long, currency: Currency): MoneyBagWithParticipant?
 
   @Update
   fun update(subTransaction: SubTransaction)

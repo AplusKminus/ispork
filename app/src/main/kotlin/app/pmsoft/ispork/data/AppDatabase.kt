@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Database(
   entities = [
-    BudgetEntry::class,
+    BudgetAllocation::class,
     BudgetPot::class,
-    BudgetPotAnnotation::class,
+    BudgetFlow::class,
     Category::class,
     MoneyBag::class,
     Participant::class,
@@ -42,7 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
 
   abstract fun participantDao(): ParticipantDao
 
-  abstract fun budgetPotAnnotationDao(): BudgetPotAnnotationDao
+  abstract fun budgetFlowDao(): BudgetFlowDao
 
   abstract fun savingGoalDao(): SavingGoalDao
 

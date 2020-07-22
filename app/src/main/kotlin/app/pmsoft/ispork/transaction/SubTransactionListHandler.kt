@@ -5,9 +5,9 @@ import java.util.*
 
 interface SubTransactionListHandler {
 
-  fun startCategoryPicking(
+  fun startBudgetFlowPicking(
     subTransactionEditWrapper: SubTransactionEditWrapper,
-    categoryAnnotationIndex: Int?
+    budgetFlowIndex: Int?
   )
 
   fun showDateSelector(

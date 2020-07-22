@@ -5,20 +5,20 @@
   style="@style/ListItem">
 
   <ImageView
-    android:id="@+id/budget_pot_annotation_edit_delete_icon"
+    android:id="@+id/budget_flow_edit_delete_icon"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="16dp"
-    app:layout_constraintStart_toEndOf="@+id/budget_pot_annotation_edit_budget_pot_layout"
+    app:layout_constraintStart_toEndOf="@+id/budget_flow_edit_budget_pot_layout"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/budget_pot_annotation_edit_budget_pot_layout"
-    app:layout_constraintBottom_toBottomOf="@+id/budget_pot_annotation_edit_budget_pot_layout"
+    app:layout_constraintTop_toTopOf="@+id/budget_flow_edit_budget_pot_layout"
+    app:layout_constraintBottom_toBottomOf="@+id/budget_flow_edit_budget_pot_layout"
     app:srcCompat="?attr/delete_icon"
-    android:contentDescription="@string/delete" />
+    android:contentDescription="@string/delete"/>
 
   <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/budget_pot_annotation_edit_budget_pot_layout"
+    android:id="@+id/budget_flow_edit_budget_pot_layout"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
@@ -26,11 +26,11 @@
     android:layout_marginStart="8dp"
     android:hint="@string/pick_budget_pot"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/budget_pot_annotation_edit_delete_icon"
+    app:layout_constraintEnd_toStartOf="@+id/budget_flow_edit_delete_icon"
     app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/budget_pot_annotation_edit_budget_pot_field"
+      android:id="@+id/budget_flow_edit_budget_pot_field"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:cursorVisible="false"
@@ -39,19 +39,19 @@
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/budget_pot_annotation_edit_amount_layout"
+    android:id="@+id/budget_flow_edit_amount_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:hint="@string/amount"
-    app:layout_constraintTop_toBottomOf="@id/budget_pot_annotation_edit_budget_pot_layout"
+    app:layout_constraintTop_toBottomOf="@id/budget_flow_edit_budget_pot_layout"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent">
 
     <app.pmsoft.ispork.view.AmountInputView
-      android:id="@+id/budget_pot_annotation_edit_amount_field"
+      android:id="@+id/budget_flow_edit_amount_field"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:inputType="textPersonName"
@@ -62,7 +62,7 @@
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/budget_pot_annotation_edit_notes_layout"
+    android:id="@+id/budget_flow_edit_notes_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
@@ -71,12 +71,12 @@
     android:layout_marginStart="8dp"
     android:hint="@string/notes"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/budget_pot_annotation_edit_amount_layout"
+    app:layout_constraintTop_toBottomOf="@+id/budget_flow_edit_amount_layout"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent">
 
     <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/budget_pot_annotation_edit_notes_field"
+      android:id="@+id/budget_flow_edit_notes_field"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences"

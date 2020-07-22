@@ -42,15 +42,23 @@ class "Amount : Long" <<(T,#FFFFFF) Typealias>> {
 
 package Settings <<Rectangle>> {
   class BudgetSettings {
-    baseCurrency : Currency
     workdays : Int
     timeZone : TimeZone
   }
+  note bottom
+    These settings affect how
+    the budget works.
+  end note
   class AppSettings {
+    defaultCurrency : Currency
     startOfWeek : Weekday
     dateFormat : DateFormat
     timeFormat : TimeFormat
   }
+  note bottom
+    These settings affect how
+    the UI behaves.
+  end note
 }
 
 package "Budget" <<Rectangle>> {
@@ -62,15 +70,21 @@ package "Budget" <<Rectangle>> {
     currency : Currency
   }
   note left
+    Represents funds that can be spent.
+
     The currency cannot be changed.
     If a new currency is needed, it
     is no problem to create a new
     budget pot in the same category.
   end note
-  class BudgetEntry {
+  class BudgetAllocation {
     entryDate : Date
     amount : Amount
   }
+  note left
+    Represents a fund allocation towards
+    a certain budget pot.
+  end note
   package "Saving Goals" <<Rectangle>> {
     class SavingGoal {
       name : String
@@ -105,15 +119,14 @@ package "Budget" <<Rectangle>> {
     cost : Amount
     lifeExpectancy : Int
   }
-  class EmergencyCategory << (S,#FFC66D) Singleton>> {
-  }
+  class EmergencyCategory << (S,#FFC66D) Singleton>>
   EmergencyCategory --|> Category
   EmergencyFund o-- "*" CrucialItem
   EmergencyFund *-- "1" BudgetPot
   CrucialItem *-- "1" BudgetPot
   EmergencyFund <..> EmergencyCategory : "Linked via\nBudgetPot"
   }
-  BudgetPot *-- "*" BudgetEntry
+  BudgetPot *-- "*" BudgetAllocation
   BudgetPot "*" --o Category
 }
 
@@ -137,8 +150,8 @@ package "Participants" <<Rectangle>> {
     currency : Currency
   }
   note bottom
-    A MoneyBag is created automatically every time a new
-    currency is added to a participant.
+    If a participant receives money in a new currency,
+    a MoneyBag for that currency and participant is added.
 
     The balance is calculated from the starting balance
     and all SubTransactions that target this participant
@@ -159,18 +172,7 @@ package "Transaction Definition" <<Rectangle>> {
     'tags : List<String>
     entryDate : Date
   }
-  note left
-    The transaction definition is
-    copied when an occurrence of a
-    scheduled transaction is realized.
-
-    This includes its SubTransactions
-    and their BudgetPotAnnotations.
-
-    Also, the source scheduled transaction
-    is linked on the transaction definition
-  end note
-  note top of TransactionDefinition
+  note right of TransactionDefinition
     A transaction is considered to be booked
     when its entryDate is not null.
 
@@ -190,15 +192,24 @@ package "Transaction Definition" <<Rectangle>> {
     - a withdrawal from a bank account
     - a withdrawal into the wallet
     - a store receipt
+
+    The "booked" currency is determined
+    by the MoneyBag this is linked with.
   end note
-  class BudgetPotAnnotation {
+  class BudgetFlow {
     amountInTransaction : Amount
     amountInBudget : Amount
     notes : String
   }
-  note bottom
-    Represents one entry in the budget.
-    Multiple of these are used for
+  note right
+    A SubTransaction with an
+    external participant but
+    without a BudgetFlow
+    is considered to be "income".
+  end note
+  note bottom of BudgetFlow
+    Represents an external flow entry in the budget.
+    Multiple of these per SubTransaction are used for
     splitting a shopping haul into categories.
 
     A difference in the two amount fields is only
@@ -207,9 +218,9 @@ package "Transaction Definition" <<Rectangle>> {
   end note
 }
 TransactionDefinition *-- "2..*" SubTransaction
-SubTransaction *-- "*" BudgetPotAnnotation
+SubTransaction *-- "*" BudgetFlow
 SubTransaction o-- "1" MoneyBag
-BudgetPotAnnotation o-- "1" BudgetPot
+BudgetFlow o-- "1" BudgetPot
 
 enum OffsetType {
   DAY
@@ -227,7 +238,7 @@ package "Scheduled Transactions" <<Rectangle>> {
     name : String
     timeZone : TimeZone
   }
-  note bottom
+  note left
     The time zone defines in which
     time zone the next occurrence
     should be calculated in.
@@ -242,11 +253,24 @@ package "Scheduled Transactions" <<Rectangle>> {
   class NextOccurrence <<Not Synced>>{
     date : Date
   }
-  note right: Is not synced because it is calculated\nfrom given information.
+  note left: Is not synced because it is calculated\nfrom given information.
   ScheduledRhythm o-- "1" OffsetType
   ScheduledTransaction *-- "1..*" ScheduledRhythm
   NextOccurrence *-- "1" ScheduledTransaction
 }
+note as SN
+  The transaction definition of the
+  ScheduledTransaction is copied
+  when an occurrence of a it is realized.
+
+  This includes the SubTransactions
+  and their BudgetFlows.
+
+  Also, the source scheduled transaction
+  is linked on the transaction definition.
+end note
+SN .. ScheduledTransaction
+SN .. TransactionDefinition
 ScheduledTransaction "1" *-- "1" TransactionDefinition
 ScheduledTransaction "1" --o "*" TransactionDefinition
 ScheduledRhythm *-- "1" Interval : Embedded

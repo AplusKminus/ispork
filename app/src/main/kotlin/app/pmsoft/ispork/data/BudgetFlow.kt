@@ -4,13 +4,13 @@ import androidx.room.*
 import kotlinx.android.parcel.Parcelize
 
 /**
- * A budget pot annotation allows monetary flows to be assigned to [BudgetPot]s and thereby to [categories][Category].
+ * A budget flow allows monetary flows to be assigned to [BudgetPot]s and thereby to [categories][Category].
  *
- * Using several budget pot annotations on the same [SubTransaction] allows it to be split across multiple budget pots.
- * The sum of all sibling budget pot annotations' [amounts][amountInTransaction] must match the
+ * Using several budget flows on the same [SubTransaction] allows it to be split across multiple budget pots.
+ * The sum of all sibling budget flows' [amounts][amountInTransaction] must match the
  * [amount][SubTransaction.amountInBookedCurrency] of the parent sub transaction.
  *
- * If the budget pot and the sub transaction of this annotation have different currencies, the ratio between
+ * If the budget pot and the sub transaction of this flow have different currencies, the ratio between
  * [amountInTransaction] and [amountInBudget] is assumed to be the exchange rate.
  *
  * A notes field allows the user to specify which items of a transaction are contained in which "split".
@@ -30,10 +30,10 @@ import kotlinx.android.parcel.Parcelize
     )
   ],
   indices = [Index("sub_transaction_id"), Index("budget_pot_id")],
-  tableName = "budget_pot_annotations"
+  tableName = "budget_flows"
 )
 @Parcelize
-open class BudgetPotAnnotation(
+open class BudgetFlow(
 
   @PrimaryKey(autoGenerate = true)
   override var id: Long,
@@ -66,7 +66,7 @@ open class BudgetPotAnnotation(
 }
 
 @Parcelize
-class FullBudgetPotAnnotation(
+class FullBudgetFlow(
 
   @Ignore
   override var id: Long,
@@ -84,7 +84,7 @@ class FullBudgetPotAnnotation(
   var budgetPot: FullBudgetPot?,
   @Ignore
   override var notes: String?
-) : BudgetPotAnnotation() {
+) : BudgetFlow() {
 
   @Ignore
   constructor() : this(

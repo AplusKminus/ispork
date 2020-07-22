@@ -3,16 +3,16 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import app.pmsoft.ispork.data.Amount
+import app.pmsoft.ispork.data.FullBudgetFlow
 import app.pmsoft.ispork.data.FullBudgetPot
-import app.pmsoft.ispork.data.FullBudgetPotAnnotation
-import app.pmsoft.ispork.data.OwnedMoneyBag
+import app.pmsoft.ispork.data.MoneyBagWithParticipant
 import app.pmsoft.ispork.util.ZeroIsNullLongLiveData
 import app.pmsoft.ispork.util.getValue
 import app.pmsoft.ispork.util.setValue
 
-class BudgetPotAnnotationEditWrapper(
+class BudgetFlowEditWrapper(
   val subTransactionEditWrapper: SubTransactionEditWrapper,
-  private val originalData: FullBudgetPotAnnotation
+  private val originalData: FullBudgetFlow
 ) {
 
   val amountInBudgetData = ZeroIsNullLongLiveData(originalData.amountInBudget)
@@ -27,7 +27,7 @@ class BudgetPotAnnotationEditWrapper(
   private val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
-  val moneyBag: OwnedMoneyBag by subTransactionEditWrapper.moneyBagData
+  val moneyBag: MoneyBagWithParticipant by subTransactionEditWrapper.moneyBagData
 
   private val _suggestedAmount = ZeroIsNullLongLiveData()
   val suggestedAmountData: LiveData<Long?> = _suggestedAmount
@@ -52,21 +52,21 @@ class BudgetPotAnnotationEditWrapper(
   private fun getSuggestedAmountThroughSubTransaction(): Amount? {
     // base the suggestion on either amount or suggestion from the sub transaction
     return (subTransactionEditWrapper.amount ?: subTransactionEditWrapper.suggestedAmount)
-      // if a suggestion is possible, subtract the sum of the other annotations
+      // if a suggestion is possible, subtract the sum of the other flows
       ?.minus(
-        subTransactionEditWrapper.getSiblingAnnotations(this)
-          // if a sibling annotation does not have an amount, no suggestion is possible -> abort with null
+        subTransactionEditWrapper.getSiblingFlows(this)
+          // if a sibling flow does not have an amount, no suggestion is possible -> abort with null
           .map { it.amountInTransaction ?: return null }
           .sum()
       )
   }
 
   fun delete() {
-    subTransactionEditWrapper.deleteBudgetPotAnnotation(this)
+    subTransactionEditWrapper.deleteBudgetFlow(this)
   }
 
-  fun extractBudgetPotAnnotation(): FullBudgetPotAnnotation {
-    return FullBudgetPotAnnotation(
+  fun extractBudgetFlow(): FullBudgetFlow {
+    return FullBudgetFlow(
       originalData.id,
       subTransactionEditWrapper.originalData.id,
       amountInTransaction ?: suggestedAmount ?: 0L,

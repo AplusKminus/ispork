@@ -3,7 +3,7 @@ package app.pmsoft.ispork
 class RequestCodes private constructor() {
   companion object {
     const val NONE = -1
-    const val CATEGORY_SELECTION_REQUEST_CODE = 1
+    const val BUDGET_FLOW_SELECTION_REQUEST_CODE = 1
     const val TRANSACTION_PARTICIPANTS_SELECTION_REQUEST_CODE = 2
     const val CATEGORY_CREATION_REQUEST_CODE = 3
     const val CATEGORY_EDITING_REQUEST_CODE = 4

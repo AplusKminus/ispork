@@ -12,22 +12,22 @@ import app.pmsoft.ispork.R
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.view.AmountInputView
 
-class BudgetPotAnnotationListAdapter(
-  private val annotationHandler: BudgetPotAnnotationListHandler
-) : RecyclerView.Adapter<BudgetPotAnnotationListAdapter.ViewHolder>() {
+class BudgetFlowListAdapter(
+  private val flowListHandler: BudgetFlowListHandler
+) : RecyclerView.Adapter<BudgetFlowListAdapter.ViewHolder>() {
 
-  private var dataSet: List<BudgetPotAnnotationEditWrapper> = emptyList()
+  private var dataSet: List<BudgetFlowEditWrapper> = emptyList()
 
   class ViewHolder(
     view: View,
-    private val annotationHandler: BudgetPotAnnotationListHandler
+    private val flowListHandler: BudgetFlowListHandler
   ) : RecyclerView.ViewHolder(view) {
-    private val budgetPotField: EditText = view.findViewById(R.id.budget_pot_annotation_edit_budget_pot_field)
-    private val amountField: AmountInputView = view.findViewById(R.id.budget_pot_annotation_edit_amount_field)
-    private val notesField: EditText = view.findViewById(R.id.budget_pot_annotation_edit_notes_field)
-    private val deleteIcon: ImageView = view.findViewById(R.id.budget_pot_annotation_edit_delete_icon)
+    private val budgetPotField: EditText = view.findViewById(R.id.budget_flow_edit_budget_pot_field)
+    private val amountField: AmountInputView = view.findViewById(R.id.budget_flow_edit_amount_field)
+    private val notesField: EditText = view.findViewById(R.id.budget_flow_edit_notes_field)
+    private val deleteIcon: ImageView = view.findViewById(R.id.budget_flow_edit_delete_icon)
 
-    private lateinit var data: BudgetPotAnnotationEditWrapper
+    private lateinit var data: BudgetFlowEditWrapper
     private val budgetPotObserver: Observer<FullBudgetPot?> = Observer { budgetPot ->
       budgetPotField.text = budgetPot?.category?.name?.let { SpannableStringBuilder(it) }
     }
@@ -35,7 +35,7 @@ class BudgetPotAnnotationListAdapter(
 
     init {
       budgetPotField.setOnClickListener {
-        annotationHandler.selectBudgetPotFor(data)
+        flowListHandler.selectBudgetPotFor(data)
       }
       deleteIcon.setOnClickListener {
         data.delete()
@@ -48,18 +48,18 @@ class BudgetPotAnnotationListAdapter(
     }
 
     fun setData(
-      annotation: BudgetPotAnnotationEditWrapper,
+      budgetFlow: BudgetFlowEditWrapper,
       last: Boolean
     ) {
       if (::data.isInitialized) {
         data.budgetPotData.removeObserver(budgetPotObserver)
       }
-      this.data = annotation
+      this.data = budgetFlow
       this.last = last
       this.data.budgetPotData.observeForever(budgetPotObserver)
       amountField.amountData = data.amountInTransactionData
       amountField.suggestedAmountData = data.suggestedAmountData
-      annotation.subTransactionEditWrapper.budgetPotAnnotationsData.observeForever {
+      budgetFlow.subTransactionEditWrapper.budgetFlowsData.observeForever {
         if (it.size == 1) {
           deleteIcon.visibility = View.GONE
         } else {
@@ -112,11 +112,11 @@ class BudgetPotAnnotationListAdapter(
   ): ViewHolder {
     return ViewHolder(
       LayoutInflater.from(parent.context).inflate(
-        R.layout.budget_pot_annotation_edit_fragment,
+        R.layout.budget_flow_edit_fragment,
         parent,
         false
       ),
-      annotationHandler
+      flowListHandler
     )
   }
 
@@ -130,7 +130,7 @@ class BudgetPotAnnotationListAdapter(
     )
   }
 
-  fun setData(newData: List<BudgetPotAnnotationEditWrapper>) {
+  fun setData(newData: List<BudgetFlowEditWrapper>) {
     dataSet = newData
     notifyDataSetChanged()
   }

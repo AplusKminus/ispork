@@ -3,9 +3,9 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import app.pmsoft.ispork.data.FullBudgetPotAnnotation
+import app.pmsoft.ispork.data.FullBudgetFlow
 import app.pmsoft.ispork.data.FullSubTransaction
-import app.pmsoft.ispork.data.OwnedMoneyBag
+import app.pmsoft.ispork.data.MoneyBagWithParticipant
 import app.pmsoft.ispork.util.NonNullMutableLiveData
 import app.pmsoft.ispork.util.ZeroIsNullLongLiveData
 import app.pmsoft.ispork.util.getValue
@@ -21,7 +21,7 @@ class SubTransactionEditWrapper(
   var amount: Long? by amountData
 
   val moneyBagData = NonNullMutableLiveData(originalData.moneyBag)
-  var moneyBag: OwnedMoneyBag by moneyBagData
+  var moneyBag: MoneyBagWithParticipant by moneyBagData
 
   private val bookingDateData = MutableLiveData(originalData.bookingDate)
   var bookingDate: Date? by bookingDateData
@@ -29,8 +29,8 @@ class SubTransactionEditWrapper(
   private val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
-  val budgetPotAnnotationsData = NonNullMutableLiveData<List<BudgetPotAnnotationEditWrapper>>(emptyList())
-  var budgetPotAnnotations: List<BudgetPotAnnotationEditWrapper> by budgetPotAnnotationsData
+  val budgetFlowsData = NonNullMutableLiveData<List<BudgetFlowEditWrapper>>(emptyList())
+  var budgetFlows: List<BudgetFlowEditWrapper> by budgetFlowsData
 
   private val _suggestedAmountData = ZeroIsNullLongLiveData()
   val suggestedAmountData: LiveData<Long?> = _suggestedAmountData
@@ -41,10 +41,10 @@ class SubTransactionEditWrapper(
   }
 
   init {
-    budgetPotAnnotations = originalData.budgetPotAnnotations.map { fullBudgetPotAnnotation ->
-      BudgetPotAnnotationEditWrapper(
+    budgetFlows = originalData.budgetFlows.map { fullBudgetFlow ->
+      BudgetFlowEditWrapper(
         this,
-        fullBudgetPotAnnotation
+        fullBudgetFlow
       ).also {
         addObserverToChild(it)
       }
@@ -56,7 +56,7 @@ class SubTransactionEditWrapper(
     if (amount != null) {
       return
     }
-    val value1 = getSuggestedAmountThroughBudgetPots()
+    val value1 = getSuggestedAmountThroughBudgetFlows()
     val value2 = getSuggestedAmountThroughTransaction()
     var newValue = value1 ?: value2
     // if value1 and value2 do not agree, do not set a suggestion
@@ -65,7 +65,7 @@ class SubTransactionEditWrapper(
     }
     if (newValue != suggestedAmount) {
       _suggestedAmountData.value = newValue
-      budgetPotAnnotations.forEach(BudgetPotAnnotationEditWrapper::updateSuggestedAmount)
+      budgetFlows.forEach(BudgetFlowEditWrapper::updateSuggestedAmount)
     }
   }
 
@@ -73,47 +73,47 @@ class SubTransactionEditWrapper(
   private fun getSuggestedAmountThroughTransaction(): Long? =
     transactionEditWrapper.getSiblingSubTransactions(this)
       // if any other sub transaction does not have an amount, no suggestion is possible
-      .map { it.amount ?: it.getSuggestedAmountThroughBudgetPots() ?: return null }
+      .map { it.amount ?: it.getSuggestedAmountThroughBudgetFlows() ?: return null }
       .sum()
       // this sub transaction must compensate all others, therefore invert the sum
       .unaryMinus()
 
   /**
-   * Gets the amount inferred for this sub transaction by the values entered in its budgetPot annotations.
+   * Gets the amount inferred for this sub transaction by the values entered in its budget pot flows.
    *
-   * @return `null` when any of the budget pot annotations does not have an amount.
+   * @return `null` when any of the budget flows does not have an amount.
    */
-  private fun getSuggestedAmountThroughBudgetPots(): Long? =
-    budgetPotAnnotations
+  private fun getSuggestedAmountThroughBudgetFlows(): Long? =
+    budgetFlows
       .takeUnless { it.isEmpty() }
       ?.map { it.amountInTransaction ?: return null }
       ?.sum()
 
-  fun deleteBudgetPotAnnotation(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper) {
-    budgetPotAnnotationEditWrapper.amountInTransactionData.removeObserver(triggerSuggestionUpdateObserver)
-    this.budgetPotAnnotations -= budgetPotAnnotationEditWrapper
+  fun deleteBudgetFlow(budgetFlowEditWrapper: BudgetFlowEditWrapper) {
+    budgetFlowEditWrapper.amountInTransactionData.removeObserver(triggerSuggestionUpdateObserver)
+    this.budgetFlows -= budgetFlowEditWrapper
     transactionEditWrapper.updateSuggestions()
   }
 
-  fun addNewBudgetPotAnnotation() {
-    this.budgetPotAnnotations +=
-      BudgetPotAnnotationEditWrapper(
+  fun addNewBudgetFlow() {
+    this.budgetFlows +=
+      BudgetFlowEditWrapper(
         this,
-        FullBudgetPotAnnotation()
+        FullBudgetFlow()
       ).also {
         addObserverToChild(it)
       }
     transactionEditWrapper.updateSuggestions()
   }
 
-  private fun addObserverToChild(child: BudgetPotAnnotationEditWrapper) {
+  private fun addObserverToChild(child: BudgetFlowEditWrapper) {
     child.amountInTransactionData.observeForever(triggerSuggestionUpdateObserver)
   }
 
   fun extractSubTransaction(): FullSubTransaction {
-    val actualBudgetPotAnnotations = budgetPotAnnotations.map { it.extractBudgetPotAnnotation() }
-    if (actualBudgetPotAnnotations.size == 1) {
-      actualBudgetPotAnnotations[0].amountInTransaction = amount ?: suggestedAmount ?: 0L
+    val actualBudgetFlows = budgetFlows.map { it.extractBudgetFlow() }
+    if (actualBudgetFlows.size == 1) {
+      actualBudgetFlows[0].amountInTransaction = amount ?: suggestedAmount ?: 0L
     }
     return FullSubTransaction(
       originalData.id,
@@ -121,20 +121,20 @@ class SubTransactionEditWrapper(
       amount ?: suggestedAmount ?: 0L,
       transactionEditWrapper.originalData.id,
       moneyBag,
-      actualBudgetPotAnnotations,
+      actualBudgetFlows,
       bookingDate,
       notes
     )
   }
 
-  fun getSiblingAnnotations(target: BudgetPotAnnotationEditWrapper): List<BudgetPotAnnotationEditWrapper> {
-    return budgetPotAnnotations - target
+  fun getSiblingFlows(target: BudgetFlowEditWrapper): List<BudgetFlowEditWrapper> {
+    return budgetFlows - target
   }
 
   fun destroy() {
-    budgetPotAnnotations.forEach {
+    budgetFlows.forEach {
       it.amountInTransactionData.removeObserver(triggerSuggestionUpdateObserver)
     }
-    budgetPotAnnotations = emptyList()
+    budgetFlows = emptyList()
   }
 }

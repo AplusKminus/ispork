@@ -50,10 +50,10 @@ open class MoneyBag(
 }
 
 /**
- * An owned money bag extends a [MoneyBag] by an actual participant. This is used by [FullSubTransaction].
+ * A [MoneyBag] extended with its participant. It is used by [FullSubTransaction].
  */
 @Parcelize
-class OwnedMoneyBag(
+class MoneyBagWithParticipant(
   @Ignore
   override var id: Long,
   @Ignore
@@ -82,10 +82,10 @@ class OwnedMoneyBag(
 }
 
 /**
- * A loaded money bag extends a [MoneyBag] by the current balance. This is used by [FullParticipant].
+ * A [MoneyBag] extended with its booked balance. It is used by [FullParticipant].
  */
 @Parcelize
-class LoadedMoneyBag(
+class MoneyBagWithBalance(
   @Ignore
   override var id: Long,
   @Ignore
@@ -94,6 +94,7 @@ class LoadedMoneyBag(
   override var currency: Currency,
   @Ignore
   override var participantId: Long,
+  /** The sum of all booked transactions on this money bag. */
   var bookedBalance: Amount
 ) : MoneyBag(currency) {
 

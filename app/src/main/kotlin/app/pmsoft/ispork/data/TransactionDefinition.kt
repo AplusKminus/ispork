@@ -10,7 +10,7 @@ import kotlin.math.absoluteValue
  *
  * It contains [sub transactions][SubTransaction] that each contain a [Participant] and an amount. This defines which
  * participant receives which amount of money.
- * One (or no) sub transaction contains one or more [budget pot annotations][BudgetPotAnnotation] which in turn define
+ * One (or no) sub transaction contains one or more [budget flows][BudgetFlow] which in turn define
  * which [BudgetPot] (and thereby indirectly which [Category]) the money is taken from (or put into).
  *
  * Each [ScheduledTransaction] contains a transaction definition for defining how future payments should be booked.

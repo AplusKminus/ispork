@@ -20,7 +20,7 @@ import java.util.*
  * 3. Payees ([Participant.Type.PAYEE]) represent external payees or payers (depending on the direction of flow).
  *
  * Transactions with a payee affect the user's budget. Therefore a sub transaction that has a payee set as participant
- * must have [BudgetPotAnnotation]s to assign the monetary flow to one or more [BudgetPot]s.
+ * must have [BudgetFlow]s to assign the monetary flow to one or more [BudgetPot]s.
  *
  * A non-payee participant has one or more [money bags][MoneyBag], which allow different currencies to be managed for
  * the same participant.
@@ -115,7 +115,7 @@ class FullParticipant(
     parentColumn = "id",
     entityColumn = "participant_id"
   )
-  var moneyBags: List<LoadedMoneyBag>
+  var moneyBags: List<MoneyBagWithBalance>
 ) : Participant(type, defaultCurrency) {
 
   @Ignore
@@ -130,7 +130,7 @@ class FullParticipant(
   )
 
   @Ignore
-  constructor(participant: Participant, moneyBags: List<LoadedMoneyBag>) : this(
+  constructor(participant: Participant, moneyBags: List<MoneyBagWithBalance>) : this(
     participant.type,
     participant.id,
     participant.name,

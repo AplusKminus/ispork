@@ -189,7 +189,7 @@ class BufferEditActivity : AppCompatActivity() {
     )
     startActivityForResult(
       intent,
-      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE
+      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE
     )
   }
 
@@ -204,7 +204,7 @@ class BufferEditActivity : AppCompatActivity() {
       data
     )
     when (requestCode) {
-      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
+      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE -> {
         budgetPot.category = data?.getParcelableExtra("category")
         updateViewFromData()
       }

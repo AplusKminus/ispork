@@ -28,7 +28,7 @@ class SubTransactionsListAdapter(
     view: View,
     private val subTransactionListHandler: SubTransactionListHandler
   ) : RecyclerView.ViewHolder(view),
-    BudgetPotAnnotationListHandler {
+    BudgetFlowListHandler {
 
     private val participantField: TextView = view.findViewById(R.id.sub_transaction_participant_field)
     private val dateField: TextView = view.findViewById(R.id.sub_transaction_date_field)
@@ -39,25 +39,28 @@ class SubTransactionsListAdapter(
     private val addSplitButton: Button = view.findViewById(R.id.sub_transaction_budget_pot_split_button)
     private val participantTypeIcon: ParticipantTypeIcon = view.findViewById(R.id.sub_transaction_participant_type_icon)
 
-    private val annotationsAdapter: BudgetPotAnnotationListAdapter = BudgetPotAnnotationListAdapter(this)
-    private val annotationsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_budget_pot_list_view).also {
-      it.layoutManager = LinearLayoutManager(view.context)
-      it.adapter = annotationsAdapter
-    }
+    private val budgetFlowsAdapter: BudgetFlowListAdapter = BudgetFlowListAdapter(this)
+    private val budgetFlowsView: RecyclerView = view.findViewById<RecyclerView>(R.id.sub_transaction_budget_pot_list_view)
+      .also {
+        it.layoutManager = LinearLayoutManager(view.context)
+        it.adapter = budgetFlowsAdapter
+      }
     private lateinit var data: SubTransactionEditWrapper
-    private val budgetPotAnnotationsObserver: Observer<List<BudgetPotAnnotationEditWrapper>> = Observer {
-      annotationsAdapter.setData(it)
+    private val budgetFlowsObserver: Observer<List<BudgetFlowEditWrapper>> = Observer {
+      budgetFlowsAdapter.setData(it)
       updateViewFromData()
     }
 
     init {
       notesField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
         if (!hasFocus) {
-          data.notes = notesField.text.toString().trim().takeIf { it.isNotBlank() }
+          data.notes = notesField.text.toString()
+            .trim()
+            .takeIf { it.isNotBlank() }
         }
       }
       addSplitButton.setOnClickListener {
-        data.addNewBudgetPotAnnotation()
+        data.addNewBudgetFlow()
         updateViewFromData()
       }
       dateSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -90,11 +93,11 @@ class SubTransactionsListAdapter(
       subTransaction: SubTransactionEditWrapper
     ) {
       if (::data.isInitialized) {
-        data.budgetPotAnnotationsData.removeObserver(budgetPotAnnotationsObserver)
+        data.budgetFlowsData.removeObserver(budgetFlowsObserver)
       }
       this.data = subTransaction
-      annotationsAdapter.setData(subTransaction.budgetPotAnnotations)
-      this.data.budgetPotAnnotationsData.observeForever(budgetPotAnnotationsObserver)
+      budgetFlowsAdapter.setData(subTransaction.budgetFlows)
+      this.data.budgetFlowsData.observeForever(budgetFlowsObserver)
       amountField.amountData = data.amountData
       amountField.suggestedAmountData = data.suggestedAmountData
       updateViewFromData()
@@ -129,23 +132,23 @@ class SubTransactionsListAdapter(
       dateSwitch.isChecked = data.bookingDate != null
       if (data.moneyBag.participant.type.internal) {
         notesLayout.visibility = View.VISIBLE
-        annotationsView.visibility = View.GONE
+        budgetFlowsView.visibility = View.GONE
         addSplitButton.visibility = View.GONE
       } else {
         notesLayout.visibility = View.GONE
-        annotationsView.visibility = View.VISIBLE
+        budgetFlowsView.visibility = View.VISIBLE
         addSplitButton.visibility = View.VISIBLE
       }
     }
 
-    override fun selectBudgetPotFor(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper) {
-      startCategoryPicking(budgetPotAnnotationEditWrapper)
+    override fun selectBudgetPotFor(budgetFlowEditWrapper: BudgetFlowEditWrapper) {
+      startCategoryPicking(budgetFlowEditWrapper)
     }
 
-    private fun startCategoryPicking(budgetPotAnnotationEditWrapper: BudgetPotAnnotationEditWrapper?) {
-      subTransactionListHandler.startCategoryPicking(
+    private fun startCategoryPicking(budgetFlowEditWrapper: BudgetFlowEditWrapper?) {
+      subTransactionListHandler.startBudgetFlowPicking(
         data,
-        budgetPotAnnotationEditWrapper?.let { data.budgetPotAnnotations.indexOf(it) }
+        budgetFlowEditWrapper?.let { data.budgetFlows.indexOf(it) }
       )
     }
 
@@ -155,11 +158,11 @@ class SubTransactionsListAdapter(
           .trim()
           .takeIf { it.isNotBlank() }
       } else {
-        data.notes = data.budgetPotAnnotations.mapNotNull { it.notes }
+        data.notes = data.budgetFlows.mapNotNull { it.notes }
           .joinToString(", ")
       }
-      for (index in data.budgetPotAnnotations.indices) {
-        (annotationsView.findViewHolderForAdapterPosition(index) as? BudgetPotAnnotationListAdapter.ViewHolder)
+      for (index in data.budgetFlows.indices) {
+        (budgetFlowsView.findViewHolderForAdapterPosition(index) as? BudgetFlowListAdapter.ViewHolder)
           ?.persistInputs()
       }
     }

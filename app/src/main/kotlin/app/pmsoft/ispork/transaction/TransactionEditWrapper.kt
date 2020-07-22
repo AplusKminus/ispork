@@ -3,7 +3,7 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.MutableLiveData
 import app.pmsoft.ispork.data.FullSubTransaction
 import app.pmsoft.ispork.data.FullTransactionDefinition
-import app.pmsoft.ispork.data.OwnedMoneyBag
+import app.pmsoft.ispork.data.MoneyBagWithParticipant
 import app.pmsoft.ispork.util.NonNullLiveData
 import app.pmsoft.ispork.util.NonNullMutableLiveData
 import app.pmsoft.ispork.util.getValue
@@ -50,7 +50,7 @@ class TransactionEditWrapper(
     }
   }
 
-  fun createSubTransactionsFor(moneyBags: List<OwnedMoneyBag>) {
+  fun createSubTransactionsFor(moneyBags: List<MoneyBagWithParticipant>) {
     val newList = mutableListOf<SubTransactionEditWrapper>()
     for (moneyBag in moneyBags) {
       val existing = subTransactions.firstOrNull {
@@ -70,7 +70,7 @@ class TransactionEditWrapper(
         ).also {
           addObserversToChild(it)
           if (!it.moneyBag.participant.type.internal) {
-            it.addNewBudgetPotAnnotation()
+            it.addNewBudgetFlow()
           }
         })
       }

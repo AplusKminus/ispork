@@ -8,7 +8,7 @@ import java.util.*
  * A budget pot is the central tool of budget allocation.
  *
  * All funds that are spent through a [transaction][TransactionDefinition] have to be allocated through a budget pot.
- * Funds are allocated by creating [budget entries][BudgetEntry].
+ * Funds are allocated by creating [budget allocations][BudgetAllocation].
  *
  * A budget pot has an associated currency that can never be changed. If a different currency is required for budgeting
  * in a certain [Category], it is no problem to create a new budget pot and transfer the funds using an assumed exchange

@@ -5,14 +5,14 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 /**
- * A budget entry defines an allocation of funds towards a certain [BudgetPot].
+ * A budget allocation defines an assignment of funds towards a certain [BudgetPot].
  *
- * The sum of all budget entries for a budget pot determines its balance.
+ * The sum of all budget allocations for a budget pot determines its balance.
  *
- * The currency of the entry is determined by the pot it is associated with.
+ * The currency of the allocation is determined by the pot it is associated with.
  */
 @Entity(
-  tableName = "budget_entries",
+  tableName = "budget_allocations",
   foreignKeys = [
     ForeignKey(
       entity = BudgetPot::class,
@@ -23,7 +23,7 @@ import java.util.*
   indices = [Index("budget_pot_id")]
 )
 @Parcelize
-open class BudgetEntry(
+open class BudgetAllocation(
 
   @PrimaryKey(autoGenerate = true)
   override var id: Long,

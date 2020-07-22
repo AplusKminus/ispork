@@ -14,7 +14,7 @@ class BookedTransactionListViewModel(application: Application) : AndroidViewMode
   private val database: AppDatabase = provideDatabase(application)
   private val transactionDao: TransactionDefinitionDao = database.transactionDao()
   private val subTransactionDao: SubTransactionDao = database.subTransactionDao()
-  private val budgetPotAnnotationDao: BudgetPotAnnotationDao = database.budgetPotAnnotationDao()
+  private val budgetFlowDao: BudgetFlowDao = database.budgetFlowDao()
 
   private val transactions: MutableLiveData<List<FullTransactionDefinition>> by lazy {
     MutableLiveData<List<FullTransactionDefinition>>().also {
@@ -66,21 +66,21 @@ class BookedTransactionListViewModel(application: Application) : AndroidViewMode
       id = subTransaction.id
       subTransactionDao.update(subTransaction)
     }
-    subTransaction.budgetPotAnnotations.forEach {
+    subTransaction.budgetFlows.forEach {
       it.subTransactionId = id
-      persistBudgetPotAnnotation(it)
+      persistBudgetFlow(it)
     }
-    budgetPotAnnotationDao.deleteUnused(
+    budgetFlowDao.deleteUnused(
       id,
-      subTransaction.budgetPotAnnotations.map { it.id })
+      subTransaction.budgetFlows.map { it.id })
   }
 
-  private fun persistBudgetPotAnnotation(budgetPotAnnotation: FullBudgetPotAnnotation) {
-    if (budgetPotAnnotation.id == 0L) {
-      val id = budgetPotAnnotationDao.insert(budgetPotAnnotation)
-      budgetPotAnnotation.id = id
+  private fun persistBudgetFlow(budgetFlow: FullBudgetFlow) {
+    if (budgetFlow.id == 0L) {
+      val id = budgetFlowDao.insert(budgetFlow)
+      budgetFlow.id = id
     } else {
-      budgetPotAnnotationDao.update(budgetPotAnnotation)
+      budgetFlowDao.update(budgetFlow)
     }
   }
 }

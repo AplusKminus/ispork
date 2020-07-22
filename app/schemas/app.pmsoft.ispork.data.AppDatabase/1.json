@@ -5,7 +5,7 @@
     "identityHash": "331ab27c6620df1d9516a9b48f4dd842",
     "entities": [
       {
-        "tableName": "budget_entries",
+        "tableName": "budget_allocations",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `amount` INTEGER NOT NULL, `entry_date` TEXT NOT NULL, `budget_pot_id` INTEGER NOT NULL, FOREIGN KEY(`budget_pot_id`) REFERENCES `budget_pots`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
@@ -41,12 +41,12 @@
         },
         "indices": [
           {
-            "name": "index_budget_entries_budget_pot_id",
+            "name": "index_budget_allocations_budget_pot_id",
             "unique": false,
             "columnNames": [
               "budget_pot_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_entries_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_allocations_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
           }
         ],
         "foreignKeys": [
@@ -123,7 +123,7 @@
         ]
       },
       {
-        "tableName": "budget_pot_annotations",
+        "tableName": "budget_flows",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sub_transaction_id` INTEGER NOT NULL, `amount_in_transaction` INTEGER NOT NULL, `amount_in_budget` INTEGER NOT NULL, `budget_pot_id` INTEGER, `notes` TEXT, FOREIGN KEY(`sub_transaction_id`) REFERENCES `sub_transactions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`budget_pot_id`) REFERENCES `budget_pots`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
@@ -171,20 +171,20 @@
         },
         "indices": [
           {
-            "name": "index_budget_pot_annotations_sub_transaction_id",
+            "name": "index_budget_flows_sub_transaction_id",
             "unique": false,
             "columnNames": [
               "sub_transaction_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_pot_annotations_sub_transaction_id` ON `${TABLE_NAME}` (`sub_transaction_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_flows_sub_transaction_id` ON `${TABLE_NAME}` (`sub_transaction_id`)"
           },
           {
-            "name": "index_budget_pot_annotations_budget_pot_id",
+            "name": "index_budget_flows_budget_pot_id",
             "unique": false,
             "columnNames": [
               "budget_pot_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_pot_annotations_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_flows_budget_pot_id` ON `${TABLE_NAME}` (`budget_pot_id`)"
           }
         ],
         "foreignKeys": [
