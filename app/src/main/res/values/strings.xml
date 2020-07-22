@@ -127,4 +127,6 @@
   <string name="buffer_edit_activity_title">Edit Buffer</string>
   <string name="mark_as_income">Mark as income</string>
   <string name="saving_goal">Saving Goal</string>
+  <string name="decrement">Decrement</string>
+  <string name="increment">Increment</string>
 </resources>

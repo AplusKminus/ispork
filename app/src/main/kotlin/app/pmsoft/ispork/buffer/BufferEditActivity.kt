@@ -19,10 +19,10 @@ import app.pmsoft.ispork.category.CategoryPickingActivity
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullSpendingBuffer
 import app.pmsoft.ispork.data.Interval
-import app.pmsoft.ispork.util.IntervalUnitField
 import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.util.TextWatcherAdapter
 import app.pmsoft.ispork.view.AmountInputView
+import app.pmsoft.ispork.view.IntervalUnitField
 import java.util.*
 
 class BufferEditActivity : AppCompatActivity() {
@@ -50,13 +50,6 @@ class BufferEditActivity : AppCompatActivity() {
     priorityNumberField = findViewById(R.id.spending_buffer_priority_number_field)
     needButton = findViewById(R.id.spending_buffer_priority_need_button)
     wantButton = findViewById(R.id.spending_buffer_priority_want_button)
-    wantButton.setOnCheckedChangeListener { _, isChecked ->
-      priorityNumberLayout.visibility = if (isChecked) {
-        VISIBLE
-      } else {
-        INVISIBLE
-      }
-    }
     minField = findViewById(R.id.spending_buffer_min_field)
     minField.allowNegative = false
     minField.positiveFlowString = getString(R.string.ok)
@@ -70,14 +63,6 @@ class BufferEditActivity : AppCompatActivity() {
     intervalUnitField = findViewById(R.id.spending_buffer_unit_field)
     notesField = findViewById(R.id.spending_buffer_edit_notes_field)
 
-    intervalLengthField.addTextChangedListener(object : TextWatcherAdapter() {
-      override fun afterTextChanged(s: Editable?) {
-        spendingBuffer.interval.length = s.toString()
-          .toIntOrNull() ?: 0
-        intervalUnitField.quantity = spendingBuffer.interval.length
-      }
-    })
-
     LocaleHandler.locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       resources.configuration.locales[0]
     } else {
@@ -86,10 +71,7 @@ class BufferEditActivity : AppCompatActivity() {
     }
 
     title = intent.getStringExtra("title")
-    when (intent.getIntExtra(
-      "request_code",
-      RequestCodes.SPENDING_BUFFER_CREATION_REQUEST_CODE
-    )) {
+    when (intent.getIntExtra("request_code", RequestCodes.SPENDING_BUFFER_CREATION_REQUEST_CODE)) {
       RequestCodes.SPENDING_BUFFER_CREATION_REQUEST_CODE -> spendingBuffer = FullSpendingBuffer()
       RequestCodes.SPENDING_BUFFER_EDITING_REQUEST_CODE -> spendingBuffer = intent.getParcelableExtra("spending_buffer")
     }
@@ -110,6 +92,19 @@ class BufferEditActivity : AppCompatActivity() {
     }
     rateField.setOnAmountChangedListener {
       spendingBuffer.rate = it ?: 0
+    }
+    intervalLengthField.addTextChangedListener(object : TextWatcherAdapter() {
+      override fun afterTextChanged(s: Editable?) {
+        spendingBuffer.interval.length = s.toString().toIntOrNull() ?: 0
+        intervalUnitField.quantity = spendingBuffer.interval.length
+      }
+    })
+    wantButton.setOnCheckedChangeListener { _, isChecked ->
+      priorityNumberLayout.visibility = if (isChecked) {
+        VISIBLE
+      } else {
+        INVISIBLE
+      }
     }
   }
 
@@ -139,8 +134,8 @@ class BufferEditActivity : AppCompatActivity() {
       0,
       spendingBuffer.interval.length.toString()
     )
-    intervalUnitField.text.clear()
     intervalUnitField.unit = spendingBuffer.interval.unit ?: Interval.Unit.MONTH
+    intervalUnitField.quantity = spendingBuffer.interval.length
     notesField.text.clear()
     notesField.text.insert(
       0,
@@ -151,14 +146,8 @@ class BufferEditActivity : AppCompatActivity() {
   override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
     R.id.action_save_spending_buffer -> {
       updateDataFromView()
-      intent.putExtra(
-        "spending_buffer",
-        spendingBuffer
-      )
-      setResult(
-        RESULT_OK,
-        intent
-      )
+      intent.putExtra("spending_buffer", spendingBuffer)
+      setResult(RESULT_OK, intent)
       finish()
       true
     }
@@ -169,27 +158,20 @@ class BufferEditActivity : AppCompatActivity() {
 
   private fun updateDataFromView() {
     spendingBuffer.interval.unit = intervalUnitField.unit
-    spendingBuffer.interval.length = intervalLengthField.text.toString()
-      .toInt()
+    spendingBuffer.interval.length = intervalLengthField.text.toString().toInt()
     spendingBuffer.notes = notesField.text.toString()
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(
-      R.menu.spending_buffer_edit_menu,
-      menu
-    )
+    menuInflater.inflate(R.menu.spending_buffer_edit_menu, menu)
     return true
   }
 
   fun selectCategory(view: View) {
-    val intent = Intent(
-      this,
-      CategoryPickingActivity::class.java
-    )
+    val intent = Intent(this, CategoryPickingActivity::class.java)
     startActivityForResult(
       intent,
-      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE
+      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE
     )
   }
 
@@ -204,7 +186,7 @@ class BufferEditActivity : AppCompatActivity() {
       data
     )
     when (requestCode) {
-      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE -> {
+      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
         budgetPot.category = data?.getParcelableExtra("category")
         updateViewFromData()
       }

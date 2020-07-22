@@ -125,6 +125,8 @@
   <string name="ok">Ok</string>
   <string name="level">Stufe</string>
   <string name="buffer_edit_activity_title">Puffer bearbeiten</string>
-    <string name="mark_as_income">Als Einkommen markieren</string>
+  <string name="mark_as_income">Als Einkommen markieren</string>
   <string name="saving_goal">Sparziel</string>
+  <string name="decrement">Verringern</string>
+  <string name="increment">Erhöhen</string>
 </resources>

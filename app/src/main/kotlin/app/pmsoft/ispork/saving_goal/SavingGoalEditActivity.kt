@@ -218,7 +218,7 @@ class SavingGoalEditActivity : AppCompatActivity() {
     )
     this.startActivityForResult(
       intent,
-      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE
+      RequestCodes.CATEGORY_SELECTION_REQUEST_CODE
     )
   }
 
@@ -234,7 +234,7 @@ class SavingGoalEditActivity : AppCompatActivity() {
     )
     if (intent != null) {
       when (requestCode) {
-        RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE -> {
+        RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
           //savingGoal.budgetPot?.category = intent.getParcelableExtra("category")
           updateViewFromData()
         }
@@ -251,7 +251,7 @@ class SavingGoalEditActivity : AppCompatActivity() {
         savingGoal
       )
       setResult(
-        AppCompatActivity.RESULT_OK,
+        RESULT_OK,
         intent
       )
       finish()

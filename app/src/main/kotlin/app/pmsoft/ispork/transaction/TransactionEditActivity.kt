@@ -119,7 +119,7 @@ class TransactionEditActivity : AppCompatActivity(),
           }
           data.createSubTransactionsFor(moneyBags)
         }
-        RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE -> {
+        RequestCodes.BUDGET_POT_SELECTION_REQUEST_CODE -> {
           val subTransactionIndex = intent.getIntExtra(
             "sub_transaction_index",
             -1
@@ -217,6 +217,7 @@ class TransactionEditActivity : AppCompatActivity(),
   ) {
     val intent = Intent(
       this,
+      // TODO replace with budget pot picking activity
       CategoryPickingActivity::class.java
     )
     intent.putExtra(
@@ -231,7 +232,7 @@ class TransactionEditActivity : AppCompatActivity(),
     }
     this.startActivityForResult(
       intent,
-      RequestCodes.BUDGET_FLOW_SELECTION_REQUEST_CODE
+      RequestCodes.BUDGET_POT_SELECTION_REQUEST_CODE
     )
   }
 

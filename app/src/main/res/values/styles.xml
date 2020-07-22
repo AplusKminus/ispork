@@ -21,6 +21,8 @@
     <item name="add_icon">@drawable/ic_add_box_white_24dp</item>
     <item name="save_icon">@drawable/ic_save_white_24dp</item>
     <item name="backspace_icon">@drawable/ic_backspace_white_24dp</item>
+    <item name="start_arrow">@drawable/ic_chevron_start_24dp</item>
+    <item name="end_arrow">@drawable/ic_chevron_end_24dp</item>
   </style>
 
   <style name="AppTheme.Dialog" parent="AppTheme">
