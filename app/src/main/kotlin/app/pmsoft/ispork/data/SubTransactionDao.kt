@@ -1,9 +1,14 @@
 package app.pmsoft.ispork.data
 
 import androidx.room.*
+import java.util.*
 
 @Dao
 interface SubTransactionDao {
+
+  @Query("SELECT * FROM money_bags WHERE participant_id = :participantId AND currency = :currency LIMIT 1")
+  @Transaction
+  fun getMoneyBagFor(participantId: Long, currency: Currency): OwnedMoneyBag?
 
   @Update
   fun update(subTransaction: SubTransaction)

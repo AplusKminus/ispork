@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
-import app.pmsoft.ispork.data.FullBudgetPot
-import app.pmsoft.ispork.data.FullBudgetPotAnnotation
-import app.pmsoft.ispork.data.FullTransactionDefinition
-import app.pmsoft.ispork.data.OwnedMoneyBag
+import app.pmsoft.ispork.data.*
 import app.pmsoft.ispork.participant.ParticipantPickingActivity
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.util.LocaleHandler
@@ -29,6 +26,8 @@ import java.util.*
 class TransactionEditActivity : AppCompatActivity(),
   DatePickerDialog.OnDateSetListener,
   SubTransactionListHandler {
+
+  private lateinit var appDatabase: AppDatabase
 
   private lateinit var detailsAdapter: SubTransactionsListAdapter
   private lateinit var detailsViewManager: RecyclerView.LayoutManager
@@ -41,6 +40,7 @@ class TransactionEditActivity : AppCompatActivity(),
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    appDatabase = provideDatabase(this.applicationContext)
     setContentView(R.layout.activity_transaction_edit)
 
     val requestCode = intent.getIntExtra(
@@ -107,8 +107,13 @@ class TransactionEditActivity : AppCompatActivity(),
     if (intent != null) {
       when (requestCode) {
         RequestCodes.TRANSACTION_PARTICIPANTS_SELECTION_REQUEST_CODE -> {
-          val moneyBags = intent.getParcelableArrayListExtra<OwnedMoneyBag>("money_bags")
-            .sortedBy { it.participant.type.internal }
+          val participants = intent.getParcelableArrayListExtra<Participant>("participants")
+            .sortedBy { it.type.internal }
+          val currency = Currency.getInstance(LocaleHandler.locale)
+          val moneyBags = participants.map {
+            appDatabase.subTransactionDao()
+              .getMoneyBagFor(it.id, currency) ?: OwnedMoneyBag(currency, it)
+          }
           data.createSubTransactionsFor(moneyBags)
         }
         RequestCodes.CATEGORY_SELECTION_REQUEST_CODE -> {
