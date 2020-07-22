@@ -7,7 +7,7 @@ interface ParticipantDao {
 
   @Query("SELECT id, starting_balance, currency, participant_id, bookedBalance FROM money_bags LEFT JOIN (SELECT SUM(amount_in_booked_currency) as bookedBalance, money_bag_id FROM sub_transactions WHERE booking_date IS NOT NULL GROUP BY money_bag_id) ON (money_bag_id = id) WHERE participant_id = :participantId")
   @Transaction
-  fun getMoneyBags(participantId: Long): List<FullMoneyBag>
+  fun getMoneyBags(participantId: Long): List<LoadedMoneyBag>
 
   @Transaction
   fun getAllFull(): List<FullParticipant> = getAll().map {

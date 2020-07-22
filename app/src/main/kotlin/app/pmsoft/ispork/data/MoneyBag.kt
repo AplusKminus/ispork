@@ -49,8 +49,11 @@ open class MoneyBag(
   )
 }
 
+/**
+ * An owned money bag extends a [MoneyBag] by an actual participant. This is used by [FullSubTransaction].
+ */
 @Parcelize
-class ExtendedMoneyBag(
+class OwnedMoneyBag(
   @Ignore
   override var id: Long,
   @Ignore
@@ -78,33 +81,28 @@ class ExtendedMoneyBag(
     set(value) {}
 }
 
+/**
+ * A loaded money bag extends a [MoneyBag] by the current balance. This is used by [FullParticipant].
+ */
 @Parcelize
-class FullMoneyBag(
+class LoadedMoneyBag(
   @Ignore
   override var id: Long,
   @Ignore
   override var startingBalance: Amount,
   @Ignore
   override var currency: Currency,
-  @Relation(
-    entity = Participant::class,
-    entityColumn = "id",
-    parentColumn = "participant_id"
-  )
-  var participant: Participant,
+  @Ignore
+  override var participantId: Long,
   var bookedBalance: Amount
 ) : MoneyBag(currency) {
 
   @Ignore
-  constructor(currency: Currency, participant: Participant) : this(
+  constructor(currency: Currency) : this(
     0,
     0,
     currency,
-    participant,
+    0,
     0
   )
-
-  override var participantId: Long
-    get() = participant.id
-    set(value) {}
 }

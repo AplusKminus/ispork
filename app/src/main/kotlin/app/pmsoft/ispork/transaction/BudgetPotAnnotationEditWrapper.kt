@@ -3,9 +3,9 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import app.pmsoft.ispork.data.Amount
-import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullBudgetPotAnnotation
+import app.pmsoft.ispork.data.OwnedMoneyBag
 import app.pmsoft.ispork.util.ZeroIsNullLongLiveData
 import app.pmsoft.ispork.util.getValue
 import app.pmsoft.ispork.util.setValue
@@ -27,7 +27,7 @@ class BudgetPotAnnotationEditWrapper(
   private val notesData = MutableLiveData(originalData.notes)
   var notes: String? by notesData
 
-  val moneyBag: ExtendedMoneyBag by subTransactionEditWrapper.moneyBagData
+  val moneyBag: OwnedMoneyBag by subTransactionEditWrapper.moneyBagData
 
   private val _suggestedAmount = ZeroIsNullLongLiveData()
   val suggestedAmountData: LiveData<Long?> = _suggestedAmount

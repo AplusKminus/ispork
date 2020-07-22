@@ -93,7 +93,7 @@ class FullSubTransaction(
     entityColumn = "id",
     entity = MoneyBag::class
   )
-  var moneyBag: ExtendedMoneyBag,
+  var moneyBag: OwnedMoneyBag,
   @Relation(
     parentColumn = "id",
     entityColumn = "sub_transaction_id",
@@ -107,7 +107,7 @@ class FullSubTransaction(
 ) : SubTransaction() {
 
   @Ignore
-  constructor(moneyBag: ExtendedMoneyBag) : this(
+  constructor(moneyBag: OwnedMoneyBag) : this(
     0,
     0,
     0,

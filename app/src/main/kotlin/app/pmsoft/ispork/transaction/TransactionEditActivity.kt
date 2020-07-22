@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.category.CategoryPickingActivity
-import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullBudgetPot
 import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullTransactionDefinition
+import app.pmsoft.ispork.data.OwnedMoneyBag
 import app.pmsoft.ispork.participant.ParticipantPickingActivity
 import app.pmsoft.ispork.util.DateHandler
 import app.pmsoft.ispork.util.LocaleHandler
@@ -107,7 +107,7 @@ class TransactionEditActivity : AppCompatActivity(),
     if (intent != null) {
       when (requestCode) {
         RequestCodes.TRANSACTION_PARTICIPANTS_SELECTION_REQUEST_CODE -> {
-          val moneyBags = intent.getParcelableArrayListExtra<ExtendedMoneyBag>("money_bags")
+          val moneyBags = intent.getParcelableArrayListExtra<OwnedMoneyBag>("money_bags")
             .sortedBy { it.participant.type.internal }
           data.createSubTransactionsFor(moneyBags)
         }

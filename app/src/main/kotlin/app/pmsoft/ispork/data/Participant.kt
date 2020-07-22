@@ -115,7 +115,7 @@ class FullParticipant(
     parentColumn = "id",
     entityColumn = "participant_id"
   )
-  var moneyBags: List<FullMoneyBag>
+  var moneyBags: List<LoadedMoneyBag>
 ) : Participant(type, defaultCurrency) {
 
   @Ignore
@@ -130,7 +130,7 @@ class FullParticipant(
   )
 
   @Ignore
-  constructor(participant: Participant, moneyBags: List<FullMoneyBag>) : this(
+  constructor(participant: Participant, moneyBags: List<LoadedMoneyBag>) : this(
     participant.type,
     participant.id,
     participant.name,

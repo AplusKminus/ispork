@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.pmsoft.ispork.R
 import app.pmsoft.ispork.RequestCodes
 import app.pmsoft.ispork.data.FullParticipant
+import app.pmsoft.ispork.data.LoadedMoneyBag
 import app.pmsoft.ispork.data.Participant
 import app.pmsoft.ispork.util.LocaleHandler
 import app.pmsoft.ispork.view.AmountInputView
@@ -30,12 +31,12 @@ class AccountEditActivity : AppCompatActivity() {
 
     when (intent.getIntExtra(
       "request_code",
-      0
+      RequestCodes.ACCOUNT_CREATION_REQUEST_CODE
     )) {
       RequestCodes.ACCOUNT_CREATION_REQUEST_CODE -> account = FullParticipant(
         Participant.Type.ACCOUNT,
         Currency.getInstance(LocaleHandler.locale)
-      )
+      ).also { it.moneyBags = listOf(LoadedMoneyBag(Currency.getInstance(LocaleHandler.locale))) }
       RequestCodes.ACCOUNT_EDITING_REQUEST_CODE -> account = intent.getParcelableExtra("account")
     }
     nameField.text.insert(
@@ -48,10 +49,10 @@ class AccountEditActivity : AppCompatActivity() {
       @Suppress("DEPRECATION")
       resources.configuration.locale
     }
-    /*amountField.amount = account.startingBalance
+    amountField.amount = account.moneyBags[0].startingBalance
     amountField.setOnAmountChangedListener {
-      account.startingBalance = it
-    }*/
+      account.moneyBags[0].startingBalance = it ?: 0
+    }
     amountField.positiveFlowString = resources.getString(R.string.credit)
     amountField.negativeFlowString = resources.getString(R.string.debit)
   }

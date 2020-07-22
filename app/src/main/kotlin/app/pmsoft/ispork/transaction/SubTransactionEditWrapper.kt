@@ -3,9 +3,9 @@ package app.pmsoft.ispork.transaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullBudgetPotAnnotation
 import app.pmsoft.ispork.data.FullSubTransaction
+import app.pmsoft.ispork.data.OwnedMoneyBag
 import app.pmsoft.ispork.util.NonNullMutableLiveData
 import app.pmsoft.ispork.util.ZeroIsNullLongLiveData
 import app.pmsoft.ispork.util.getValue
@@ -21,7 +21,7 @@ class SubTransactionEditWrapper(
   var amount: Long? by amountData
 
   val moneyBagData = NonNullMutableLiveData(originalData.moneyBag)
-  var moneyBag: ExtendedMoneyBag by moneyBagData
+  var moneyBag: OwnedMoneyBag by moneyBagData
 
   private val bookingDateData = MutableLiveData(originalData.bookingDate)
   var bookingDate: Date? by bookingDateData

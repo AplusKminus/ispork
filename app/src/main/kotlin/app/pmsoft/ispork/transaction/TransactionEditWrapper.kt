@@ -1,9 +1,9 @@
 package app.pmsoft.ispork.transaction
 
 import androidx.lifecycle.MutableLiveData
-import app.pmsoft.ispork.data.ExtendedMoneyBag
 import app.pmsoft.ispork.data.FullSubTransaction
 import app.pmsoft.ispork.data.FullTransactionDefinition
+import app.pmsoft.ispork.data.OwnedMoneyBag
 import app.pmsoft.ispork.util.NonNullLiveData
 import app.pmsoft.ispork.util.NonNullMutableLiveData
 import app.pmsoft.ispork.util.getValue
@@ -50,7 +50,7 @@ class TransactionEditWrapper(
     }
   }
 
-  fun createSubTransactionsFor(moneyBags: List<ExtendedMoneyBag>) {
+  fun createSubTransactionsFor(moneyBags: List<OwnedMoneyBag>) {
     val newList = mutableListOf<SubTransactionEditWrapper>()
     for (moneyBag in moneyBags) {
       val existing = subTransactions.firstOrNull {
@@ -59,8 +59,9 @@ class TransactionEditWrapper(
       if (existing != null) {
         newList.add(existing)
       } else {
-        newList.add(SubTransactionEditWrapper(
-          this,
+        newList.add(
+          SubTransactionEditWrapper(
+            this,
           FullSubTransaction(moneyBag).also {
             if (!moneyBag.participant.type.internal) {
               it.bookingDate = entryDate
